@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kali Linux - Ciberseguridad</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: salmon;
+    }
+
+    header {
+      background-color: #20232a;
+      color: #61dafb;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    button {
+      margin: 10px 10px 0 0;
+      padding: 10px 20px;
+      border: none;
+      background-color: #61dafb;
+      color: black;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #21a1f1;
+    }
+
+    #contenido {
+      white-space: pre-line;
+      line-height: 1.6;
+    }
+
+      /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+        .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+        /* Estilo para el cuerpo para evitar que el contenido quede detrás */
+        body {
+            margin: 0;
+            padding: 40px 20px 20px; /* Añade espacio arriba para el botón */
+            position: relative; /* Necesario para el posicionamiento absoluto del botón */
+        }
+  /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+        .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+        /* Estilo para el cuerpo para evitar que el contenido quede detrás */
+        body {
+            margin: 0;
+            padding: 40px 20px 20px; /* Añade espacio arriba para el botón */
+            position: relative; /* Necesario para el posicionamiento absoluto del botón */
+        } 
+        
+   .btn-atras {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-atras:hover {
+  background-color: #e0e0e0;
+}
+
+.btn-atras:active {
+  background-color: #d0d0d0;
+  transform: scale(0.98);
+}
+
+
+ p {
+ 
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+ background-color: aquamarine;
+ 
+}
+
+    .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+  </style>
+</head>
+<body>
+  <header>
+    
+  </header>
+  <br><BR><BR>
+    <a href="desarrollo.html" class="btn-atras">volver atras</a>
+    <button onclick="leerTexto()">🔊 Escuchar</button>
+    <button onclick="detenerLectura()">🛑 Detener</button>
+  <div class="container">
+    <div id="contenido">
+<p>
+  ¿Por qué lo queremos hacer?
+La violencia de género digital se ha identificado en los últimos años que son victima los hombres.  En el territorio donde se proyecta esta intervención en un barrio urbano con acceso a conectividad media se observan múltiples casos de acoso virtual, difusión no consentida de imágenes íntimas, ciber control en relaciones afectivas y extorsión digital. Estos hechos, muchas veces naturalizados o minimizados, generan consecuencias emocionales graves, afectan la privacidad y vulneran derechos fundamentales como el derecho a la intimidad, a la libertad de expresión y a vivir una vida libre de violencia. 
+</p>
+<p>
+¿Qué se propone realizar?
+Se propone una serie de 4 piezas gráficas digitales que se difundirán en:
+Redes sociales como Instagram, Facebook, WhatsApp
+Avisar escuelas secundarias y primaria para evitar cosas y sea inteligente emocional.
+Espacios comunitarios y clubes juveniles.
+	Todo el adulto necesita comprender la mujeres y hombres sin límites.
+</p> 
+<p>
+  
+¿Cómo afectan las denuncias falsas y la obsesión por el dinero a la justicia y la vida salud física y no material?
+Hay casos en los que algunas mujeres presentan denuncias falsas contra hombres, 
+motivadas por venganza o con intención de manipular. Aunque no se debe generalizar, 
+es una realidad que en ciertas situaciones se realizan acusaciones sin pruebas ni 
+evidencia de haber sufrido violencia física. Este tipo de conducta es grave, ya que 
+perjudica a las verdaderas víctimas y puede arruinar la vida de personas inocentes.
+En el ámbito médico, especialmente en especialidades delicadas como la ginecología, 
+también pueden surgir malentendidos o acusaciones infundadas. Muchas personas no 
+comprenden bien el trabajo de un ginecólogo, cuyo rol es velar por la salud del sistema 
+reproductor femenino. Este profesional diagnostica, trata y previene enfermedades 
+que afectan órganos como los ovarios, el útero, la vagina y las mamas. Atiende casos 
+de infecciones, trastornos hormonales e incluso enfermedades graves como el cáncer, 
+siempre priorizando el bienestar de la paciente.
+
+</p>
+<p> A veces, nos enfocamos demasiado en lo que dicen los libros, los artículos y las leyes, 
+olvidando que la vida real no se escribe en papel. Una hoja se puede romper, se puede 
+reemplazar por otra, pero la vida de una persona no. La salud, especialmente la de una 
+mujer, no debería quedar en segundo plano por interpretaciones o decisiones tomadas 
+sin comprender lo que realmente importa. Lo esencial es que esa paciente se cure, que 
+viva, que tenga bienestar. La salud es lo más valioso que tenemos, y nadie debería 
+temer ni ser juzgado por dedicarse a cuidarla.
+</p>  
+<p>
+  Mujeres que hacen falsas denuncias contra hombres por violencia de género
+No había evidencia de violencia de género porque algunas mujeres se lastiman a sí 
+mismas o practican deportes donde pueden recibir golpes entre mujeres. Sin embargo, en estos casos se culpa al hombre, aunque él no haya cometido ningún delito. Se sabe que algunas 
+mujeres realizan denuncias falsas para impedir que el padre tenga derecho a cuidar a sus hijos. Esto es muy grave, ya que implica que esas mujeres manipulan la situación en el hogar al hombre.</p>
+<p>
+  Por ejemplo, hay casos en los que esas mujeres obligan al hombre a no salir al patio o a 
+la Plaza de Mayo, y le prohíben hablar con otras personas. Estas mujeres lo tratan 
+como un esclavo u objeto al hombre. Las mujeres le obligan al hombre que no tiene que estudiar o aprender cosas como programación, medicina u otros cursos o carrera. Además, las mujeres no quieren que publique nada en redes sociales o plataformas web, porque lo ven solo como un objeto o esclavo a lo hombre.
+
+</p>
+<p>Muchas mujeres utilizan el engaño y la manipulación mientras predican que los 
+hombres deben 'madurar' o que 'cada uno hace su vida sin meterse con el otro'; sin 
+embargo, en la práctica, algunas actúan en contra de sus propias palabras que dicen las mujeres. En el caso la mujer exigió favores íntimos y sexuales a través de mensajes en WhatsApp y 
+Telegram. Cuando el hombre no lo mando cosas intimas desnuda a la mujer y lo que hizo las mujeres lo amenazo por hacer una denuncia falsa a los hombres. También esa mujer lo amenazó con un cuchillo e incluso con un arma de fuego, obligándolo a enviarle imágenes y videos íntimos. Además, bajo coacción y sin su consentimiento, el hombre que no deseaba tener sexo.
+
+</p>
+<p>
+¿Por qué las leyes siguen protegiendo automáticamente a los menores de edad que 
+cometen delitos como la difusión de imágenes íntimas, sin evaluar caso por caso su 
+responsabilidad y las consecuencias para las víctimas?
+
+Cuando un menor de edad (persona menor de 18 años) comete un delito, como el 
+sexting o la difusión de fotos y videos íntimos con contenido sexual, incluso entre compañeros de escuela, también debe ser considerado responsable de sus actos. No es justo que las leyes siempre lo protejan sin evaluar la complejidad de cada caso. </p>
+<p>
+En muchas situaciones, son los propios menores quienes inician o comparten este tipo 
+de contenido, ya sea por enojo, venganza o falta de responsabilidad. Por ello, es 
+necesario revisar las leyes actuales, porque no siempre los adultos son los 
+responsables de lo que hacen los menores que difunden imágenes o videos íntimos.
+A veces, los menores ocultan lo sucedido por miedo, vergüenza o para evitar 
+consecuencias o lo protege a su compañero o compañera que lo grabo difundió foto 
+y video intimas.
+</p>
+<p>
+  Sin embargo, la justicia suele protegerlos automáticamente, incluso 
+cuando han cometido un delito. Esto no siempre es culpa de los adultos.
+En contextos como la escuela secundaria, existe una fuerte presión social entre 
+pares para demostrar la sexualidad o personalidad. Quienes se niegan pueden ser 
+insultados o tratados como débiles a lo hombre y mujeres, pueden
+recibir burlas con términos ofensivos, como lesbiana. La ley brinda protección 
+especial a los menores de edad, y autoridades como la policía o los jueces actúan 
+bajo ese principio. Sin embargo, esa protección no es absoluta ni eterna, un menor 
+que no fue sancionado en su momento podría enfrentar consecuencias años 
+después, ya como adulto, por hechos cometidos durante su adolescencia.
+
+</p>
+<p>
+ En algunos 
+casos, se llega a juicio siendo mayor de edad por delitos cometidos siendo menor. 
+Además, algunos menores logran evadir cualquier tipo de castigo al destruir pruebas 
+cambian el chip del celular, formatean dispositivos, o destruyen hardware como 
+teléfonos, notebooks, discos rígidos o memorias RAM. Al no dejar rastro, evitan una 
+posible condena aclaración cometiste un delito cuando estaba menor de edad entonces cuando sos adultos necesita un abogado y abogada para enfrentar a juicio de los jueces y juezas a la justicia.
+
+ 
+</p>
+</div>
+
+
+  </div>
+
+  <script>
+    let leyendo = false;
+    let utterance;
+
+    function leerTexto() {
+      if (leyendo) return;
+
+      const contenido = document.getElementById('contenido').innerText;
+      utterance = new SpeechSynthesisUtterance(contenido);
+      utterance.lang = 'es-ES';
+      speechSynthesis.speak(utterance);
+      leyendo = true;
+
+      utterance.onend = () => {
+        leyendo = false;
+      };
+    }
+
+    function detenerLectura() {
+      speechSynthesis.cancel();
+      leyendo = false;
+    }
+
+    // Detener lectura si el usuario cambia de página o presiona "atrás"
+    window.addEventListener('beforeunload', detenerLectura);
+    window.addEventListener('popstate', detenerLectura);
+  </script>
+</body>
+</html>

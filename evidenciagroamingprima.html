@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title> evidencia groaming</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: salmon;
+    }
+
+    header {
+      background-color: #20232a;
+      color: #61dafb;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    button {
+      margin: 10px 10px 0 0;
+      padding: 10px 20px;
+      border: none;
+      background-color: #61dafb;
+      color: black;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #21a1f1;
+    }
+
+    #contenido {
+      white-space: pre-line;
+      line-height: 1.6;
+    }
+
+      /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+        .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+        /* Estilo para el cuerpo para evitar que el contenido quede detrás */
+        body {
+            margin: 0;
+            padding: 40px 20px 20px; /* Añade espacio arriba para el botón */
+            position: relative; /* Necesario para el posicionamiento absoluto del botón */
+        }
+  /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+        .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+        /* Estilo para el cuerpo para evitar que el contenido quede detrás */
+        body {
+            margin: 0;
+            padding: 40px 20px 20px; /* Añade espacio arriba para el botón */
+            position: relative; /* Necesario para el posicionamiento absoluto del botón */
+        } 
+        
+   .btn-atras {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-atras:hover {
+  background-color: #e0e0e0;
+}
+
+.btn-atras:active {
+  background-color: #d0d0d0;
+  transform: scale(0.98);
+}
+
+
+ p {
+ 
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+ background-color: aquamarine;
+ 
+}
+
+    .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+
+  </style>
+</head>
+<body>
+  <header>
+    
+  </header>
+  <br><BR><BR>
+    <a href="evidenciadigital.html" class="btn-atras">volver atras</a>
+    <button onclick="leerTexto()">🔊 Escuchar</button>
+    <button onclick="detenerLectura()">🛑 Detener</button>
+  <div class="container">
+    <div id="contenido">
+      <h1><p>
+        Es fundamental proteger a la víctima, sobre todo cuando presenta pruebas de delitos como el grooming u otros crímenes tecnológicos. No se debe culpar a la víctima por algo que no hizo, ya que ella no cometió ningún delito.
+      </p></h1>
+<p>
+  ¿quién crearon el groaming ?
+</p>
+<p> Fueron culpable quien entraron que eran los usuario que crearon la cuenta registrada en la empresa wix.
+  Fueron culpable detectado por el país argentina la provincia de corrientes que eran mujeres y hombres que estaba en una casa ocultas detectado la ubicación lo identifico al culpable del groaming.
+
+
+</p>
+<p>
+  La prima , cuando estaba en la escuela secundaria, no se dio cuenta hasta hace poco de que había sido víctima de grooming, hasta que el primo le explico lo que consistía el groaming. 
+El abuso ocurrió a través de un enlace o sitio web, lo que derivó en una estafa que afectó tanto a familiares como a otras personas desconocidas. El sitio web lo que vendia cosas foto y video intimas que lo robo espiaron todo al celular móvil y notebook. 
+
+</p>
+<p>
+  El padre , trabaja en la Gendarmería Nacional, decidió no presentar una denuncia formal porque no le gusta involucrarse en conflictos ni generar problemas con nadie. Quiero mostrar ejemplos con evidencia basada en capturas de pantalla y fotografías, junto con un análisis de otros sitios web. Esta evidencia demuestra que ciertos usuarios accedieron a esos sitios y crearon cuentas en 
+</p>
+<p>
+  <a href="https://tinyurl.com">, una plataforma utilizada para acortar enlaces web. Muchos de estos enlaces redirigen a plataformas como OnlyFans y  </a>
+</p>
+<p>
+  Wix.com. Sin embargo, existe una sospecha particular sobre la empresa Wix.com, ya que se ha detectado que varios usuarios están utilizando su servicio para crear contenido relacionado con grooming. 
+Frente a estas situaciones, Wix tiene la obligación de actuar, denunciando a los responsables y bloqueando sus cuentas para prevenir la difusión de contenidos ilegales que hacen los usuarios quien entraron a ese 
+</p>
+<p>
+  <a href="https://www.wix.com/">sitio web wix   </a>
+</p>
+<p>
+  
+Crearon una cuenta falsa en Instagram para engañar a otros usuarios, entre ellos seguidores, familiares y desconocidos que no conocían a la víctima ni a su entorno familiar.
+
+</p>
+
+ <div class="cuadro-imagen">
+        
+    
+<img src="groamingfoto1.jpg" alt="Descripción de la imagen">
+
+<img src="groamingfoto2.jpg" alt="Descripción de la imagen">
+<img src="groamingfoto3.jpg" alt="Descripción de la imagen">
+<img src="groamingfoto4.jpg" alt="Descripción de la imagen">
+<img src="groamingfoto5.jpg" alt="Descripción de la imagen">
+<img src="groamingfoto6.jpg" alt="Descripción de la imagen">
+<img src="groamingfoto7.jpg" alt="Descripción de la imagen"></div>
+</div>
+<p>
+<p>
+  El sitio web vinculado al caso de grooming  <a href=" https://signupforfree214.wixsite.com/ivonnemonserratlm/ojedajulieta7 ">error 4004 en sitio web</a>
+  actualmente muestra un error 404, lo que impide acceder al contenido original.
+   Si bien esto podría indicar que el material relacionado con el caso fue ocultado o eliminado.
+</p>
+
+<p>
+  Existen otras posibles explicaciones, tanto técnicas como legales, que también podrían justificar esta situación:
+</p>
+<p>
+  Eliminación por parte del creador: El autor del sitio pudo haber borrado el contenido o cerrado la cuenta, ya sea por decisión propia, presión externa o para evitar posibles consecuencias legales
+</p>
+<p>
+  Intervención de la plataforma: Wix, como proveedor de alojamiento web, pudo haber eliminado el sitio si detectó que el usuario violaba sus políticas legales. También es posible, aunque no se puede confirmar sin pruebas que personal técnico o analistas de Wix hayan intervenido para eliminar el sitio con el fin de prevenir implicaciones legales para el propio usuario  que creo el grooming.
+</p>
+<p>
+  Los delincuentes siempre dejan rastro. Ese sitio web es excelente porque escanea, analiza e investiga, además de capturar la pantalla para conservar evidencia del delito. 
+
+Es una herramienta utilizada que podre tenes rastros de todo los sitio web que se guarda y no se elimine esa evidencia es el análisis con url scan. 
+
+</p>
+ <a href="https://urlscan.io/result/fd1b9cde-78be-489c-8cf0-7ab7597cf840/compare">muestro evidencia dejo rostro 2 no se puede ocultar el delito comentido</a>
+<p>
+
+
+ <a href="https://urlscan.io/result/fd1b9cde-78be-489c-8cf0-7ab7597cf840">muestro evidencia dejo rostro 2 no se puede ocultar el delito comentido</a>
+</p>
+<p>
+  Los estafadores suplantan la identidad de instituciones oficiales, como la policía, los tribunales o agencias fiscales, y exigen pagos urgentes, transferencias bancarias o la descarga de archivos adjuntos maliciosos.
+En algunos casos, incluso adjuntan documentos falsos en formato PDF, como órdenes judiciales. Cabe destacar que la víctima o su familiar no tenía ninguna causa judicial pendiente, por lo que el objetivo de los estafadores era únicamente chantajear o  extorsionar a una persona inocente que no había cometido ningún delito.
+
+</p>
+
+  </div>
+<img src="documentofalso1.png" alt="Descripción de la imagen">
+<img src="documentofalso2.png" alt="Descripción de la imagen">
+<div>
+  <p>
+    En esta imagen se muestra la documentación, la cual es completamente falsa, aunque falta el archivo adjunto que fue enviado por el estafador vía correo electrónico a la víctima que era a la familia federico billordo y su prima julieta Ojeda.
+  </p>
+  <p>
+    La evidencia pdf documentacion falsa.
+  </p>
+<img src="pdfdocumentacion1.jpg" alt="Descripción de la imagen">
+<img src="pdfdocumentacion2.jpg" alt="Descripción de la imagen">
+
+</div>
+  <script>
+    let leyendo = false;
+    let utterance;
+
+    function leerTexto() {
+      if (leyendo) return;
+
+      const contenido = document.getElementById('contenido').innerText;
+      utterance = new SpeechSynthesisUtterance(contenido);
+      utterance.lang = 'es-ES';
+      speechSynthesis.speak(utterance);
+      leyendo = true;
+
+      utterance.onend = () => {
+        leyendo = false;
+      };
+    }
+
+    function detenerLectura() {
+      speechSynthesis.cancel();
+      leyendo = false;
+    }
+
+    // Detener lectura si el usuario cambia de página o presiona "atrás"
+    window.addEventListener('beforeunload', detenerLectura);
+    window.addEventListener('popstate', detenerLectura);
+  </script>
+</body>
+</html>

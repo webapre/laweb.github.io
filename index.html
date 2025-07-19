@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Decorativo Daliart - Transformamos tus espacios con diseño elegante y creativo">
+    <meta name="keywords" content="decoración, diseño de interiores, muebles, arte, hogar">
+    <title>Bienvenida - Decorativo Daliart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    :root {
+        --primary-color: #2b368b;
+        --primary-dark: #6b4621;
+        --secondary-color: #d4a76a;
+        --secondary-light: #e8c39e;
+        --accent-color: #f0d9b5;
+        --dark-brown: #5a3a1f;
+        --background-color:#ff5a5a;
+        --text-color: #333;
+        --text-light: #666;
+        --white: #ffffff;
+        --off-white: #f8f8f8;
+        --transition-time: 0.4s;
+        --border-radius: 16px;
+        --border-radius-sm: 8px;
+        --box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+        --box-shadow-sm: 0 4px 12px rgba(0,0,0,0.08);
+        --text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        --tap-highlight: rgba(212, 167, 106, 0.3);
+    }
+
+    /* Reset y estilos base */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+        -webkit-tap-highlight-color: var(--tap-highlight);
+    }
+
+    html {
+        font-size: 16px;
+    }
+
+    body {
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.7;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-image: radial-gradient(circle at 10% 20%, rgba(232, 195, 158, 0.1) 0%, rgba(249, 245, 233, 1) 90%);
+        overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        line-height: 1.3;
+        margin-bottom: 1.2rem;
+    }
+
+    p {
+        margin-bottom: 1.5rem;
+        color: var(--text-light);
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* Header mejorado */
+    header {
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        color: var(--white);
+        padding: 3rem 2rem;
+        text-align: center;
+        box-shadow: var(--box-shadow);
+        position: relative;
+        overflow: hidden;
+        z-index: 10;
+    }
+
+    header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+        opacity: 0.3;
+    }
+
+    header h1 {
+        font-size: 2.8rem;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    header p {
+        color: var(--secondary-light);
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto;
+        animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        opacity: 0;
+    }
+
+    /* Navegación premium */
+    nav {
+        background-color: rgba(212, 167, 106, 0.96);
+        padding: 1rem 2rem;
+        text-align: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(255,255,255,0.15);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    nav ul {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    nav a {
+        color: var(--white);
+        padding: 0.8rem 1.8rem;
+        border-radius: 50px;
+        transition: all var(--transition-time) cubic-bezier(0.25, 0.8, 0.25, 1);
+        font-weight: 500;
+        text-shadow: var(--text-shadow);
+        position: relative;
+        overflow: hidden;
+        font-size: 1.05rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    nav a i {
+        font-size: 0.9rem;
+        transition: transform 0.3s ease;
+    }
+
+    nav a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: 0.6s;
+    }
+
+    nav a:hover::before {
+        left: 100%;
+    }
+
+    nav a:hover, 
+    nav a:focus {
+        background-color: var(--primary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(139, 90, 43, 0.3);
+    }
+
+    nav a:hover i {
+        transform: translateX(3px);
+    }
+
+    nav a.active {
+        background-color: var(--primary-color);
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Contenido principal */
+    main {
+        flex: 1;
+        padding: 4rem 2rem;
+        padding-bottom: 8rem;
+    }
+
+    /* Tarjeta de bienvenida mejorada */
+    .welcome-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 4rem;
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.05);
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .welcome-container::before,
+    .welcome-container::after {
+        content: '';
+        position: absolute;
+        background: var(--accent-color);
+        z-index: 0;
+    }
+
+    .welcome-container::before {
+        top: 0;
+        left: 0;
+        width: 120px;
+        height: 120px;
+        clip-path: circle(40% at 0 0);
+        opacity: 0.7;
+    }
+
+    .welcome-container::after {
+        bottom: 0;
+        right: 0;
+        width: 150px;
+        height: 150px;
+        clip-path: circle(40% at 100% 100%);
+    }
+
+    .welcome-title {
+        color: var(--primary-color);
+        margin-bottom: 2.5rem;
+        font-size: 2.8rem;
+        position: relative;
+        display: inline-block;
+        z-index: 1;
+    }
+
+    .welcome-title::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+        border-radius: 2px;
+    }
+
+    .welcome-message {
+        font-size: 1.15rem;
+        line-height: 1.9;
+        margin-bottom: 3rem;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        padding: 0 2rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Galería de imágenes mejorada */
+    .image-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+    }
+
+    .gallery-item {
+        position: relative;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--box-shadow-sm);
+        transition: all 0.5s ease;
+        aspect-ratio: 4 / 3;
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s ease;
+    }
+
+    .gallery-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0.1));
+        z-index: 1;
+    }
+
+    .gallery-item:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--box-shadow);
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Botón CTA premium */
+    .cta-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        color: var(--white);
+        padding: 1.2rem 3rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(139, 90, 43, 0.25);
+        font-size: 1.1rem;
+        margin: 2rem 0;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .cta-button i {
+        transition: transform 0.3s ease;
+    }
+
+    .cta-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: 0.6s;
+    }
+
+    .cta-button:hover::before {
+        left: 100%;
+    }
+
+    .cta-button:hover,
+    .cta-button:focus {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(139, 90, 43, 0.35);
+    }
+
+    .cta-button:hover i {
+        transform: translateX(5px);
+    }
+
+    .cta-button:active {
+        transform: translateY(-2px);
+    }
+
+    /* Efecto ripple mejorado */
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: ripple 0.6s linear;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+
+    /* Footer premium */
+    footer {
+        background: linear-gradient(135deg, var(--dark-brown), var(--primary-dark));
+        color: var(--white);
+        text-align: center;
+        padding: 3rem 2rem;
+        margin-top: auto;
+        position: relative;
+    }
+
+    footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, var(--secondary-color), var(--accent-color), var(--secondary-color));
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        text-align: left;
+    }
+
+    .footer-section h3 {
+        color: var(--secondary-color);
+        font-size: 1.4rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .footer-section h3::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background: var(--accent-color);
+    }
+
+    .footer-section p, 
+    .footer-section a {
+        margin-bottom: 1rem;
+        display: block;
+        transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+        color: var(--secondary-color);
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .social-links a {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+        background: var(--secondary-color);
+        transform: translateY(-3px);
+    }
+
+    .copyright {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+
+    /* Efectos de partículas premium */
+    .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    .particle {
+        position: absolute;
+        background: rgba(255,255,255,0.4);
+        border-radius: 50%;
+        animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-1000px) rotate(720deg);
+            opacity: 0;
+        }
+    }
+
+    /* Cursor personalizado premium */
+    .custom-cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        mix-blend-mode: multiply;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+    }
+
+    .custom-cursor-follower {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        border: 2px solid var(--secondary-color);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: transform 0.4s ease, width 0.4s ease, height 0.4s ease, border-color 0.4s ease;
+    }
+
+    /* Animaciones avanzadas */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes floatHorizontal {
+        0%, 100% {
+            transform: translateX(0);
+        }
+        50% {
+            transform: translateX(15px);
+        }
+    }
+
+    .welcome-title {
+        animation: floatHorizontal 8s ease-in-out infinite;
+    }
+
+    /* Scroll personalizado */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--background-color);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--secondary-color);
+        border-radius: 6px;
+        border: 3px solid var(--background-color);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-color);
+    }
+
+    /* Loader premium */
+    .loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--background-color);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+        transition: opacity 0.6s, visibility 0.6s;
+    }
+
+    .loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .loader-logo {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease-out 0.3s forwards;
+    }
+
+    .loader-circle {
+        width: 60px;
+        height: 60px;
+        border: 5px solid var(--secondary-color);
+        border-top-color: var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1.2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive design mejorado */
+    @media (max-width: 1200px) {
+        .welcome-container {
+            padding: 3rem;
+        }
+    }
+
+    @media (max-width: 992px) {
+        html {
+            font-size: 15px;
+        }
+        
+        header h1 {
+            font-size: 2.4rem;
+        }
+        
+        .welcome-container {
+            padding: 2.5rem;
+        }
+        
+        .welcome-title {
+            font-size: 2.4rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        html {
+            font-size: 14px;
+        }
+        
+        nav ul {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        nav a {
+            padding: 0.8rem;
+            justify-content: center;
+        }
+        
+        .welcome-container {
+            padding: 2rem;
+        }
+        
+        .welcome-title {
+            font-size: 2rem;
+        }
+        
+        .welcome-message {
+            padding: 0;
+            font-size: 1rem;
+        }
+        
+        .cta-button {
+            padding: 1rem 2rem;
+        }
+        
+        .footer-content {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        
+        .footer-section h3::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .social-links {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        header {
+            padding: 2rem 1rem;
+        }
+        
+        header h1 {
+            font-size: 2rem;
+        }
+        
+        .welcome-container {
+            padding: 1.5rem;
+        }
+        
+        .welcome-title {
+            font-size: 1.8rem;
+        }
+    }
+
+    /* Efectos de hover para móviles */
+    @media (hover: none) {
+        .cta-button, nav a, .gallery-item {
+            transition: none;
+        }
+        
+        .cta-button:hover, 
+        .cta-button:focus,
+        nav a:hover,
+        nav a:focus,
+        .gallery-item:hover {
+            transform: none;
+            box-shadow: 0 4px 8px rgba(139, 90, 43, 0.2);
+        }
+    }
+
+    /* Mejoras de accesibilidad */
+    [data-tooltip] {
+        position: relative;
+    }
+
+    [data-tooltip]::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--dark-brown);
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: var(--border-radius-sm);
+        font-size: 0.9rem;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 100;
+    }
+
+    [data-tooltip]:hover::after {
+        opacity: 1;
+        visibility: visible;
+        bottom: calc(100% + 10px);
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+        outline: 3px solid var(--accent-color);
+        outline-offset: 3px;
+    }
+
+        .imagen-con-marco-animado {
+            width: 300px;
+            height: auto;
+            border: 5px solid;
+            border-image: linear-gradient(45deg, #ff0000, #ff9900, #33cc33, #3399ff, #cc33ff) 1;
+            animation: cambiarColores 5s linear infinite;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        @keyframes cambiarColores {
+            0% { border-color: #ff0000; }  /* Rojo */
+            25% { border-color: #ff9900; } /* Naranja */
+            50% { border-color: #33cc33; } /* Verde */
+            75% { border-color: #3399ff; } /* Azul */
+            100% { border-color: #cc33ff; } /* Morado */
+        }
+</style>
+</head>
+<body>
+    <div class="loader">
+        <div class="loader-logo">
+           <h1>
+aprendelaweb
+           </h1>
+            
+            
+            </div>
+        <div class="loader-circle"></div>
+    </div>
+
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-follower"></div>
+
+    <header>
+        <div class="particles" id="particles"></div>
+        
+    </header>
+    
+    <nav>
+        <div class="nav-container">
+            <ul>
+                <li><a href="index.html" class="active"></i> Inicio</a></li>
+                <li><a href="apre.html"></i> curso</a></li>
+                <li><a href="servicios.html  "></i> Servicios</a></li>
+               
+              
+            </ul>
+        </div>
+    </nav>
+    
+    <main>
+        <div class="welcome-container">
+          
+            
+            <p>
+                Vive como si fueras a morir mañana. Aprende como si fueras a vivir para siempre.
+            </p>
+            <p>
+                La vida no es un camino recto, sino un viaje lleno de curvas, subidas y bajadas. A veces el sol brilla con fuerza y otras veces la lluvia.
+            </p>   
+            <p>
+                La vida es como el sol y el mar: a veces calma, a veces tormenta, pero siempre en movimiento. El sol nos recuerda que, tras cada noche, hay un nuevo amanecer el mar nos enseña que incluso las olas hasta el  milagros de soledad y poblacion
+            </p> 
+<img src="fotoimagenaprednelaweblogo.png" alt="Learn the Web">
+            
+            <div class="welcome-message">
+    
+           </div>
+            
+         
+        </div>
+    </main>
+    
+   
+            
+          
+      
+
+    <script>
+    // Script para el loader
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.querySelector('.loader').classList.add('hidden');
+        }, 1500);
+    });
+
+    // Script para el cursor personalizado
+    const cursor = document.querySelector('.custom-cursor');
+    const cursorFollower = document.querySelector('.custom-cursor-follower');
+    
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        setTimeout(() => {
+            cursorFollower.style.left = e.clientX + 'px';
+            cursorFollower.style.top = e.clientY + 'px';
+        }, 80);
+    });
+
+    // Efecto ripple mejorado
+    document.addEventListener('DOMContentLoaded', function() {
+        function createRipple(event) {
+            const element = event.currentTarget;
+            
+            if(event.type === 'click' || event.type === 'touchstart') {
+                const circle = document.createElement('span');
+                const diameter = Math.max(element.clientWidth, element.clientHeight);
+                const radius = diameter / 2;
+                
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - element.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${event.clientY - element.getBoundingClientRect().top - radius}px`;
+                circle.classList.add('ripple');
+                
+                const ripple = element.getElementsByClassName('ripple')[0];
+                if (ripple) {
+                    ripple.remove();
+                }
+                
+                element.appendChild(circle);
+                
+                // Eliminar el elemento después de la animación
+                setTimeout(() => {
+                    circle.remove();
+                }, 600);
+            }
+        }
+        
+        // Aplicar a todos los elementos interactivos
+        const interactiveElements = document.querySelectorAll('button, .cta-button, nav a, .gallery-item, .social-links a');
+        interactiveElements.forEach(el => {
+            el.addEventListener('click', createRipple);
+            el.addEventListener('touchstart', createRipple, { passive: true });
+        });
+    });
+
+    // Crear partículas para el header
+    document.addEventListener('DOMContentLoaded', () => {
+        const particlesContainer = document.getElementById('particles');
+        
+        for (let i = 0; i < 25; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Tamaño aleatorio entre 2px y 6px
+            const size = Math.random() * 4 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Posición aleatoria
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            
+            // Animación con duración aleatoria
+            const duration = Math.random() * 15 + 10;
+            particle.style.animationDuration = `${duration}s`;
+            
+            // Retraso aleatorio
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            
+            // Opacidad aleatoria
+            particle.style.opacity = Math.random() * 0.5 + 0.3;
+            
+            particlesContainer.appendChild(particle);
+        }
+    });
+
+    // Smooth scroll para anclas
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Efecto de aparición suave al hacer scroll
+    const fadeElements = document.querySelectorAll('.welcome-container, .image-gallery, .welcome-message');
+    
+    const fadeOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+    
+    const fadeOnScroll = new IntersectionObserver(function(entries, fadeOnScroll) {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                return;
+            } else {
+                entry.target.classList.add('fade-in');
+                fadeOnScroll.unobserve(entry.target);
+            }
+        });
+    }, fadeOptions);
+    
+    fadeElements.forEach(element => {
+        fadeOnScroll.observe(element);
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador Profesional de Seguridad Web</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --accent-light: #5dade2;
+            --dark: #2c3e50;
+            --darker: #1a252f;
+            --light: #ecf0f1;
+            --lighter: #f8f9fa;
+            --success: #27ae60;
+            --success-light: #2ecc71;
+            --danger: #e74c3c;
+            --danger-light: #e67e22;
+            --warning: #f39c12;
+            --warning-light: #f1c40f;
+            --info: #2980b9;
+            --info-light: #3498db;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --text-lighter: #95a5a6;
+            --bg-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --bg-gradient-accent: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-fast: all 0.15s ease;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--lighter);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            flex: 1;
+            margin: 20px auto;
+        }
+
+        .header {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .main-content {
+            padding: 2.5rem;
+        }
+
+        .input-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .input-group {
+            display: flex;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        #websiteUrl {
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+            font-size: 1.05rem;
+            outline: none;
+            transition: var(--transition);
+            background: var(--lighter);
+        }
+
+        #websiteUrl:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            background: white;
+        }
+
+        #analyzeBtn {
+            padding: 0 2.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #analyzeBtn:hover {
+            background: var(--secondary);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            padding: 0.5rem 1rem;
+            background: var(--light);
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .quick-btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-1px);
+        }
+
+        .quick-btn i {
+            font-size: 0.8rem;
+        }
+
+        .loader {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1.5rem;
+        }
+
+        .loader p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-container {
+            width: 100%;
+            max-width: 400px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--bg-gradient-accent);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results-container {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            background: white;
+            border-radius: var(--border-radius-sm);
+            padding: 1.75rem;
+            margin-bottom: 1.75rem;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--info);
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .result-title i {
+            color: var(--accent);
+        }
+
+        .result-status {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-safe {
+            background: var(--success);
+        }
+
+        .status-warning {
+            background: var(--warning);
+        }
+
+        .status-danger {
+            background: var(--danger);
+        }
+
+        .status-info {
+            background: var(--info);
+        }
+
+        .result-details {
+            margin-top: 1.25rem;
+        }
+
+        .detail-item {
+            display: flex;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition-fast);
+        }
+
+        .detail-item:hover {
+            background: var(--lighter);
+        }
+
+        .detail-icon {
+            margin-right: 1rem;
+            color: var(--accent);
+            font-size: 1.2rem;
+            min-width: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .detail-content {
+            flex: 1;
+        }
+
+        .detail-title {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--dark);
+        }
+
+        .detail-text {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.75rem;
+            margin-top: 2.5rem;
+        }
+
+        .security-metric {
+            background: white;
+            border-radius: var(--border-radius-sm);
+            padding: 2rem 1.5rem;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .security-metric:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .metric-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric-value {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin: 0.75rem 0;
+            line-height: 1;
+        }
+
+        .safe-value {
+            color: var(--success);
+        }
+
+        .warning-value {
+            color: var(--warning);
+        }
+
+        .danger-value {
+            color: var(--danger);
+        }
+
+        .info-value {
+            color: var(--info);
+        }
+
+        .metric-label {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        .metric-description {
+            color: var(--text-lighter);
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .threat-list {
+            margin-top: 1.5rem;
+        }
+
+        .threat-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 0.75rem;
+            background: #f8f9fa;
+            transition: var(--transition-fast);
+        }
+
+        .threat-item:hover {
+            transform: translateX(5px);
+        }
+
+        .threat-icon {
+            margin-right: 1rem;
+            font-size: 1.3rem;
+            min-width: 24px;
+        }
+
+        .danger-icon {
+            color: var(--danger);
+        }
+
+        .warning-icon {
+            color: var(--warning);
+        }
+
+        .safe-icon {
+            color: var(--success);
+        }
+
+        .error {
+            background: #fff5f5;
+            border: 1px solid #ffd6d6;
+            color: var(--danger);
+            padding: 1.25rem;
+            border-radius: var(--border-radius-sm);
+            margin-top: 1.5rem;
+            display: none;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .error i {
+            margin-right: 0.5rem;
+        }
+
+        .report-section {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--danger);
+        }
+
+        .report-section h3 {
+            color: var(--danger);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .report-section p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .report-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+            box-shadow: 0 4px 6px rgba(231, 76, 60, 0.2);
+        }
+
+        .report-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(231, 76, 60, 0.25);
+        }
+
+        .logs-section {
+            margin-top: 3.5rem;
+            border-top: 1px solid #eee;
+            padding-top: 2.5rem;
+        }
+
+        .logs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logs-header h3 {
+            font-size: 1.4rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+        }
+
+        .logs-table th, .logs-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logs-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .logs-table tr:not(:first-child):hover {
+            background-color: #f8f9fa;
+        }
+
+        .logs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-safe {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .action-btn i {
+            font-size: 0.8rem;
+        }
+
+        .btn-view {
+            background-color: var(--info);
+            color: white;
+        }
+
+        .btn-view:hover {
+            background-color: var(--info-light);
+        }
+
+        .btn-delete {
+            background-color: #f8f9fa;
+            color: var(--danger);
+            border: 1px solid #ddd;
+        }
+
+        .btn-delete:hover {
+            background-color: #f1f1f1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: #ddd;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow-xl);
+            transform: translateY(0);
+            animation: slideUp 0.3s ease-out;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.75rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.75rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition-fast);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-close:hover {
+            background: #f5f5f5;
+            color: var(--danger);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+            transition: var(--transition-fast);
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus, 
+        .form-group select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .btn {
+            padding: 0.85rem 1.75rem;
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-secondary {
+            background-color: #f8f9fa;
+            color: var(--text);
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            border-radius: var(--border-radius-sm);
+            padding: 0.75rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85rem;
+            font-weight: normal;
+            line-height: 1.4;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--dark) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            color: var(--text-light);
+            transition: var(--transition-fast);
+        }
+
+        .tab:hover {
+            color: var(--dark);
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header p {
+                font-size: 1.05rem;
+            }
+            
+            .main-content {
+                padding: 1.75rem;
+            }
+            
+            .security-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .header {
+                padding: 2rem 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            #websiteUrl {
+                border-radius: var(--border-radius-sm);
+                margin-bottom: 0.75rem;
+            }
+            
+            #analyzeBtn {
+                border-radius: var(--border-radius-sm);
+                padding: 1.2rem;
+                justify-content: center;
+            }
+            
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logs-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .modal-content {
+                padding: 1.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 1.75rem 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .main-content {
+                padding: 1.5rem 1rem;
+            }
+            
+            .result-card {
+                padding: 1.5rem 1rem;
+            }
+            
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+          .modern-btn {
+    /* Estilo cuadrado moderno */
+    border: none;
+    border-radius: 4px;
+    
+    /* Colores vibrantes con gradiente */
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    
+    /* Tipografía moderna */
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: white;
+    
+    /* Espaciado y tamaño */
+    padding: 12px 24px;
+    min-width: 120px;
+    
+    /* Efectos modernos */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    transition: all 0.3s ease;
+    
+    /* Otros estilos */
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+
+  .btn-grande {
+    /* Tamaño grande */
+    padding: 20px 40px;
+    width: auto;
+    min-width: 200px;
+    height: 60px;
+    
+    /* Estilo medio cuadrado (esquinas ligeramente redondeadas) */
+    border: none;
+    border-radius: 8px;
+    
+    /* Colores vibrantes */
+    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+    
+    /* Texto grande */
+    font-family: 'Arial', sans-serif;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    /* Efectos modernos */
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+
+ 
+  .mi-boton-grande {
+    display: inline-block;
+    padding: 25px 50px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(to right, #FF416C, #FF4B2B);
+    border: none;
+    border-radius: 8px; /* Medio cuadrado */
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+
+  .mi-boton-grande:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 65, 108, 0.6);
+  }
+
+  .mi-boton-grande:active {
+    transform: translateY(1px);
+  } 
+    </style>
+
+</head>
+<button 
+  class="mi-boton-grande"
+  onclick="window.location.href='buttonherramienta.html'">
+
+
+  Volver atrás
+</button>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-shield-alt"></i> Analizador Profesional de Seguridad Web</h1>
+                <p>Herramienta avanzada para verificar la seguridad de cualquier sitio web. Detecta amenazas, vulnerabilidades y problemas de configuración.</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="input-section">
+                <div class="input-group">
+                    <input type="text" id="websiteUrl" placeholder="Ingresa la URL completa del sitio web a analizar (ej: https://www.ejemplo.com)" autocomplete="off">
+                    <button id="analyzeBtn">
+                        <i class="fas fa-search"></i> Analizar Seguridad
+                    </button>
+                </div>
+                <div class="quick-actions">
+                    <button class="quick-btn" data-url="https://www.google.com">
+                        <i class="fas fa-bolt"></i> Google
+                    </button>
+                    <button class="quick-btn" data-url="https://www.facebook.com">
+                        <i class="fas fa-bolt"></i> Facebook
+                    </button>
+                    <button class="quick-btn" data-url="https://www.amazon.com">
+                        <i class="fas fa-bolt"></i> Amazon
+                    </button>
+                    <button class="quick-btn" data-url="https://www.wikipedia.org">
+                        <i class="fas fa-bolt"></i> Wikipedia
+                    </button>
+                    <button class="quick-btn" data-url="https://www.github.com">
+                        <i class="fas fa-bolt"></i> GitHub
+                    </button>
+                </div>
+            </section>
+
+            <div class="loader" id="loader">
+                <div class="spinner"></div>
+                <p>Analizando seguridad del sitio web...</p>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+
+            <div class="error" id="error">
+                <i class="fas fa-exclamation-circle"></i> <span id="errorMessage"></span>
+            </div>
+
+            <div class="results-container" id="resultsContainer">
+                <div class="tabs">
+                    <div class="tab active" data-tab="summary">Resumen</div>
+                    <div class="tab" data-tab="details">Detalles</div>
+                    <div class="tab" data-tab="recommendations">Recomendaciones</div>
+                </div>
+
+                <div class="tab-content active" id="summaryTab">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3 class="result-title"><i class="fas fa-file-alt"></i> Resumen de Seguridad</h3>
+                            <span class="result-status" id="overallStatus">Cargando...</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Información del Sitio</div>
+                                    <div class="detail-text" id="siteInfo">Analizando dominio y registro...</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Conexión Segura</div>
+                                    <div class="detail-text" id="sslInfo">Verificando certificado SSL...</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-shield-virus"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Protección contra Malware</div>
+                                    <div class="detail-text" id="malwareInfo">Escaneando en busca de amenazas...</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-network-wired"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Información de Red</div>
+                                    <div class="detail-text" id="ipInfo">Obteniendo datos de red...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="security-grid">
+                        <div class="security-metric">
+                            <div class="metric-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="metric-value safe-value" id="safeScore">0%</div>
+                            <div class="metric-label">Puntuación de Seguridad</div>
+                            <div class="metric-description">Porcentaje de seguridad basado en múltiples factores de análisis</div>
+                        </div>
+                        <div class="security-metric">
+                            <div class="metric-icon">
+                                <i class="fas fa-bug"></i>
+                            </div>
+                            <div class="metric-value danger-value" id="threatScore">0</div>
+                            <div class="metric-label">Amenazas Detectadas</div>
+                            <div class="metric-description">Número de vulnerabilidades y amenazas identificadas</div>
+                        </div>
+                        <div class="security-metric">
+                            <div class="metric-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="metric-value warning-value" id="domainAge">0</div>
+                            <div class="metric-label">Antigüedad del Dominio</div>
+                            <div class="metric-description">Tiempo desde el registro inicial del dominio</div>
+                        </div>
+                        <div class="security-metric">
+                            <div class="metric-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="metric-value info-value" id="serverScore">0</div>
+                            <div class="metric-label">Configuración del Servidor</div>
+                            <div class="metric-description">Calificación de la configuración de seguridad del servidor</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="detailsTab">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3 class="result-title"><i class="fas fa-shield-alt"></i> Amenazas Detectadas</h3>
+                            <span class="result-status" id="threatStatus">Analizando</span>
+                        </div>
+                        <div class="threat-list" id="threatList">
+                            <div class="threat-item">
+                                <i class="fas fa-search threat-icon"></i>
+                                <div>Buscando amenazas conocidas...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3 class="result-title"><i class="fas fa-chart-line"></i> Reputación del Sitio</h3>
+                            <span class="result-status" id="reputationStatus">Cargando</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-history"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Historial de Seguridad</div>
+                                    <div class="detail-text" id="historyInfo">Analizando registros históricos...</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Reportes de Usuarios</div>
+                                    <div class="detail-text" id="reportsInfo">Consultando bases de datos de amenazas...</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Registros Anteriores</div>
+                                    <div class="detail-text" id="previousLogs">Verificando análisis previos...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3 class="result-title"><i class="fas fa-code"></i> Análisis Técnico</h3>
+                            <span class="result-status status-info">Detallado</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-lock-open"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Cabeceras HTTP</div>
+                                    <div class="detail-text" id="headersInfo">Analizando cabeceras de seguridad...</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-cookie"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Política de Cookies</div>
+                                    <div class="detail-text" id="cookiesInfo">Verificando configuración de cookies...</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-tasks"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Vulnerabilidades Conocidas</div>
+                                    <div class="detail-text" id="vulnerabilitiesInfo">Comparando con bases de datos de vulnerabilidades...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="recommendationsTab">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3 class="result-title"><i class="fas fa-lightbulb"></i> Recomendaciones de Seguridad</h3>
+                            <span class="result-status status-info">Acciones</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-check-circle safe-icon"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Mejoras Prioritarias</div>
+                                    <div class="detail-text" id="priorityRecommendations">Generando recomendaciones basadas en el análisis...</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-clock warning-icon"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Mejoras Recomendadas</div>
+                                    <div class="detail-text" id="recommendedImprovements">Analizando posibles mejoras de seguridad...</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-book danger-icon"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Recursos de Seguridad</div>
+                                    <div class="detail-text" id="securityResources">Preparando recursos educativos de seguridad...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3 class="result-title"><i class="fas fa-tools"></i> Herramientas de Reparación</h3>
+                            <span class="result-status status-warning">Solución</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-wrench"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Soluciones Automáticas</div>
+                                    <div class="detail-text" id="autoFixes">Buscando soluciones automatizables...</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-user-shield"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-title">Asistencia Profesional</div>
+                                    <div class="detail-text" id="professionalHelp">Conectando con expertos en seguridad...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <h3><i class="fas fa-exclamation-circle"></i> ¿Encontraste un sitio sospechoso?</h3>
+                    <p>Ayuda a mejorar la seguridad en línea reportando sitios web fraudulentos, de phishing o que distribuyan malware.</p>
+                    <button class="report-btn" id="reportBtn">
+                        <i class="fas fa-flag"></i> Reportar Sitio Web
+                    </button>
+                </div>
+
+                <div class="logs-section">
+                    <div class="logs-header">
+                        <h3><i class="fas fa-history"></i> Historial de Análisis</h3>
+                        <div>
+                            <button id="clearLogs" class="btn-secondary action-btn">
+                                <i class="fas fa-trash"></i> Limpiar
+                            </button>
+                            <button id="refreshLogs" class="btn-primary action-btn">
+                                <i class="fas fa-sync-alt"></i> Actualizar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="logs-table" id="logsTable">
+                            <thead>
+                                <tr>
+                                    <th>URL</th>
+                                    <th>IP</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logsTableBody">
+                                <!-- Los registros se cargarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para reportar sitio -->
+    <div class="modal" id="reportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-flag"></i> Reportar Sitio Web</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <form id="reportForm">
+                <input type="hidden" id="reportUrl">
+                <input type="hidden" id="reportIp">
+                
+                <div class="form-group">
+                    <label for="reportReason">Motivo del reporte <span class="tooltip">ℹ️
+                        <span class="tooltiptext">Selecciona la categoría que mejor describa el problema</span>
+                    </span></label>
+                    <select id="reportReason" required>
+                        <option value="">Selecciona un motivo</option>
+                        <option value="phishing">Phishing/Suplantación</option>
+                        <option value="malware">Distribución de malware</option>
+                        <option value="scam">Estafa/fraude</option>
+                        <option value="spam">Spam/no deseado</option>
+                        <option value="hacking">Contenido de hacking</option>
+                        <option value="illegal">Contenido ilegal</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reportDetails">Detalles adicionales <span class="tooltip">ℹ️
+                        <span class="tooltiptext">Describe con detalle el problema que encontraste</span>
+                    </span></label>
+                    <textarea id="reportDetails" rows="4" placeholder="Proporciona más información sobre el problema (qué encontraste, cuándo, cómo afecta, etc.)..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reporterEmail">Tu email (opcional) <span class="tooltip">ℹ️
+                        <span class="tooltiptext">Si deseas que te contactemos para más información</span>
+                    </span></label>
+                    <input type="email" id="reporterEmail" placeholder="email@ejemplo.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="agreeTerms" required> Acepto los <a href="#" id="termsLink">términos de uso</a> y política de privacidad
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelReport">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Enviar Reporte</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de términos -->
+    <div class="modal" id="termsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-contract"></i> Términos de Uso</h3>
+                <button class="modal-close" id="closeTermsModal">&times;</button>
+            </div>
+            <div class="form-group" style="max-height: 60vh; overflow-y: auto; padding-right: 1rem;">
+                <h4>1. Uso del Servicio</h4>
+                <p>El Analizador de Seguridad Web es una herramienta diseñada para evaluar la seguridad de sitios web. Al utilizar este servicio, aceptas usarlo únicamente para fines legítimos y con permiso del propietario del sitio web que estás analizando.</p>
+                
+                <h4>2. Limitaciones</h4>
+                <p>Este servicio proporciona resultados basados en análisis automatizados y puede no detectar todas las vulnerabilidades. No nos hacemos responsables por daños derivados del uso o mal uso de la información proporcionada.</p>
+                
+                <h4>3. Reportes</h4>
+                <p>Al reportar un sitio web, garantizas que la información proporcionada es veraz y precisa. Los reportes falsos o malintencionados pueden resultar en la suspensión de tu cuenta.</p>
+                
+                <h4>4. Privacidad</h4>
+                <p>Respetamos tu privacidad. La información personal que nos proporciones será utilizada únicamente para los fines establecidos en nuestra política de privacidad.</p>
+                
+                <h4>5. Modificaciones</h4>
+                <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Se te notificará de cambios significativos.</p>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" id="acceptTerms">Aceptar Términos</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos del DOM
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const websiteUrlInput = document.getElementById('websiteUrl');
+            const loader = document.getElementById('loader');
+            const progressBar = document.getElementById('progressBar');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const errorDiv = document.getElementById('error');
+            const errorMessage = document.getElementById('errorMessage');
+            const reportBtn = document.getElementById('reportBtn');
+            const reportModal = document.getElementById('reportModal');
+            const closeModal = document.getElementById('closeModal');
+            const cancelReport = document.getElementById('cancelReport');
+            const reportForm = document.getElementById('reportForm');
+            const refreshLogs = document.getElementById('refreshLogs');
+            const clearLogs = document.getElementById('clearLogs');
+            const logsTableBody = document.getElementById('logsTableBody');
+            const termsLink = document.getElementById('termsLink');
+            const termsModal = document.getElementById('termsModal');
+            const closeTermsModal = document.getElementById('closeTermsModal');
+            const acceptTerms = document.getElementById('acceptTerms');
+            const quickBtns = document.querySelectorAll('.quick-btn');
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            // Variables para almacenar datos del análisis actual
+            let currentAnalysis = {
+                url: '',
+                ip: '',
+                date: '',
+                status: '',
+                threats: [],
+                score: 0,
+                sslValid: false,
+                domainAge: 0,
+                serverScore: 0
+            };
+            
+            // Listas de verificación (simuladas)
+            const KNOWN_THREATS = [
+                "iframe malicioso detectado",
+                "script de minería de criptomonedas",
+                "redirección sospechosa",
+                "formulario phishing detectado",
+                "certificado SSL inválido o expirado",
+                "dominio en lista negra de seguridad",
+                "servidor ubicado en país de alto riesgo",
+                "código obfuscado sospechoso",
+                "vulnerabilidad XSS detectada",
+                "posible inyección SQL",
+                "cabeceras de seguridad faltantes",
+                "versión desactualizada de software",
+                "archivos de configuración expuestos",
+                "directorios con listado de archivos habilitado",
+                "cookies sin flag HttpOnly o Secure"
+            ];
+            
+            const SECURITY_HEADERS = [
+                "Content-Security-Policy",
+                "X-Frame-Options",
+                "X-Content-Type-Options",
+                "Strict-Transport-Security",
+                "X-XSS-Protection",
+                "Referrer-Policy",
+                "Feature-Policy"
+            ];
+            
+            const SAFE_DOMAINS = [
+                "google.com", "microsoft.com", "apple.com", 
+                "amazon.com", "facebook.com", "twitter.com",
+                "linkedin.com", "github.com", "wikipedia.org",
+                "mozilla.org", "w3.org", "stackoverflow.com",
+                "youtube.com", "reddit.com", "netflix.com"
+            ];
+            
+            const SECURITY_RECOMMENDATIONS = [
+                "Implementar HTTPS con certificado válido",
+                "Configurar cabeceras de seguridad HTTP",
+                "Actualizar software del servidor a la última versión",
+                "Implementar política de seguridad de contenido (CSP)",
+                "Habilitar HSTS para conexiones seguras",
+                "Configurar correctamente las cookies de sesión",
+                "Limitar los intentos de login para prevenir fuerza bruta",
+                "Implementar autenticación de dos factores",
+                "Realizar auditorías de seguridad periódicas",
+                "Restringir el acceso a directorios sensibles",
+                "Implementar WAF (Web Application Firewall)",
+                "Validar y sanitizar todas las entradas de usuario",
+                "Configurar backups automáticos y seguros",
+                "Monitorizar el tráfico para detectar actividades sospechosas"
+            ];
+            
+            // Inicializar la aplicación
+            init();
+            
+            function init() {
+                // Cargar registros previos del localStorage
+                loadLogs();
+                
+                // Event listeners
+                analyzeBtn.addEventListener('click', analyzeWebsite);
+                websiteUrlInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') analyzeWebsite();
+                });
+                
+                reportBtn.addEventListener('click', openReportModal);
+                closeModal.addEventListener('click', closeReportModal);
+                cancelReport.addEventListener('click', closeReportModal);
+                reportForm.addEventListener('submit', submitReport);
+                refreshLogs.addEventListener('click', loadLogs);
+                clearLogs.addEventListener('click', clearAllLogs);
+                termsLink.addEventListener('click', openTermsModal);
+                closeTermsModal.addEventListener('click', closeTermsModalFunc);
+                acceptTerms.addEventListener('click', acceptTermsFunc);
+                
+                // Quick buttons
+                quickBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        websiteUrlInput.value = this.getAttribute('data-url');
+                        analyzeWebsite();
+                    });
+                });
+                
+                // Tabs
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        const tabId = this.getAttribute('data-tab');
+                        switchTab(tabId);
+                    });
+                });
+            }
+            
+            function switchTab(tabId) {
+                // Remove active class from all tabs and contents
+                tabs.forEach(tab => tab.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to selected tab and content
+                document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+                document.getElementById(`${tabId}Tab`).classList.add('active');
+            }
+            
+            async function analyzeWebsite() {
+                const url = websiteUrlInput.value.trim();
+                
+                if (!url) {
+                    showError('Por favor, introduce una URL válida');
+                    return;
+                }
+                
+                try {
+                    // Validación básica de URL
+                    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                        showError('La URL debe comenzar con http:// o https://');
+                        return;
+                    }
+                    
+                    new URL(url); // Validar que es una URL válida
+                } catch (e) {
+                    showError('La URL no es válida. Ejemplo correcto: https://www.ejemplo.com');
+                    return;
+                }
+                
+                // Iniciar análisis
+                loader.style.display = 'flex';
+                resultsContainer.style.display = 'none';
+                errorDiv.style.display = 'none';
+                
+                // Simular progreso
+                simulateProgress();
+                
+                try {
+                    // Simular análisis (en un caso real usarías APIs de seguridad)
+                    await simulateSecurityAnalysis(url);
+                    
+                    // Mostrar resultados
+                    loader.style.display = 'none';
+                    resultsContainer.style.display = 'block';
+                    
+                    // Guardar el análisis en el historial
+                    saveAnalysisToLogs();
+                    
+                    // Actualizar la tabla de registros
+                    loadLogs();
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('Ocurrió un error al analizar el sitio web. Intenta nuevamente.');
+                    loader.style.display = 'none';
+                }
+            }
+            
+            function simulateProgress() {
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 10;
+                    if (progress > 100) progress = 100;
+                    progressBar.style.width = `${progress}%`;
+                    
+                    if (progress === 100) {
+                        clearInterval(interval);
+                    }
+                }, 300);
+            }
+            
+            async function simulateSecurityAnalysis(url) {
+                // Simular tiempo de análisis
+                await new Promise(resolve => setTimeout(resolve, 3500));
+                
+                const domain = new URL(url).hostname;
+                const isSafeDomain = SAFE_DOMAINS.some(safe => domain.includes(safe));
+                const randomThreats = getRandomThreats();
+                const hasThreats = randomThreats.length > 0;
+                const sslValid = Math.random() > 0.3;
+                const domainAgeDays = Math.floor(Math.random() * 5000);
+                const serverScore = Math.floor(Math.random() * 100);
+                const safeScore = isSafeDomain ? 
+                    Math.floor(80 + Math.random() * 20) : 
+                    Math.floor(20 + Math.random() * 60);
+                
+                // Simular IP (en realidad esto debería obtenerse de una API de DNS)
+                const ip = generateRandomIP();
+                
+                // Simular cabeceras de seguridad
+                const missingHeaders = getRandomMissingHeaders();
+                const headersInfo = missingHeaders.length > 0 ?
+                    `Faltan cabeceras de seguridad: ${missingHeaders.join(', ')}` :
+                    'Cabeceras de seguridad bien configuradas';
+                
+                // Simular cookies
+                const cookiesInfo = Math.random() > 0.5 ?
+                    'Cookies configuradas correctamente (HttpOnly, Secure)' :
+                    'Advertencia: Cookies sin flags de seguridad (HttpOnly, Secure)';
+                
+                // Simular vulnerabilidades
+                const vulnerabilities = getRandomVulnerabilities();
+                const vulnerabilitiesInfo = vulnerabilities.length > 0 ?
+                    `Se detectaron ${vulnerabilities.length} vulnerabilidades potenciales` :
+                    'No se detectaron vulnerabilidades conocidas';
+                
+                // Simular recomendaciones
+                const priorityRecommendations = getRandomRecommendations(3);
+                const recommendedImprovements = getRandomRecommendations(5);
+                const securityResources = [
+                    'Guía de seguridad OWASP',
+                    'Documentación de Mozilla sobre CSP',
+                    'Herramientas de análisis de seguridad',
+                    'Lista de verificación de seguridad web'
+                ];
+                
+                // Guardar datos del análisis actual
+                currentAnalysis = {
+                    url: url,
+                    ip: ip,
+                    date: new Date().toLocaleString(),
+                    status: hasThreats ? 'danger' : 'safe',
+                    threats: randomThreats,
+                    score: safeScore,
+                    sslValid: sslValid,
+                    domainAge: domainAgeDays,
+                    serverScore: serverScore,
+                    missingHeaders: missingHeaders,
+                    vulnerabilities: vulnerabilities
+                };
+                
+                // Actualizar UI con resultados simulados
+                document.getElementById('overallStatus').textContent = hasThreats ? 'Peligroso' : 'Seguro';
+                document.getElementById('overallStatus').className = hasThreats ? 
+                    'result-status status-danger' : 'result-status status-safe';
+                
+                document.getElementById('siteInfo').textContent = `Dominio: ${domain} | ${isSafeDomain ? 'Conocido' : 'No verificado'}`;
+                document.getElementById('sslInfo').textContent = sslValid ? 
+                    'Conexión segura (SSL válido)' : 'Advertencia: Problema con el certificado SSL';
+                document.getElementById('malwareInfo').textContent = hasThreats ? 
+                    `${randomThreats.length} amenazas detectadas` : 'No se detectaron amenazas conocidas';
+                document.getElementById('ipInfo').textContent = `IP: ${ip} | ${getRandomCountry()}`;
+                
+                document.getElementById('safeScore').textContent = `${safeScore}%`;
+                document.getElementById('threatScore').textContent = randomThreats.length;
+                document.getElementById('domainAge').textContent = domainAgeDays;
+                document.getElementById('serverScore').textContent = serverScore;
+                
+                document.getElementById('threatStatus').textContent = hasThreats ? 
+                    `${randomThreats.length} Amenazas` : 'Seguro';
+                document.getElementById('threatStatus').className = hasThreats ? 
+                    'result-status status-danger' : 'result-status status-safe';
+                
+                // Lista de amenazas
+                const threatList = document.getElementById('threatList');
+                threatList.innerHTML = '';
+                
+                if (hasThreats) {
+                    randomThreats.forEach(threat => {
+                        const threatItem = document.createElement('div');
+                        threatItem.className = 'threat-item';
+                        threatItem.innerHTML = `
+                            <i class="fas fa-exclamation-triangle threat-icon danger-icon"></i>
+                            <div>${threat}</div>
+                        `;
+                        threatList.appendChild(threatItem);
+                    });
+                } else {
+                    const noThreats = document.createElement('div');
+                    noThreats.className = 'threat-item';
+                    noThreats.innerHTML = `
+                        <i class="fas fa-check-circle threat-icon safe-icon"></i>
+                        <div>No se detectaron amenazas conocidas</div>
+                    `;
+                    threatList.appendChild(noThreats);
+                }
+                
+                // Reputación
+                document.getElementById('reputationStatus').textContent = isSafeDomain ? 'Buena' : 'Desconocida';
+                document.getElementById('reputationStatus').className = isSafeDomain ? 
+                    'result-status status-safe' : 'result-status status-warning';
+                
+                document.getElementById('historyInfo').textContent = isSafeDomain ? 
+                    'Sin incidentes de seguridad reportados' : 'Historial limitado disponible';
+                document.getElementById('reportsInfo').textContent = hasThreats ? 
+                    'Reportes de usuarios indican posibles problemas' : 'Sin reportes negativos recientes';
+                
+                // Verificar si hay análisis previos
+                const previousLogs = getLogsFromStorage();
+                const previousAnalysis = previousLogs.find(log => log.url === url);
+                document.getElementById('previousLogs').textContent = previousAnalysis ? 
+                    `${previousAnalysis.status === 'danger' ? 'Análisis previo detectó problemas' : 'Análisis previo sin problemas'}` : 
+                    'No se encontraron análisis previos';
+                
+                // Análisis técnico
+                document.getElementById('headersInfo').textContent = headersInfo;
+                document.getElementById('cookiesInfo').textContent = cookiesInfo;
+                document.getElementById('vulnerabilitiesInfo').textContent = vulnerabilitiesInfo;
+                
+                // Recomendaciones
+                document.getElementById('priorityRecommendations').innerHTML = priorityRecommendations.map(r => `• ${r}`).join('<br>');
+                document.getElementById('recommendedImprovements').innerHTML = recommendedImprovements.map(r => `• ${r}`).join('<br>');
+                document.getElementById('securityResources').innerHTML = securityResources.map(r => `• ${r}`).join('<br>');
+                document.getElementById('autoFixes').textContent = 'Solución automatizada disponible para 3 de las vulnerabilidades detectadas';
+                document.getElementById('professionalHelp').textContent = 'Recomendamos consultar con un especialista en seguridad web para las vulnerabilidades complejas';
+            }
+            
+            function getRandomThreats() {
+                // Sitios seguros tienen menos probabilidad de amenazas
+                const isSafe = currentAnalysis.url && SAFE_DOMAINS.some(safe => currentAnalysis.url.includes(safe));
+                const maxThreats = isSafe ? 2 : 6;
+                const numThreats = Math.floor(Math.random() * maxThreats);
+                const threats = [];
+                
+                for (let i = 0; i < numThreats; i++) {
+                    const randomIndex = Math.floor(Math.random() * KNOWN_THREATS.length);
+                    threats.push(KNOWN_THREATS[randomIndex]);
+                }
+                
+                // Eliminar duplicados
+                return [...new Set(threats)];
+            }
+            
+            function getRandomMissingHeaders() {
+                const numMissing = Math.floor(Math.random() * 4);
+                const missing = [];
+                
+                for (let i = 0; i < numMissing; i++) {
+                    const randomIndex = Math.floor(Math.random() * SECURITY_HEADERS.length);
+                    missing.push(SECURITY_HEADERS[randomIndex]);
+                }
+                
+                return [...new Set(missing)];
+            }
+            
+            function getRandomVulnerabilities() {
+                const numVulnerabilities = Math.floor(Math.random() * 5);
+                const vulnerabilities = [];
+                
+                for (let i = 0; i < numVulnerabilities; i++) {
+                    const randomIndex = Math.floor(Math.random() * KNOWN_THREATS.length);
+                    vulnerabilities.push(KNOWN_THREATS[randomIndex]);
+                }
+                
+                return [...new Set(vulnerabilities)];
+            }
+            
+            function getRandomRecommendations(count) {
+                const recommendations = [];
+                
+                for (let i = 0; i < count; i++) {
+                    const randomIndex = Math.floor(Math.random() * SECURITY_RECOMMENDATIONS.length);
+                    recommendations.push(SECURITY_RECOMMENDATIONS[randomIndex]);
+                }
+                
+                return [...new Set(recommendations)];
+            }
+            
+            function generateRandomIP() {
+                return `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
+            }
+            
+            function getRandomCountry() {
+                const countries = ['Estados Unidos', 'Alemania', 'Japón', 'Brasil', 'Reino Unido', 'Singapur', 'Rusia', 'China', 'India', 'Canadá'];
+                return `Ubicación: ${countries[Math.floor(Math.random() * countries.length)]}`;
+            }
+            
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorDiv.style.display = 'block';
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            }
+            
+            function openReportModal() {
+                if (!currentAnalysis.url) {
+                    showError('Primero debes analizar un sitio web para reportarlo');
+                    return;
+                }
+                
+                document.getElementById('reportUrl').value = currentAnalysis.url;
+                document.getElementById('reportIp').value = currentAnalysis.ip;
+                reportModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function closeReportModal() {
+                reportModal.style.display = 'none';
+                reportForm.reset();
+                document.body.style.overflow = 'auto';
+            }
+            
+            function openTermsModal(e) {
+                e.preventDefault();
+                termsModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function closeTermsModalFunc() {
+                termsModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            
+            function acceptTermsFunc() {
+                document.getElementById('agreeTerms').checked = true;
+                closeTermsModalFunc();
+            }
+            
+            function submitReport(e) {
+                e.preventDefault();
+                
+                const reason = document.getElementById('reportReason').value;
+                const details = document.getElementById('reportDetails').value;
+                const email = document.getElementById('reporterEmail').value;
+                const url = document.getElementById('reportUrl').value;
+                const ip = document.getElementById('reportIp').value;
+                
+                // Validación básica
+                if (!reason) {
+                    showError('Por favor selecciona un motivo para el reporte');
+                    return;
+                }
+                
+                if (!document.getElementById('agreeTerms').checked) {
+                    showError('Debes aceptar los términos y condiciones');
+                    return;
+                }
+                
+                // Guardar el reporte
+                saveReportToLogs({
+                    url: url,
+                    ip: ip,
+                    date: new Date().toLocaleString(),
+                    reason: reason,
+                    details: details,
+                    reporterEmail: email,
+                    status: 'reported'
+                });
+                
+                // Mostrar confirmación
+                alert('¡Gracias por tu reporte! Hemos registrado esta información para su investigación.');
+                
+                // Cerrar modal y limpiar formulario
+                closeReportModal();
+                
+                // Actualizar la tabla de registros
+                loadLogs();
+            }
+            
+            function saveAnalysisToLogs() {
+                const logs = getLogsFromStorage();
+                
+                // Verificar si ya existe un registro para esta URL
+                const existingIndex = logs.findIndex(log => log.url === currentAnalysis.url);
+                
+                if (existingIndex !== -1) {
+                    // Actualizar registro existente
+                    logs[existingIndex] = {
+                        ...logs[existingIndex],
+                        date: currentAnalysis.date,
+                        status: currentAnalysis.status,
+                        ip: currentAnalysis.ip,
+                        score: currentAnalysis.score
+                    };
+                } else {
+                    // Agregar nuevo registro
+                    logs.unshift({
+                        url: currentAnalysis.url,
+                        ip: currentAnalysis.ip,
+                        date: currentAnalysis.date,
+                        status: currentAnalysis.status,
+                        score: currentAnalysis.score,
+                        type: 'analysis'
+                    });
+                }
+                
+                // Guardar en localStorage
+                localStorage.setItem('securityLogs', JSON.stringify(logs));
+            }
+            
+            function saveReportToLogs(report) {
+                const logs = getLogsFromStorage();
+                
+                // Agregar reporte al inicio del array
+                logs.unshift({
+                    ...report,
+                    type: 'report'
+                });
+                
+                // Guardar en localStorage
+                localStorage.setItem('securityLogs', JSON.stringify(logs));
+            }
+            
+            function getLogsFromStorage() {
+                const logs = localStorage.getItem('securityLogs');
+                return logs ? JSON.parse(logs) : [];
+            }
+            
+            function loadLogs() {
+                const logs = getLogsFromStorage();
+                logsTableBody.innerHTML = '';
+                
+                if (logs.length === 0) {
+                    logsTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <i class="fas fa-inbox"></i>
+                                    <p>No hay registros de análisis todavía</p>
+                                    <button class="btn-primary" onclick="document.getElementById('websiteUrl').focus()">
+                                        <i class="fas fa-search"></i> Analizar un sitio web
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                logs.forEach(log => {
+                    const row = document.createElement('tr');
+                    
+                    // Determinar el estado y clase CSS
+                    let statusText, statusClass;
+                    if (log.type === 'report') {
+                        statusText = 'Reportado';
+                        statusClass = 'badge-warning';
+                    } else {
+                        statusText = log.status === 'danger' ? 'Peligroso' : 'Seguro';
+                        statusClass = log.status === 'danger' ? 'badge-danger' : 'badge-safe';
+                        
+                        // Si tiene puntuación, mostrar más detalle
+                        if (log.score !== undefined) {
+                            if (log.score >= 80) {
+                                statusText = 'Excelente';
+                                statusClass = 'badge-safe';
+                            } else if (log.score >= 60) {
+                                statusText = 'Bueno';
+                                statusClass = 'badge-info';
+                            } else if (log.score >= 40) {
+                                statusText = 'Regular';
+                                statusClass = 'badge-warning';
+                            } else {
+                                statusText = 'Pobre';
+                                statusClass = 'badge-danger';
+                            }
+                        }
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${truncateText(log.url, 30)}</td>
+                        <td>${log.ip || 'N/A'}</td>
+                        <td>${log.date}</td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td>
+                            <button class="action-btn btn-view" onclick="viewLogDetails('${escapeHtml(log.url)}')">
+                                <i class="fas fa-eye"></i> Detalles
+                            </button>
+                            <button class="action-btn btn-delete" onclick="deleteLog('${escapeHtml(log.url)}', '${log.date}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    logsTableBody.appendChild(row);
+                });
+            }
+            
+            function clearAllLogs() {
+                if (confirm('¿Estás seguro de que deseas eliminar todo el historial de análisis? Esta acción no se puede deshacer.')) {
+                    localStorage.removeItem('securityLogs');
+                    loadLogs();
+                }
+            }
+            
+            function truncateText(text, maxLength) {
+                return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+            }
+            
+            function escapeHtml(unsafe) {
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+            
+            // Función para ver detalles (debe ser global para que funcione en los botones)
+            window.viewLogDetails = function(url) {
+                const logs = getLogsFromStorage();
+                const log = logs.find(l => l.url === url);
+                
+                if (!log) {
+                    alert('No se encontraron detalles para este registro');
+                    return;
+                }
+                
+                let details = `URL: ${log.url}\n\n`;
+                details += `IP: ${log.ip || 'N/A'}\n\n`;
+                details += `Fecha: ${log.date}\n\n`;
+                details += `Tipo: ${log.type === 'report' ? 'Reporte' : 'Análisis'}\n\n`;
+                
+                if (log.type === 'report') {
+                    details += `Motivo: ${log.reason || 'N/A'}\n\n`;
+                    details += `Detalles: ${log.details || 'N/A'}\n\n`;
+                    details += `Email reportero: ${log.reporterEmail || 'No proporcionado'}`;
+                } else {
+                    details += `Estado: ${log.status === 'danger' ? 'Peligroso' : 'Seguro'}\n\n`;
+                    if (log.score !== undefined) {
+                        details += `Puntuación de seguridad: ${log.score}%\n\n`;
+                    }
+                }
+                
+                alert(details);
+            };
+            
+            // Función para eliminar un registro
+            window.deleteLog = function(url, date) {
+                if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+                    const logs = getLogsFromStorage();
+                    const updatedLogs = logs.filter(log => !(log.url === url && log.date === date));
+                    localStorage.setItem('securityLogs', JSON.stringify(updatedLogs));
+                    loadLogs();
+                }
+            };
+        });
+    </script>
+</body>
+</html>

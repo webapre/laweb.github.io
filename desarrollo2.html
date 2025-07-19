@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kali Linux - Ciberseguridad</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: salmon;
+    }
+
+    header {
+      background-color: #20232a;
+      color: #61dafb;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    button {
+      margin: 10px 10px 0 0;
+      padding: 10px 20px;
+      border: none;
+      background-color: #61dafb;
+      color: black;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #21a1f1;
+    }
+
+    #contenido {
+      white-space: pre-line;
+      line-height: 1.6;
+    }
+
+      /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+        .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+        /* Estilo para el cuerpo para evitar que el contenido quede detrás */
+        body {
+            margin: 0;
+            padding: 40px 20px 20px; /* Añade espacio arriba para el botón */
+            position: relative; /* Necesario para el posicionamiento absoluto del botón */
+        }
+  /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+        .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+        /* Estilo para el cuerpo para evitar que el contenido quede detrás */
+        body {
+            margin: 0;
+            padding: 40px 20px 20px; /* Añade espacio arriba para el botón */
+            position: relative; /* Necesario para el posicionamiento absoluto del botón */
+        } 
+        
+       /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+     .btn-atras {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-atras:hover {
+  background-color: #e0e0e0;
+}
+
+.btn-atras:active {
+  background-color: #d0d0d0;
+  transform: scale(0.98);
+}
+
+ p {
+ 
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+ background-color: aquamarine;
+ 
+}
+
+    .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+  </style>
+</head>
+<body>
+  <header>
+    
+  </header>
+  <br><BR><BR>
+    <a href="desarrollo.html" class="btn-atras">volver atras</a>
+    <button onclick="leerTexto()">🔊 Escuchar</button>
+    <button onclick="detenerLectura()">🛑 Detener</button>
+  <div class="container">
+    <div id="contenido">
+
+<p>
+  Que dice la constitución nacional:
+La Constitución Nacional es el conjunto de normas fundamentales que establecen la organización, funcionamiento y estructura del Estado, así como los derechos y deberes de los ciudadanos. La Constitución fija las reglas básicas sobre la división de poderes (Ejecutivo, Legislativo y Judicial), la forma de gobierno (por ejemplo, república, monarquía, federación), y el reconocimiento y protección de los derechos humanos y garantías individuales como la protección del derecho del hombre.
+
+</p>
+<p>
+  Resumen a quien no le protege la propiedad intelectual y derecho autor.
+La ley establece protección para los creadores de plataformas web frente a quienes no instalan el sistema operativo Kali Linux, ya que este sistema puede ser utilizado de manera inapropiada para espiar a los usuarios. Kali Linux puede considerarse ilegal cuando se usa con el propósito de robar datos personales, como fotos o videos íntimos que las personas comparten en aplicaciones como WhatsApp o Telegram. En estos casos, los programadores o analistas de sistemas que desarrollan y difunden estas herramientas a través de sus plataformas web podrían estar incurriendo en una actividad delictiva que es eso illegal como lo demuestro algunos sitios web que detecta en internacional que es una empresa xxx o pornohub. Ese sitio web xxx o pornohub son muy comprises de la justicia jueces, juesas hasta también puede estar involucrados político y políticas que lo protegen defiende al sitio web ilegal como xxx y pornohub. 
+
+</p>
+<p>
+  Por lo tanto, le estan culpando mucho a los argentinos que eran hombres inocentes que era víctima de extorsion, manipulación hasta también amenaza a la familia que eso sería que lo sobornaron a los jueces juesas que lo culpen a los hombres que eran personas inocentes porque ya el espionaje ilegal espiar al whatsapp y telegram ya es un delito como establece la ley.
+Estableció penas de prisión de un mes a seis años para quienes editen, vendan, reproduzcan o distribuyan una obra sin autorización, con fines de lucro. Además, amplió la responsabilidad penal a quienes faciliten los medios para cometer estos delitos, como la fabricación o distribución de copias ilegales.
+
+</p>
+<p>
+  En la actualidad, existen herramientas tecnológicas que, aunque fueron desarrolladas con fines ilegales, pueden ser mal utilizadas por ciberdelincuentes para cometer delitos.
+Ejemplos el sistema operativo que es ilegal es kali linux, que se utiliza para la creación de malware (programas maliciosos) y virus informáticos mediante algoritmos, pseudocódigos y matemáticas. Con herramientas como Kali Linux, los atacantes pueden obtener acceso no autorizado a discos duros locales (por ejemplo, las unidades C y D) y espiar información personal almacenada, lo que representa un riesgo significativo para la privacidad de los usuarios.
+
+</p>
+<p>
+  Kali Linux es un sistema operativo desarrollado principalmente por profesionales por el desarrollo del software en la aplicación web y software. Sin embargo, algunas personas lo utilizan de manera ilegal para realizar actividades maliciosas, como robar información personal o espiar discos duros y carpetas, como el Escritorio, la Galería, Descargas, Documentos, Imágenes, Música, Videos, Bibliotecas, así como unidades externas como discos duros o USB.
+kali netHunter es una plataforma basada en kali Linux que, en manos de ciberdelincuentes, puede ser utilizada ilegalmente para espiar aplicaciones como whatsApp, telegram y redes sociales como Facebook, Instagram y Twitter. También permite acceder a toda la información del celular, incluyendo el software y las aplicaciones instaladas. Además, puede obtener detalles como las páginas que visitas, la fecha y hora en que estuviste conectado, e incluso cuándo encendiste o apagaste el dispositivo.
+
+</p>
+<p>
+Asimismo, es capaz de acceder a lo que escribes en navegadores como Google Chrome, Microsoft Edge, entre otros. Si se trata de plataformas de campus virtual, podría acceder a documentos como PDF, Word, PowerPoint o videos almacenados. En el caso de aplicaciones como whatsApp y telegram, los ciberdelincuentes podrían capturar todas tus conversaciones, los grupos en los que participas y obtener información personal, como tus contactos familiares y amigos.
+Con estos números de contacto, también podrían acceder a los dispositivos de otras personas. Además, podrían visualizar tus estados y todo lo que publiques, como fotos y videos. En cuanto a la seguridad de whatsApp y telegram, hoy en día no son completamente seguras, incluso si usas una contraseña o una que se lo dice verificación dos pasos.
+
+</p>
+<p>
+  Los ciberdelincuentes podrían acceder al router Wi-Fi mediante acceso remoto, lo que les permitiría realizar este tipo de ataques sin necesidad de estar cerca de ti. Según advierte la policía de cibercrimen, estos delincuentes podrían acceder a toda tu información personal.
+Por ello, no se recomienda enviar datos sensibles, como códigos o contraseñas bancarias, a través de aplicaciones como WhatsApp y telegram, ya que podrían ser interceptados. Estos delincuentes podrían estar espiando tus comunicaciones, incluso aquellas que envías a tu familia, como mensajes entre parejas, entre abuelos y nietos, o entre tíos y tías.
+
+</p>
+<p>
+  Al final, los ciberdelincuentes podrían incluso grabar todas tus conversaciones dentro de tu hogar. También podrían monitorear lo que sucede en tu casa, detectar movimientos y conocer la ubicación de diferentes espacios, como el baño, llegando a tener un conocimiento detallado de tu hogar, casi como si tuvieran un plano arquitectónico.
+Los delincuentes cibernéticos espían computadoras y teléfonos móviles porque son muy persistentes y tienen una mente obsesiva. A menudo, sufren de enfermedades mentales que los llevan a inventar cosas que no son reales, imaginar situaciones que no ocurren y observar a las personas sin comprender realmente lo que viven. no conocen la vida personal de las familias.
+
+</p>
+<p>
+  Aunque escuchan audios de whatsApp o telegram, en realidad no comprenden bien lo que se dice, por lo que se equivocan constantemente. Al desconocer la vida de cada familia, no pueden distinguir cuándo lo que escuchan es verdad o si, en realidad, todo es solo una broma.
+Debido a esta situación, el poder judicial, la justicia, la comunidad del gobierno, la policía de cibercrimen, así como jueces, juezas y abogados, han protegido el uso del sistema operativo Kali Linux, el cual fue creado por programadores internacionales.
+
+</p><p>
+Sin embargo, en algunos casos se ha culpado a usuarios que simplemente descargaron Kali Linux. Este es el sitio web oficial desde donde programadores y analistas de sistemas obtienen el sistema operativo: https://www.kali.org/.
+El sistema operativo Kali Linux es utilizado por ciberdelincuentes para realizar estafas, engaños y hasta para robar datos personales de los usuarios. Entre estos datos pueden estar el nombre, apellido, correos electrónicos e incluso información sensible de programadores honestos que respetan la ley de propiedad intelectual, así como otras leyes importantes, como los derechos de los niños y adolescentes.
+
+</p>
+<p>
+Algunos programadores descargan Kali Linux, mientras que otros no lo hacen, pues son personas honestas e inocentes que no realizan actividades ilegales. A pesar de ello, ciertos profesionales argentinos en el área de programación han sido señalados, aunque no sean expertos en derecho ni en ciberseguridad.
+También se ha responsabilizado a personas que no son programadores ni analistas de sistemas, como un profesor de biología o química que difundió contenido íntimo de otras personas, como fotos o videos.
+
+
+
+</p>
+</div>
+
+
+  </div>
+
+  <script>
+    let leyendo = false;
+    let utterance;
+
+    function leerTexto() {
+      if (leyendo) return;
+
+      const contenido = document.getElementById('contenido').innerText;
+      utterance = new SpeechSynthesisUtterance(contenido);
+      utterance.lang = 'es-ES';
+      speechSynthesis.speak(utterance);
+      leyendo = true;
+
+      utterance.onend = () => {
+        leyendo = false;
+      };
+    }
+
+    function detenerLectura() {
+      speechSynthesis.cancel();
+      leyendo = false;
+    }
+
+    // Detener lectura si el usuario cambia de página o presiona "atrás"
+    window.addEventListener('beforeunload', detenerLectura);
+    window.addEventListener('popstate', detenerLectura);
+  </script>
+</body>
+</html>

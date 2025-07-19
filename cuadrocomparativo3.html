@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ESO HACE EL SISTEMA OPERATIVO KALI LINUX</title>
+  <style>
+body {
+  font-family: 'Orbitron', sans-serif;
+  background: 
+    radial-gradient(circle at 10% 20%, #0a0f1a 0%, #111722 100%),
+    linear-gradient(160deg, #0a0f1a 0%, #111722 100%);
+  color: #b2ffff;
+  margin: 0;
+  padding: 30px;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  font-size: 3em;
+  color: #5fffd2;
+  text-shadow: 
+    0 0 6px #00ffe7, 
+    0 0 12px rgba(0, 255, 231, 0.5),
+    0 0 20px rgba(0, 136, 136, 0.3);
+  margin-bottom: 50px;
+  animation: pulseGlow 2.5s infinite alternate;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #5fffd2, transparent);
+  box-shadow: 0 0 10px #5fffd2;
+}
+
+@keyframes pulseGlow {
+  0% {
+    text-shadow: 
+      0 0 6px #00ffe7, 
+      0 0 12px rgba(0, 255, 231, 0.5),
+      0 0 20px rgba(0, 136, 136, 0.3);
+  }
+  100% {
+    text-shadow: 
+      0 0 10px #00ffe7, 
+      0 0 20px rgba(0, 255, 231, 0.7),
+      0 0 30px rgba(0, 136, 136, 0.5);
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: rgba(11, 19, 34, 0.6);
+  box-shadow: 
+    0 0 15px rgba(0, 255, 255, 0.1),
+    0 0 30px rgba(0, 100, 255, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+th, td {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.08);
+  text-align: left;
+}
+
+th {
+  background: linear-gradient(to bottom, rgba(0, 255, 255, 0.15), rgba(0, 200, 255, 0.05));
+  color: #80ffff;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+  letter-spacing: 1px;
+  position: relative;
+}
+
+th::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #5fffd2, transparent);
+}
+
+tr:hover {
+  background-color: rgba(0, 255, 255, 0.08) !important;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.05);
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+td {
+  color: #d0ffff;
+  position: relative;
+}
+
+td::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background: #5fffd2;
+  transition: height 0.3s ease;
+}
+
+tr:hover td::before {
+  height: 60%;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px 15px;
+  }
+  
+  h1 {
+    font-size: 2.2em;
+    margin-bottom: 30px;
+  }
+  
+  table {
+    border-radius: 8px;
+  }
+  
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  
+  thead {
+    display: none;
+  }
+  
+  tr {
+    margin-bottom: 25px;
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    border-radius: 8px;
+    background-color: rgba(11, 19, 34, 0.7);
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  tr::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.03), transparent);
+    pointer-events: none;
+  }
+  
+  td {
+    padding: 12px 10px 12px 40%;
+    position: relative;
+    color: #c0ffff;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.05);
+  }
+  
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    width: 35%;
+    font-weight: bold;
+    color: #5fffd2;
+    text-shadow: 0 0 4px rgba(0, 255, 255, 0.3);
+    height: auto;
+    background: transparent;
+  }
+  
+  td:last-child {
+    border-bottom: none;
+  }
+}
+  /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+        .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+        /* Estilo para el cuerpo para evitar que el contenido quede detrás */
+        body {
+            margin: 0;
+            padding: 40px 20px 20px; /* Añade espacio arriba para el botón */
+            position: relative; /* Necesario para el posicionamiento absoluto del botón */
+        }
+  </style>
+  
+</head>
+<body>
+  <h1>ESO HACE EL SISTEMA OPERATIVO KALI LINUX</h1>
+ <!-- Botón en esquina superior izquierda -->
+    <div class="button-container">
+        <a href="temas1.html" class="siguientes-btn">atras</a>
+    </div>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Ataque/Técnica</th>
+        <th>Concepto</th>
+        <th>Función</th>
+        <th>Ejemplos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Ataque/Técnica">Ingeniería Social</td>
+        <td data-label="Concepto">Táctica que explota la psicología humana para manipular a las víctimas.</td>
+        <td data-label="Función">Obtener información confidencial sin usar métodos técnicos.</td>
+        <td data-label="Ejemplos">- Hacerse pasar por soporte técnico para pedir credenciales.</td>
+      </tr>
+      <tr>
+        <td data-label="Ataque/Técnica">Phishing</td>
+        <td data-label="Concepto">Mensajes falsos que imitan entidades legítimas.</td>
+        <td data-label="Función">Engañar al usuario para que revele datos o descargue malware.</td>
+        <td data-label="Ejemplos">- Email falso del banco pidiendo "actualizar la contraseña".</td>
+      </tr>
+      <tr>
+        <td data-label="Ataque/Técnica">Pretexting</td>
+        <td data-label="Concepto">Creación de una historia falsa para ganar confianza.</td>
+        <td data-label="Función">Extraer información con un escenario falso.</td>
+        <td data-label="Ejemplos">- Fingir ser un auditor interno para pedir datos financieros.</td>
+      </tr>
+      <tr>
+        <td data-label="Ataque/Técnica">ARP Spoofing</td>
+        <td data-label="Concepto">Manipulación de la tabla ARP.</td>
+        <td data-label="Función">Interceptar o redirigir tráfico (Man-in-the-Middle).</td>
+        <td data-label="Ejemplos">- Robar credenciales en una red Wi-Fi pública.</td>
+      </tr>
+      <tr>
+        <td data-label="Ataque/Técnica">DNS Spoofing</td>
+        <td data-label="Concepto">Falsificación de respuestas DNS.</td>
+        <td data-label="Función">Redirigir tráfico a sitios fraudulentos.</td>
+        <td data-label="Ejemplos">- Redireccionar "facebook.com" a un sitio clon.</td>
+      </tr>
+      <tr>
+        <td data-label="Ataque/Técnica">IP Spoofing</td>
+        <td data-label="Concepto">Falsificación de dirección IP de origen.</td>
+        <td data-label="Función">Ocultar identidad o suplantar dispositivos.</td>
+        <td data-label="Ejemplos">- Ataque DDoS con IPs falsas para saturar un servidor.</td>
+      </tr>
+      <tr>
+        <td data-label="Ataque/Técnica">Email Spoofing</td>
+        <td data-label="Concepto">Falsificación del remitente de un correo.</td>
+        <td data-label="Función">Engañar al receptor con un email falso.</td>
+        <td data-label="Ejemplos">- Correo que parece del jefe pidiendo dinero.</td>
+      </tr>
+      <tr>
+        <td data-label="Ataque/Técnica">Pharming</td>
+        <td data-label="Concepto">Redirección silenciosa a sitios falsos.</td>
+        <td data-label="Función">Capturar datos mediante páginas clonadas.</td>
+        <td data-label="Ejemplos">- Router modificado para enviar a sitios falsos.</td>
+      </tr>
+      <tr>
+        <td data-label="Ataque/Técnica">Tailgating</td>
+        <td data-label="Concepto">Entrar físicamente siguiendo a alguien.</td>
+        <td data-label="Función">Acceder a zonas restringidas sin credencial.</td>
+        <td data-label="Ejemplos">- Seguir a un empleado para entrar a oficinas.</td>
+      </tr>
+      <tr>
+        <td data-label="Ataque/Técnica">Dumpster Diving</td>
+        <td data-label="Concepto">Buscar información en la basura.</td>
+        <td data-label="Función">Obtener datos físicos descartados.</td>
+        <td data-label="Ejemplos">- Revisar papeles con contraseñas o facturas.</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafío de letras</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #00b4d8, #0096c7); /* Gradiente suave */
+            color: #333;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #2980b9;
+            color: white;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #3498db;
+            transform: scale(1.1);
+        }
+
+        .container {
+            max-width: 500px; /* Tamaño reducido */
+            width: 100%;
+            padding: 30px; /* Espaciado reducido */
+            background: rgba(255, 255, 255, 0.9); /* Fondo blanco suave */
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Sombra suave */
+            transition: transform 0.3s ease;
+            position: relative;
+            text-align: center;
+        }
+
+        .container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5em; /* Tamaño de texto reducido */
+            margin-bottom: 20px;
+            color: #2ecc71;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #hangman {
+            display: block;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            background: #f1f2f6;
+            transition: box-shadow 0.3s ease;
+        }
+
+        #palabra {
+            font-size: 2.5em;
+            letter-spacing: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            font-size: 1.4em; /* Tamaño de letra ligeramente más pequeño */
+            margin-top: 20px;
+            border: 2px solid #2ecc71;
+            border-radius: 8px;
+            width: 80px; /* Reducir tamaño del campo de texto */
+            text-align: center;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            font-weight: bold;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #27ae60;
+            background-color: #f5f5f5;
+        }
+
+        button {
+            padding: 10px 25px; /* Tamaño de botón más pequeño */
+            background-color: #2ecc71;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.2em; /* Tamaño de fuente más pequeño */
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+            transform: scale(1.1);
+        }
+
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        #mensaje-ahorcado {
+            margin-top: 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #e74c3c;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #intentos,
+        #letras-acertadas,
+        #letras-falladas,
+        #cronometro {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #34495e;
+        }
+
+        #cronometro {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        #dibujo-ahorcado {
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            font-size: 2.5em; /* Ajuste tamaño del dibujo */
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        body {
+            background-image: url('https://www.transparenttextures.com/patterns/asfalt.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="back-button" onclick="window.location.href='apre.html'">Atrás</button>
+
+
+    <div class="container">
+        <h1>Desafío de letras: Adivina la palabra secreta</h1>
+        <div id="hangman">
+            <pre id="dibujo-ahorcado"></pre>
+            <p id="palabra"></p>
+            <p id="mensaje-ahorcado"></p>
+            <input type="text" id="letra" maxlength="1" placeholder="Ingresa una letra" />
+            <button id="adivinar-letra">Adivinar</button>
+            <p>Intentos restantes: <span id="intentos"></span></p>
+            <p>Letras acertadas: <span id="letras-acertadas"></span></p>
+            <p>Letras falladas: <span id="letras-falladas"></span></p>
+            <p>Tiempo restante: <span id="cronometro"></span> minutos</p>
+            <button id="iniciar-juego">Reiniciar el Juego</button>
+        </div>
+    </div>
+
+    <script>
+        const palabras = [
+            "Pelota", "Cuadro", "Ventilador", "Auriculares", "Cámara", "Estufa", 
+            "Vaso", "Sábanas", "Estuche", "Florero", "Batería", "Tenedor", "Aros", 
+            "Ropa", "Llave", "Escoba", "Botella", "Caja", "Pincel", "Termo", "Mesa", 
+            "Silla", "Lámpara", "Libro", "Computadora", "Teléfono", "Reloj", "Taza", 
+            "Zapato", "Bolígrafo", "Cuaderno", "Gafas", "Sombrero", "Cuchara", "Plato", 
+            "Cartera", "Llavero", "Mochila", "Televisor", "Espejo", "Medicina", "Derecho", 
+            "Psicología", "Ingeniería Civil", "Ingeniería Industrial", "Arquitectura", 
+            "Administración de Empresas", "Contabilidad", "Diseño Gráfico", "Educación", 
+            "Biología", "Química", "Sociología", "Ciencias de la Computación", "Marketing", 
+            "Comunicación Social", "Filosofía", "Antropología", "Finanzas", "Enfermería"
+        ];
+
+        let palabraActual = '';
+        let letrasAdivinadas = [];
+        let letrasAcertadas = [];
+        let letrasFalladas = [];
+        let intentos = 8;
+        let tiempoRestante = 300; // 5 minutos (300 segundos)
+        let intervalo;
+        let juegoTerminado = false;
+
+        // Función para iniciar el juego
+        document.getElementById("iniciar-juego").addEventListener("click", function() {
+            document.getElementById("mensaje-ahorcado").textContent = "¡El juego comienza! Tienes 5 minutos para adivinar.";
+            iniciarAhorcado(); // Iniciar el juego inmediatamente después de clic
+        });
+
+        // Función para iniciar el juego
+        function iniciarAhorcado() {
+            const indice = Math.floor(Math.random() * palabras.length);
+            palabraActual = palabras[indice];
+            letrasAdivinadas = [];
+            letrasAcertadas = [];
+            letrasFalladas = [];
+            intentos = 8;
+            tiempoRestante = 300; // Resetear tiempo a 5 minutos
+            juegoTerminado = false;
+
+            mostrarPalabra();
+            mostrarDibujo();
+            iniciarCronometro();
+            document.getElementById("adivinar-letra").disabled = false;
+        }
+
+        function mostrarDibujo() {
+            const ahorcadoDibujo = [
+                `\n\n\n\n\n\n`,
+                `\n |\n |\n |\n |\n |\n`,
+                `\n ----\n |  |\n |\n |\n |\n`,
+                `\n ----\n |  |\n |  O\n |\n |\n`,
+                `\n ----\n |  |\n |  O\n |  |\n |\n`,
+                `\n ----\n |  |\n |  O\n | /|\\\n |\n`,
+                `\n ----\n |  |\n |  O\n | /|\\\n | /\n`,
+            ];
+            document.getElementById("dibujo-ahorcado").textContent = ahorcadoDibujo[8 - intentos];
+        }
+
+        function mostrarPalabra() {
+            const palabraMostrar = palabraActual.split('').map(letra => (letrasAdivinadas.includes(letra) ? letra : '_')).join(' ');
+            document.getElementById("palabra").textContent = palabraMostrar;
+            document.getElementById("intentos").textContent = intentos;
+            document.getElementById("letras-acertadas").textContent = letrasAcertadas.join(', ') || "Ninguna";
+            document.getElementById("letras-falladas").textContent = letrasFalladas.join(', ') || "Ninguna";
+            const minutos = Math.floor(tiempoRestante / 60);
+            const segundos = tiempoRestante % 60;
+            document.getElementById("cronometro").textContent = `${minutos}:${segundos < 10 ? '0' : ''}${segundos}`;
+        }
+
+        document.getElementById("adivinar-letra").addEventListener("click", function() {
+            const letra = document.getElementById("letra").value.toLowerCase();
+            if (letra && !letrasAdivinadas.includes(letra) && !juegoTerminado) {
+                letrasAdivinadas.push(letra);
+                if (palabraActual.includes(letra)) {
+                    letrasAcertadas.push(letra);
+                    document.getElementById("mensaje-ahorcado").textContent = `¡Correcto! La letra "${letra.toUpperCase()}" está en la palabra.`;
+                } else {
+                    letrasFalladas.push(letra);
+                    intentos--;
+                    document.getElementById("mensaje-ahorcado").textContent = `¡Incorrecto! La letra "${letra.toUpperCase()}" no está en la palabra.`;
+                }
+                mostrarPalabra();
+                mostrarDibujo();
+                verificarEstado();
+            }
+            document.getElementById("letra").value = '';
+        });
+
+        function verificarEstado() {
+            if (intentos <= 0) {
+                clearInterval(intervalo);
+                document.getElementById("mensaje-ahorcado").textContent = "¡Perdiste! La palabra era: " + palabraActual;
+                document.getElementById("adivinar-letra").disabled = true;
+                juegoTerminado = true;
+            } else if (palabraActual.split('').every(letra => letrasAdivinadas.includes(letra))) {
+                clearInterval(intervalo);
+                document.getElementById("mensaje-ahorcado").textContent = "¡Ganaste! Adivinaste la palabra.";
+                juegoTerminado = true;
+            }
+        }
+
+        function iniciarCronometro() {
+            intervalo = setInterval(function() {
+                tiempoRestante--;
+                mostrarPalabra();
+
+                if (tiempoRestante <= 0) {
+                    clearInterval(intervalo);
+                    intentos = 7;
+                    mostrarPalabra();
+                    document.getElementById("mensaje-ahorcado").textContent = "¡El tiempo se acabó! La palabra era: " + palabraActual;
+                    document.getElementById("adivinar-letra").disabled = true;
+                    juegoTerminado = true;
+                }
+            }, 1000);
+        }
+
+        window.onload = iniciarAhorcado;
+    </script>
+
+</body>
+</html>

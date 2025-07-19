@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ciberseguridad y Ética Digital</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #2b6777;
+      color: #fff;
+      padding: 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .tts-btn {
+      background-color: #52ab98;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .tts-btn:hover {
+      background-color: #3a8b7d;
+      transform: translateY(-2px);
+    }
+
+    .tts-btn:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
+    .tts-btn i {
+      font-size: 1rem;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h2 {
+      color: #2b6777;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-speak {
+      background: none;
+      border: none;
+      color: #52ab98;
+      cursor: pointer;
+      font-size: 1.2rem;
+      margin-left: 10px;
+    }
+
+    .card-speak:hover {
+      color: #3a8b7d;
+    }
+
+    .highlight {
+      background-color: #fffde7;
+      transition: background-color 0.5s ease;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #2b6777;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.4rem;
+      }
+
+      .card h2 {
+        font-size: 1.1rem;
+      }
+      
+      .controls {
+        flex-wrap: wrap;
+      }
+    }
+      /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+        .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+        /* Estilo para el cuerpo para evitar que el contenido quede detrás */
+        body {
+            margin: 0;
+            padding: 40px 20px 20px; /* Añade espacio arriba para el botón */
+            position: relative; /* Necesario para el posicionamiento absoluto del botón */
+        }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+ <!-- Botón en esquina superior izquierda -->
+    <div class="button-container">
+     
+    </div>
+  
+<body>
+  <header>
+  
+    <div class="controls">
+      <button id="playAllBtn" class="tts-btn">
+        <i class="fas fa-play"></i> Reproducir todo
+      </button>
+      <button id="pauseBtn" class="tts-btn" disabled>
+        <i class="fas fa-pause"></i> Pausar
+      </button>
+      <button id="stopBtn" class="tts-btn" disabled>
+        <i class="fas fa-stop"></i> Detener
+      </button>
+    </div>
+   <a href="temas1.html" class="siguientes-btn">atras</a>
+
+  </header>
+
+  <main>
+    <div class="card" id="card1">
+      <h2>Amenazas y delitos informáticos
+        <button class="card-speak" data-target="card1"><i class="fas fa-volume-up"></i></button>
+      </h2>
+      <p>
+        Los ciberdelincuentes malintencionados, que en muchos casos cuentan con conocimientos avanzados como programadores o analistas de sistemas, pueden atacar y robar algoritmos, bases de datos y datos sensibles de plataformas web y software legítimos. Esto incluye información de los usuarios, como correos electrónicos, contraseñas, nombres y apellidos, e incluso datos personales del programador o analista, como información sobre su familia.
+      </p>
+    </div>
+
+    <div class="card" id="card2">
+      <h2>Conductas ilegales
+        <button class="card-speak" data-target="card2"><i class="fas fa-volume-up"></i></button>
+      </h2>
+      <p>
+        Existen personas que, actuando de mala fe, realizan actividades ilegales violando derechos de los usuarios, la propiedad intelectual y otras leyes establecidas en la Constitución Nacional.
+      </p>
+    </div>
+
+    <div class="card" id="card3">
+      <h2>Profesionales éticos
+        <button class="card-speak" data-target="card3"><i class="fas fa-volume-up"></i></button>
+      </h2>
+      <p>
+        Por otro lado, también hay personas de buena voluntad que respetan la ley, los derechos digitales y los principios éticos en el desarrollo y uso de plataformas tecnológicas.
+      </p>
+    </div>
+
+    <div class="card" id="card4">
+      <h2>Desarrollo legal y responsable
+        <button class="card-speak" data-target="card4"><i class="fas fa-volume-up"></i></button>
+      </h2>
+      <p>
+        Es importante aclarar que hay desarrolladores y profesionales que crean sitios web, plataformas y software de forma completamente legal y ética. No utilizan herramientas ni sistemas diseñados para el hacking ofensivo, como Kali Linux, ni realizan actividades fuera del marco legal. Su trabajo contribuye a una internet más segura y confiable para todos, sin dañar la privacidad de nadie.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Ética y Seguridad Digital
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elementos del DOM
+      const playAllBtn = document.getElementById('playAllBtn');
+      const pauseBtn = document.getElementById('pauseBtn');
+      const stopBtn = document.getElementById('stopBtn');
+      const cardSpeakBtns = document.querySelectorAll('.card-speak');
+      
+      // Variables de estado
+      let speechSynthesis = window.speechSynthesis;
+      let currentUtterance = null;
+      let isPlayingAll = false;
+      let currentCardIndex = 0;
+      let cards = document.querySelectorAll('.card');
+      
+      // Función para hablar el texto de un elemento
+      function speakText(element, callback) {
+        if (currentUtterance) {
+          speechSynthesis.cancel();
+        }
+        
+        const text = element.querySelector('p').textContent;
+        const title = element.querySelector('h2').textContent.replace('speaker', '').trim();
+        const fullText = title + '. ' + text;
+        
+        currentUtterance = new SpeechSynthesisUtterance(fullText);
+        currentUtterance.lang = 'es-ES';
+        currentUtterance.rate = 1.0;
+        currentUtterance.pitch = 1.0;
+        
+        // Resaltar el párrafo mientras se habla
+        const paragraph = element.querySelector('p');
+        paragraph.classList.add('highlight');
+        
+        currentUtterance.onstart = function() {
+          // Habilitar/deshabilitar botones
+          playAllBtn.disabled = isPlayingAll;
+          pauseBtn.disabled = false;
+          stopBtn.disabled = false;
+          
+          // Desplazar a la tarjeta actual
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        };
+        
+        currentUtterance.onend = function() {
+          paragraph.classList.remove('highlight');
+          if (callback) callback();
+        };
+        
+        currentUtterance.onerror = function(event) {
+          console.error('Error en speechSynthesis:', event);
+          paragraph.classList.remove('highlight');
+          if (callback) callback();
+        };
+        
+        speechSynthesis.speak(currentUtterance);
+      }
+      
+      // Reproducir todo el contenido
+      function playAll() {
+        isPlayingAll = true;
+        currentCardIndex = 0;
+        playNextCard();
+      }
+      
+      // Reproducir la siguiente tarjeta
+      function playNextCard() {
+        if (currentCardIndex >= cards.length) {
+          isPlayingAll = false;
+          playAllBtn.disabled = false;
+          pauseBtn.disabled = true;
+          stopBtn.disabled = true;
+          return;
+        }
+        
+        const card = cards[currentCardIndex];
+        speakText(card, function() {
+          currentCardIndex++;
+          if (isPlayingAll) {
+            setTimeout(playNextCard, 500); // Pequeña pausa entre tarjetas
+          }
+        });
+      }
+      
+      // Event listeners
+      playAllBtn.addEventListener('click', function() {
+        playAll();
+      });
+      
+      pauseBtn.addEventListener('click', function() {
+        if (speechSynthesis.speaking) {
+          speechSynthesis.pause();
+          pauseBtn.innerHTML = '<i class="fas fa-play"></i> Continuar';
+        } else {
+          speechSynthesis.resume();
+          pauseBtn.innerHTML = '<i class="fas fa-pause"></i> Pausar';
+        }
+      });
+      
+      stopBtn.addEventListener('click', function() {
+        speechSynthesis.cancel();
+        isPlayingAll = false;
+        playAllBtn.disabled = false;
+        pauseBtn.disabled = true;
+        stopBtn.disabled = true;
+        pauseBtn.innerHTML = '<i class="fas fa-pause"></i> Pausar';
+        
+        // Quitar resaltado de todos los párrafos
+        document.querySelectorAll('.highlight').forEach(el => {
+          el.classList.remove('highlight');
+        });
+      });
+      
+      // Event listeners para los botones individuales de cada tarjeta
+      cardSpeakBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const targetId = this.getAttribute('data-target');
+          const card = document.getElementById(targetId);
+          
+          // Si ya se está reproduciendo esta tarjeta, detener
+          if (isPlayingAll || (currentUtterance && !speechSynthesis.paused)) {
+            speechSynthesis.cancel();
+            isPlayingAll = false;
+          }
+          
+          speakText(card);
+        });
+      });
+      
+      // Verificar si el navegador soporta la API de speechSynthesis
+      if (!('speechSynthesis' in window)) {
+        alert('Lo siento, tu navegador no soporta la funcionalidad de texto a voz.');
+        playAllBtn.disabled = true;
+        pauseBtn.disabled = true;
+        stopBtn.disabled = true;
+        cardSpeakBtns.forEach(btn => btn.disabled = true);
+      }
+    });
+  </script>
+</body>
+</html>

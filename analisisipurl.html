@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investigación Avanzada de URL e IP</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://source.unsplash.com/1920x1080/?artificial-intelligence,technology,cyberpunk') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, #FF5733, #33FF57, #3357FF);
+      z-index: 1;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      width: 90%;
+      max-width: 1000px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      color: #f1f1f1;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+      text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.7);
+      margin-bottom: 20px;
+      color:red;
+    }
+
+    input, button {
+      padding: 14px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 18px;
+      box-sizing: border-box;
+      background-color: #333;
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+
+    input {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    button {
+      background-color:rebeccapurple;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #e60073;
+      transform: scale(1.05);
+    }
+
+    .success-message {
+      display: none;
+      color: green;
+      margin-top: 20px;
+    }
+
+    .details {
+      margin-top: 20px;
+      display: none;
+      text-align: left;
+    }
+
+    .details h3 {
+      font-size: 20px;
+      color: #ff4081;
+    }
+
+    .details p {
+      font-size: 16px;
+      margin: 5px 0;
+      color: #ddd;
+    }
+
+    .header-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+
+    .header-buttons button {
+      width: auto;
+      background-color: #00796b;
+    }
+
+    .header-buttons button:hover {
+      background-color: #004d40;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+      color: #f1f1f1;
+    }
+
+    th {
+      background-color: #444;
+    }
+
+    .download-btn {
+      background-color: #00c853;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      width: auto;
+      padding: 15px 30px;
+      border-radius: 10px;
+      margin-top: 20px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background-color: #00b74a;
+    }
+
+    .back-button {
+  position: fixed;   /* Fija el botón en la pantalla */
+  top: 10px;         /* Lo coloca a 10 píxeles desde la parte superior */
+  left: 10px;        /* Lo coloca a 10 píxeles desde la parte izquierda */
+  padding: 10px 20px; /* Agrega algo de espacio dentro del botón */
+  background-color: #4CAF50; /* Color de fondo */
+  color: white;      /* Color del texto */
+  border: none;      /* Elimina el borde */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer;   /* Cambia el cursor al pasar sobre el botón */
+}
+
+.back-button:hover {
+  background-color: #45a049; /* Cambia el color de fondo al pasar el mouse */
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Investigación Avanzada de URL e IP</h1>
+
+    <!-- Encabezado con botones -->
+    <div class="header-buttons">
+      <button onclick="toggleTable('urlTable')">Mostrar/Ocultar Comparación de URL</button>
+     <div class="button-container">
+    <div class="button-container">
+    <!-- Botón 1: Redirige a indes.html y muestra una tabla -->
+    <button onclick="window.location.href = 'listaderegistroseguridad.html'; toggleTable('urlTable')">
+      Mira el registro analizado url y ip
+    </button>
+         
+      
+    
+      <button onclick="window.location.href='herramienta1.html'" class="back-button">Atrás</button>
+
+ <div class="footer">
+  
+  </div>
+    </div>
+
+    <!-- Analizar URL -->
+    <div>
+      <input type="text" id="urlInput" placeholder="Escribe la URL aquí" />
+      <button onclick="analizarUrl()">Analizar URL</button>
+      <div id="urlDetails" class="details">
+        <h3>Detalles de la URL:</h3>
+        <p><strong>Protocolo:</strong> <span id="urlProtocol"></span></p>
+        <p><strong>Dominio:</strong> <span id="urlDomain"></span></p>
+        <p><strong>Subdominio:</strong> <span id="urlSubdomain"></span></p>
+        <p><strong>Ruta:</strong> <span id="urlPath"></span></p>
+        <p><strong>IP del Servidor:</strong> <span id="serverIp"></span></p>
+      </div>
+    </div>
+
+    <br>
+
+    <!-- Analizar IP -->
+    <div>
+      <input type="text" id="ipInput" placeholder="Ingresa una IP para analizar..." />
+      <button onclick="analizarIp()">Analizar IP</button>
+      <div id="ipDetails" class="details">
+        <h3>Detalles de la IP:</h3>
+        <p><strong>País:</strong> <span id="ipCountry"></span></p>
+        <p><strong>Región:</strong> <span id="ipRegion"></span></p>
+        <p><strong>Organización:</strong> <span id="ipOrg"></span></p>
+        <p><strong>ISP:</strong> <span id="ipIsp"></span></p>
+        <p><strong>IP Analizada:</strong> <span id="ipAnalyzed"></span></p>
+      </div>
+    </div>
+
+    <button id="downloadBtn" class="download-btn" onclick="guardarRegistros()">Guardar y Descargar Registros</button>
+
+    <div id="successMessage" class="success-message">
+      <p>¡Datos guardados exitosamente!</p>
+    </div>
+
+    <!-- Tabla de URLs -->
+    <table id="urlTable" style="display: none;">
+      <thead>
+        <tr>
+          <th>Protocolo</th>
+          <th>Dominio</th>
+          <th>Subdominio</th>
+          <th>Ruta</th>
+          <th>IP Servidor</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <!-- Tabla de IPs -->
+    <table id="ipTable" style="display: none;">
+      <thead>
+        <tr>
+          <th>País</th>
+          <th>Región</th>
+          <th>Organización</th>
+          <th>ISP</th>
+          <th>IP Analizada</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    
+  </div>
+
+  <script>
+    let urlRecords = JSON.parse(localStorage.getItem('urlRecords')) || [];
+    let ipRecords = JSON.parse(localStorage.getItem('ipRecords')) || [];
+
+    window.onload = function() {
+      actualizarCuadroComparativo();
+    }
+
+    // Función para alternar la visibilidad de las tablas
+    function toggleTable(tableId) {
+      const table = document.getElementById(tableId);
+      table.style.display = table.style.display === "none" ? "block" : "none";
+    }
+
+    // Función para analizar la URL
+    function analizarUrl() {
+      let url = document.getElementById('urlInput').value.trim();
+
+      const regex = /^(https?:\/\/)?([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(\.[a-z]{2})?)?(:\d+)?(\/.*)?$/i;
+      if (!regex.test(url)) {
+        alert("URL no válida.");
+        return;
+      }
+
+      const parsedUrl = new URL(url);
+
+      fetch(`https://dns.google/resolve?name=${parsedUrl.hostname}&type=A`)
+        .then(response => response.json())
+        .then(data => {
+          const ipAddresses = data.Answer ? data.Answer.map(entry => entry.data).join(', ') : 'No encontrada';
+
+          // Mostrar detalles de la URL en el DOM
+          document.getElementById('urlProtocol').textContent = parsedUrl.protocol;
+          document.getElementById('urlDomain').textContent = parsedUrl.hostname;
+          document.getElementById('urlSubdomain').textContent = parsedUrl.hostname.split('.')[0];
+          document.getElementById('urlPath').textContent = parsedUrl.pathname;
+          document.getElementById('serverIp').textContent = ipAddresses;
+
+          // Mostrar el div con los detalles de la URL
+          document.getElementById('urlDetails').style.display = 'block';
+
+          const urlDetail = {
+            protocol: parsedUrl.protocol,
+            domain: parsedUrl.hostname,
+            subdomain: parsedUrl.hostname.split('.')[0],
+            path: parsedUrl.pathname,
+            serverIp: ipAddresses
+          };
+
+          urlRecords.push(urlDetail);
+          localStorage.setItem('urlRecords', JSON.stringify(urlRecords));
+          actualizarCuadroComparativo();
+          alert('URL Analizada y Guardada');
+        });
+    }
+
+    // Función para analizar la IP
+    function analizarIp() {
+      const ip = document.getElementById('ipInput').value.trim();
+      const regexIp = /^(\d{1,3}\.){3}\d{1,3}$/;
+
+      if (!regexIp.test(ip)) {
+        alert("IP no válida.");
+        return;
+      }
+
+      fetch(`https://ipinfo.io/${ip}/json`)
+        .then(response => response.json())
+        .then(data => {
+          const countryCode = data.country;
+          fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
+            .then(res => res.json())
+            .then(countryData => {
+              const countryName = countryData[0].name.common;
+
+              // Mostrar detalles de la IP en el DOM
+              document.getElementById('ipCountry').textContent = countryName;
+              document.getElementById('ipRegion').textContent = data.region;
+              document.getElementById('ipOrg').textContent = data.org;
+              document.getElementById('ipIsp').textContent = data.hostname;
+              document.getElementById('ipAnalyzed').textContent = ip; // Mostrar IP analizada
+
+              // Mostrar el div con los detalles de la IP
+              document.getElementById('ipDetails').style.display = 'block';
+
+              const ipDetail = {
+                country: countryName,
+                region: data.region,
+                org: data.org,
+                isp: data.hostname,
+                ipAnalyzed: ip // Guardar IP analizada
+              };
+
+              ipRecords.push(ipDetail);
+              localStorage.setItem('ipRecords', JSON.stringify(ipRecords));
+              actualizarCuadroComparativo();
+              alert('IP Analizada y Guardada');
+            });
+        });
+    }
+
+    function actualizarCuadroComparativo() {
+      // Actualizar las tablas de URL e IP con los registros almacenados
+      const urlTable = document.getElementById('urlTable').getElementsByTagName('tbody')[0];
+      urlTable.innerHTML = urlRecords.map(record => `
+        <tr>
+          <td>${record.protocol}</td>
+          <td>${record.domain}</td>
+          <td>${record.subdomain}</td>
+          <td>${record.path}</td>
+          <td>${record.serverIp}</td>
+        </tr>
+      `).join('');
+
+      const ipTable = document.getElementById('ipTable').getElementsByTagName('tbody')[0];
+      ipTable.innerHTML = ipRecords.map(record => `
+        <tr>
+          <td>${record.country}</td>
+          <td>${record.region}</td>
+          <td>${record.org}</td>
+          <td>${record.isp}</td>
+          <td>${record.ipAnalyzed}</td>
+        </tr>
+      `).join('');
+    }
+
+
+     // Función para guardar los registros y generar el archivo
+     function guardarRegistros() {
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Registros Guardados</title>
+          <style>
+            body { font-family: 'Arial', sans-serif; background-color: #f1f3f6; color: #333; margin: 0; padding: 0; }
+            h1 { color: #5E4B8B; text-align: center; font-size: 2.5rem; margin-top: 20px; }
+            h2 { color: #3E8E41; text-align: center; font-size: 1.8rem; margin-bottom: 15px; }
+            
+            .tables-container {
+              display: flex;
+              justify-content: space-between;
+              padding: 20px;
+              gap: 20px;
+            }
+            .table-column {
+              width: 48%;
+              background-color: #fff;
+              border-radius: 8px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              padding: 20px;
+              transition: box-shadow 0.3s ease-in-out;
+            }
+            .table-column:hover {
+              box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+            table {
+              width: 100%;
+              margin-top: 20px;
+              border-collapse: collapse;
+            }
+            th, td {
+              padding: 12px;
+              border: 1px solid #ddd;
+              text-align: center;
+              color: #333;
+              font-size: 1rem;
+            }
+            th {
+              background-color: #6C63FF;
+              color: #fff;
+            }
+            tr:nth-child(even) {
+              background-color: #f2f2f2;
+            }
+            tr:hover {
+              background-color: #e1e1e1;
+            }
+
+            .download-btn {
+              display: block;
+              width: 200px;
+              margin: 30px auto;
+              padding: 10px;
+              background-color: #5E4B8B;
+              color: white;
+              font-size: 1.2rem;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              transition: background-color 0.3s;
+            }
+
+            .download-btn:hover {
+              background-color: #4a3a6a;
+            }
+
+            .success-message {
+              display: none;
+              text-align: center;
+              margin-top: 20px;
+              padding: 10px;
+              background-color: #4CAF50;
+              color: white;
+              font-size: 1.2rem;
+              border-radius: 5px;
+            }
+          </style>
+        </head>
+        <body>
+          <h1>Registros Guardados</h1>
+
+          <div class="tables-container">
+            <div class="table-column">
+              <h2>Registros de URL</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Protocolo</th>
+                    <th>Dominio</th>
+                    <th>Subdominio</th>
+                    <th>Ruta</th>
+                    <th>IP Servidor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${urlRecords.map(record => `
+                    <tr>
+                      <td>${record.protocol}</td>
+                      <td>${record.domain}</td>
+                      <td>${record.subdomain}</td>
+                      <td>${record.path}</td>
+                      <td>${record.serverIp}</td>
+                    </tr>`).join('')}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-column">
+              <h2>Registros de IP</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>País</th>
+                    <th>Región</th>
+                    <th>Organización</th>
+                    <th>ISP</th>
+                    <th>IP Analizada</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${ipRecords.map(record => `
+                    <tr>
+                      <td>${record.country}</td>
+                      <td>${record.region}</td>
+                      <td>${record.org}</td>
+                      <td>${record.isp}</td>
+                      <td>${record.ipAnalyzed}</td>
+                    </tr>`).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </body>
+        </html>`;
+
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'registros.html';
+      link.click();
+    }
+  </script>
+</body>
+</html>

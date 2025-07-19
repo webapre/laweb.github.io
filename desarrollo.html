@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desarrollos Teóricos</title>
+    <style>
+        /* CSS Estilizado */
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #ff6b6b;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --transition: all 0.3s ease;
+            --disabled-color: #cccccc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: var(--dark-color);
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .theory-btn {
+            position: relative;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            background: white;
+            color: var(--dark-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            overflow: hidden;
+            z-index: 1;
+            min-width: 250px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .theory-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s ease;
+            border-radius: 50px;
+        }
+        
+        .theory-btn:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .theory-btn:hover {
+            color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+        }
+        
+        .theory-btn span {
+            display: inline-block;
+            transition: var(--transition);
+        }
+        
+        .theory-btn:hover span {
+            transform: scale(1.05);
+        }
+        
+        .btn-1::before {
+            background: linear-gradient(45deg, #4a6bff, #6b4aff);
+        }
+        
+        .btn-2::before {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e4b);
+        }
+        
+        /* Estilos para botones deshabilitados */
+        .disabled-btn {
+            pointer-events: none;
+            opacity: 0.6;
+            background: var(--disabled-color);
+            position: relative;
+        }
+        
+        .disabled-btn::before {
+            display: none;
+        }
+        
+        .disabled-btn::after {
+            content: '🔒';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+        
+        /* Efecto de ondas al hacer clic */
+        @keyframes wave {
+            0% {
+                transform: scale(0.5);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+        
+        .wave {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: scale(0);
+            pointer-events: none;
+            animation: wave 0.6s linear;
+        }
+        
+        .progress-info {
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+    .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+    </style>
+</head>
+<body>
+     <a href="temas1.html" class="siguientes-btn">volver atras</a>
+    <div class="container">
+        <h1>Desarrollos Teóricos</h1>
+        
+        <div class="buttons-container">
+            <a href="desarrollo1.html" class="theory-btn btn-1" id="theory1">
+                <span>Explora Teórico 1</span>
+            </a>
+            
+            <a href="desarrollo2.html" class="theory-btn btn-2 disabled-btn" id="theory2">
+                <span>Explora Teórico 2</span>
+            </a>
+
+            <a href="desarrollo3.html" class="theory-btn btn-2 disabled-btn" id="theory3">
+                <span>Explora Teórico 3</span>
+            </a>
+  
+            <a href="desarrollo4.html" class="theory-btn btn-2 disabled-btn" id="theory4">
+                <span>Explora Teórico 4</span>
+            </a>
+              
+            <a href="desarrollo5.html" class="theory-btn btn-2 disabled-btn" id="theory5">
+                <span>Explora Teórico 5</span>
+            </a>
+            
+            <a href="desarrollo6.html" class="theory-btn btn-2 disabled-btn" id="theory6">
+                <span>Explora Teórico 6</span>
+            </a>
+        </div>
+        
+        <div class="progress-info" id="progressInfo">
+            Comienza explorando el Teórico 1 para desbloquear los siguientes.
+        </div>
+    </div>
+
+    <script>
+        // Verificar progreso almacenado
+        document.addEventListener('DOMContentLoaded', function() {
+            const ultimoTeoricoVisto = localStorage.getItem('ultimoTeoricoVisto') || 0;
+            actualizarBotones(ultimoTeoricoVisto);
+            actualizarMensajeProgreso(ultimoTeoricoVisto);
+            
+            // Configurar eventos para todos los botones
+            document.querySelectorAll('.theory-btn').forEach(button => {
+                // Efecto de click
+                button.addEventListener('click', function(e) {
+                    const teoricoNum = this.id.replace('theory', '');
+                    
+                    // Guardar progreso si es el siguiente teórico a desbloquear
+                    if (teoricoNum <= (parseInt(ultimoTeoricoVisto) + 1)) {
+                        localStorage.setItem('ultimoTeoricoVisto', teoricoNum);
+                        actualizarBotones(teoricoNum);
+                        actualizarMensajeProgreso(teoricoNum);
+                    }
+                    
+                    // Efecto visual
+                    const x = e.clientX - e.target.getBoundingClientRect().left;
+                    const y = e.clientY - e.target.getBoundingClientRect().top;
+                    
+                    const wave = document.createElement('span');
+                    wave.classList.add('wave');
+                    wave.style.left = `${x}px`;
+                    wave.style.top = `${y}px`;
+                    
+                    this.appendChild(wave);
+                    
+                    setTimeout(() => {
+                        wave.remove();
+                    }, 600);
+                });
+                
+                // Efecto de hover con tilt
+                button.addEventListener('mousemove', (e) => {
+                    if (!button.classList.contains('disabled-btn')) {
+                        const x = e.offsetX;
+                        const y = e.offsetY;
+                        
+                        const btnWidth = button.clientWidth;
+                        const btnHeight = button.clientHeight;
+                        
+                        const moveX = (x - btnWidth / 2) / 10;
+                        const moveY = (y - btnHeight / 2) / 10;
+                        
+                        button.style.transform = `translateY(-5px) perspective(500px) rotateX(${moveY}deg) rotateY(${moveX}deg)`;
+                    }
+                });
+                
+                button.addEventListener('mouseout', () => {
+                    button.style.transform = 'translateY(-5px) perspective(500px) rotateX(0) rotateY(0)';
+                });
+            });
+        });
+        
+        function actualizarBotones(ultimoVisto) {
+            const buttons = document.querySelectorAll('.theory-btn');
+            
+            buttons.forEach((button, index) => {
+                const buttonNum = index + 1;
+                
+                if (buttonNum <= parseInt(ultimoVisto) + 1) {
+                    button.classList.remove('disabled-btn');
+                    button.style.pointerEvents = 'auto';
+                    button.style.opacity = '1';
+                    button.style.background = 'white';
+                } else {
+                    button.classList.add('disabled-btn');
+                    button.style.pointerEvents = 'none';
+                    button.style.opacity = '0.6';
+                    button.style.background = 'var(--disabled-color)';
+                }
+            });
+        }
+        
+        function actualizarMensajeProgreso(ultimoVisto) {
+            const progressInfo = document.getElementById('progressInfo');
+            const ultimo = parseInt(ultimoVisto) || 0;
+            const total = document.querySelectorAll('.theory-btn').length;
+            
+            if (ultimo === 0) {
+                progressInfo.textContent = 'Comienza explorando el Teórico 1 para desbloquear los siguientes.';
+            } else if (ultimo === total) {
+                progressInfo.textContent = '¡Felicidades! Has completado todos los teóricos.';
+            } else {
+                progressInfo.textContent = `Has completado ${ultimo} de ${total} teóricos. Explora el Teórico ${ultimo + 1} para continuar.`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Completo - Víctima 3624838162 | Monitoreo Detectado</title>
+    <style>
+        :root {
+            --primary-color: #d32f2f;
+            --secondary-color: #1976d2;
+            --warning-color: #ffa000;
+            --success-color: #388e3c;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            font-size: 2.2rem;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+            border-radius: 3px;
+        }
+        
+        h2 {
+            color: var(--secondary-color);
+            margin-top: 30px;
+            padding-bottom: 8px;
+            border-bottom: 2px dashed #ddd;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2::before {
+            content: '▶';
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 0.8em;
+        }
+        
+        .info-section {
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .info-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.2);
+            transform: rotate(45deg) translate(20px, -15px);
+        }
+        
+        .victim-info {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .device-info {
+            background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .location-info {
+            background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+            border-left: 4px solid #0288d1;
+        }
+        
+        .network-info {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 4px solid #43a047;
+        }
+        
+        .phone-info {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            border-left: 4px solid #8e24aa;
+        }
+        
+        .social-info {
+            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+            border-left: 4px solid #00897b;
+        }
+        
+        .financial-info {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 4px solid #fb8c00;
+        }
+        
+        .threat-info {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border-left: 4px solid #e53935;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-left: 5px solid var(--warning-color);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 160, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 160, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 160, 0, 0); }
+        }
+        
+        .data-grid {
+            display: grid;
+            grid-template-columns: minmax(200px, 1fr) 2fr;
+            gap: 12px;
+        }
+        
+        .data-row {
+            display: contents;
+        }
+        
+        .data-label {
+            font-weight: 600;
+            color: var(--dark-color);
+            padding: 8px 12px;
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .data-value {
+            padding: 8px 12px;
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 4px;
+            word-break: break-word;
+        }
+        
+        .map-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .map-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        .map-link::after {
+            content: '↗';
+            margin-left: 5px;
+            font-size: 0.9em;
+        }
+        
+        .battery-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .battery-level {
+            width: 60px;
+            height: 24px;
+            border: 2px solid #333;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .battery-level::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            height: calc(100% - 4px);
+            width: var(--battery-width);
+            background-color: var(--battery-color);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+        
+        .battery-level::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 6px;
+            width: 4px;
+            height: 10px;
+            background-color: #333;
+            border-radius: 0 2px 2px 0;
+        }
+        
+        .battery-low {
+            --battery-color: #d32f2f;
+            --battery-width: 25%;
+        }
+        
+        .battery-medium {
+            --battery-color: #ffa000;
+            --battery-width: 65%;
+        }
+        
+        .battery-high {
+            --battery-color: #388e3c;
+            --battery-width: 85%;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--status-color);
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .online {
+            --status-color: var(--success-color);
+        }
+        
+        .offline {
+            --status-color: #757575;
+        }
+        
+        .warning-icon {
+            color: var(--warning-color);
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .timestamp {
+            font-size: 0.9em;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .timestamp::before {
+            content: '🕒';
+        }
+        
+        .threat-level {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.8em;
+            color: white;
+        }
+        
+        .high-threat {
+            background-color: #d32f2f;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .medium-threat {
+            background-color: #ffa000;
+        }
+        
+        .low-threat {
+            background-color: #388e3c;
+        }
+        
+        .social-account {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+        
+        .social-icon {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .financial-transaction {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .transaction-amount {
+            font-weight: bold;
+        }
+        
+        .negative-amount {
+            color: #d32f2f;
+        }
+        
+        .positive-amount {
+            color: #388e3c;
+        }
+        
+        .malware-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .malware-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .malware-name {
+            font-weight: bold;
+        }
+        
+        .malware-risk {
+            font-size: 0.8em;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: white;
+        }
+        
+        .risk-high {
+            background-color: #d32f2f;
+        }
+        
+        .risk-medium {
+            background-color: #ffa000;
+        }
+        
+        .risk-low {
+            background-color: #388e3c;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 15px;
+            }
+            
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-label {
+                background-color: transparent;
+                padding-left: 0;
+                font-size: 0.9em;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+        }.siguientes-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3498db; /* color de fondo */
+  color: white;              /* color del texto */
+  text-decoration: none;     /* quitar subrayado */
+  border-radius: 5px;        /* bordes redondeados */
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.siguientes-btn:hover {
+  background-color: #2980b9; /* color al pasar el mouse */
+}
+
+    </style>
+</head>
+<body><br><br><br>
+ <a href="temas1.html" class="siguientes-btn">atras</a>
+
+    <div class="container">
+        <h1>📱 Análisis Completo de la Víctima - Federico Ariel Billordo</h1>
+        
+        <div class="info-section victim-info">
+            <h2>🔍 Información Personal Identificada</h2>
+            <div class="data-grid">
+                <div class="data-row">
+                    <div class="data-label">Nombre completo:</div>
+                    <div class="data-value">Federico Ariel Billordo</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">DNI:</div>
+                    <div class="data-value">42.170.533</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Número celular:</div>
+                    <div class="data-value">+54 362 4838162 <span class="threat-level high-threat">Validado</span></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Estado:</div>
+                    <div class="data-value">
+                        <span class="status-indicator">
+                            <span class="status-dot online"></span>
+                            En línea - Monitoreo activo
+                        </span>
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Edad estimada:</div>
+                    <div class="data-value">Sin datos disponibles</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Ocupación:</div>
+                    <div class="data-value">Analista de sistemas (según perfil LinkedIn)</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section phone-info">
+            <h2>📞 Datos del Dispositivo Móvil</h2>
+            <div class="data-grid">
+                <div class="data-row">
+                    <div class="data-label">Modelo:</div>
+                    <div class="data-value">Samsung Galaxy S21 FE 5G</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">IMEI:</div>
+                    <div class="data-value">35680912****** <span class="threat-level medium-threat">Parcial</span></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Operadora:</div>
+                    <div class="data-value">Personal Argentina</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Batería:</div>
+                    <div class="data-value">
+                        <span class="battery-container">
+                            <span class="battery-level battery-low"></span>
+                            <span>40%</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Sistema operativo:</div>
+                    <div class="data-value">Android 13 (One UI 5.1)</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Última conexión:</div>
+                    <div class="data-value">
+                        <span class="timestamp">Hoy 14:32:45</span>
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Aplicaciones instaladas:</div>
+                    <div class="data-value">
+                        <p>700 aplicaciones detectadas</p>
+                        <ul class="malware-list">
+                            <li class="malware-item">
+                                <span class="malware-name">100 aplicaciones con malware</span>
+                                <span class="malware-risk risk-high">Alto riesgo</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Red WiFi conectada:</div>
+                    <div class="data-value">nombre modem ocultovictimafede <span class="threat-level medium-threat">Vulnerable</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section location-info">
+            <h2>🌍 Geolocalización y Movimientos</h2>
+            <div class="data-grid">
+                <div class="data-row">
+                    <div class="data-label">Ubicación actual:</div>
+                    <div class="data-value">Sierras de Córdoba, Villa Juan de Garay, Resistencia, Argentina</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Coordenadas GPS:</div>
+                    <div class="data-value">-27.433618, -59.016236 (Precisión: 12m)</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Mapa:</div>
+                    <div class="data-value">
+                        <a href="https://www.google.com/maps?q=-27.433617835688487,-59.01623564578427" class="map-link" target="_blank">Ver ubicación exacta</a>
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Movimientos recientes:</div>
+                    <div class="data-value">
+                        <p>No se detectaron movimientos recientes</p>
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Patrón de movimientos:</div>
+                    <div class="data-value">Rutina estable (casa-trabajo-compras) <span class="threat-level low-threat">Predecible</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section social-info">
+            <h2>👥 Huella Digital y Redes Sociales</h2>
+            <div class="data-grid">
+                <div class="data-row">
+                    <div class="data-label">Cuentas vinculadas:</div>
+                    <div class="data-value">
+                        <div class="social-account">
+                            <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" class="social-icon" alt="Facebook">
+                            <span>No se detectó cuenta de Facebook</span>
+                        </div>
+                        <div class="social-account">
+                            <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" class="social-icon" alt="LinkedIn">
+                            <span>Perfil profesional no encontrado</span>
+                        </div>
+                        <div class="social-account">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" class="social-icon" alt="Instagram">
+                            <span>Cuenta de Instagram no identificada</span>
+                        </div>
+                        <div class="social-account">
+                            <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" class="social-icon" alt="Twitter">
+                            <span>No se encontró perfil en Twitter</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Contactos frecuentes:</div>
+                    <div class="data-value">
+                        <p>No se detectaron contactos frecuentes en WhatsApp, Telegram o redes sociales</p>
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Patrón de uso:</div>
+                    <div class="data-value">No utiliza activamente redes sociales (Facebook, Twitter, Instagram)</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Exposición digital:</div>
+                    <div class="data-value">
+                        <span class="threat-level high-threat">Alta</span> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section financial-info">
+            <h2>💳 Actividad Financiera Detectada</h2>
+            <div class="data-grid">
+                <div class="data-row">
+                    <div class="data-label">Cuentas bancarias:</div>
+                    <div class="data-value">
+                        <p>No se detectaron cuentas bancarias vinculadas</p>
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Transacciones recientes:</div>
+                    <div class="data-value">
+                        <p>No se registraron transacciones financieras</p>
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Vulnerabilidades:</div>
+                    <div class="data-value">
+                        <span class="threat-level high-threat">Alto riesgo</span> - SMS bancarios sin encriptación
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section threat-info">
+            <h2>⚠️ Amenazas Detectadas</h2>
+            <div class="data-grid">
+                <div class="data-row">
+                    <div class="data-label">Suplantación de identidad:</div>
+                    <div class="data-value">
+                        <span class="threat-level high-threat">Confirmada</span> - 3 intentos detectados
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Phishing bancario:</div>
+                    <div class="data-value">
+                        <span class="threat-level high-threat">Activo</span> - 2 enlaces maliciosos clickeados
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Malware detectado:</div>
+                    <div class="data-value">
+                        <span class="threat-level medium-threat">Spyware bancario</span> - Android/Banker.Agent.EI
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Contraseñas vulneradas:</div>
+                    <div class="data-value">
+                        <span class="threat-level high-threat">12 credenciales</span> en brechas conocidas
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section warning">
+            <h2><span class="warning-icon">🚨</span> Resumen de Riesgos</h2>
+            <p><strong>Nivel de amenaza:</strong> <span class="threat-level high-threat">CRÍTICO</span></p>
+            <p>Esta persona presenta múltiples vectores de ataque activos y vulnerabilidades explotables:</p>
+            <ul>
+                <li>Dispositivo comprometido con spyware bancario</li>
+                <li>Credenciales vulneradas en múltiples servicios</li>
+                <li>Patrón de movimientos predecible</li>
+                <li>Alta exposición en redes sociales</li>
+                <li>Protección de red WiFi insuficiente</li>
+            </ul>
+            
+            <div class="data-grid" style="margin-top: 15px;">
+                <div class="data-row">
+                    <div class="data-label">Recomendaciones inmediatas:</div>
+                    <div class="data-value">
+                        <ol>
+                            <li>Restablecer todas las credenciales bancarias</li>
+                            <li>Formatear dispositivo móvil</li>
+                            <li>Activar autenticación en dos factores</li>
+                            <li>Notificar a entidades bancarias</li>
+                            <li>Capacitación en seguridad digital</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px; font-weight: bold; color: var(--primary-color);">
+            <h2>
+
+             <p>
+Pruebas relacionadas con la víctima, Federico Billordo, respaldadas por los hechos. 
+Todas esas fotos corresponden a la víctima, conforme a lo determinado en la investigación.
+               </p> </h2> 
+  </div>
+<div><li>
+  
+         <img src="foto1.jpg" alt="Texto alternativo">
+              <img src="foto2.png" alt="Texto alternativo">
+                <img src="foto3.PNG" alt="Texto alternativo">
+                  <img src="foto4.png" alt="Texto alternativo">
+                    <img src="foto5.png" alt="Texto alternativo">
+ <h2> <p>
+    
+        Investigación y análisis de la red: modem/router detectado con amenazas y vulnerabilidades identificadas
+    
+</p></h2><img src="foto6.jpg" alt="Texto alternativo">
+<h4>
+    <p>
+        Durante el monitoreo realizado entre 2010 y 2017, se identificaron múltiples vulnerabilidades en dispositivos como routers, teléfonos móviles y computadoras portátiles. Estas fallas de seguridad afectaron directamente a diversas personas y entornos, convirtiéndolos en víctimas de ataques digitales e intentos de intrusión.
+    </p>
+</h4>
+<h4>
+    <p>
+        Entre los principales afectados que también fueron víctimas directas de estos hechos se encuentran:
+    </p>
+</h4>
+<h4>
+    <p>
+        Cada familia, así como las escuelas primarias y secundarias, también fueron víctimas de estos ataques. Dentro de estos entornos, compañeros y compañeras de estudio, al igual que profesores y profesoras, se vieron directamente afectados.
+        Los atacantes accedieron a todos los contactos y archivos personales almacenados en celulares y notebooks, robando información sensible. Entre los materiales sustraídos se encuentran documentos importantes como archivos PDF, Word, PowerPoint, copias de DNI, conocimientos adquiridos, apuntes académicos y otros contenidos de alto valor personal y educativo.
+
+    </p>
+</h4>
+<h3>
+    <p>
+       ¿Por qué nadie oculta la evidencia?
+    </p>
+</h3>
+<h4><p>
+Porque no ocultamos la verdad de que son víctimas. Quienes realmente tienen inteligencia emocional y mental no esconden la verdad: la enfrentan con firmeza. La batalla comienza con hechos concretos, demostrados por las estadísticas del análisis monitoreado, donde están los registros que muestran claramente lo ocurrido.
+</p></h4>
+<h4>
+    <p>
+        No somos cómplices de los delincuentes, ni aceptamos sobornos. Aquí están los registros: haz clic y encontrarás toda la información, incluyendo la primera estadística detallada.
+    </p>
+</h4>
+      <a href="estadistica1.html" class="siguientes-btn">Estadística de Monitoreo y Registro de la Víctima Federico Billordo evidencia parte 1
+      </a>   
+    
+      <a href="estadistica2.html" class="siguientes-btn">Estadística de Monitoreo y Registro de la Víctima Federico Billordo evidencia parte 2
+      </a>   
+   
+  <h2>
+        <p>
+            ¿Querés defenderte como la víctima, Federico Billordo? Inicia aquí; podrá analizar todo y detectará todo lo que querés.
+     
+        </p>
+
+    </h2>   
+    <h4>
+        <p>
+            ¿Querés defenderte como la víctima, Federico Billordo? Inicia aquí; podrá analizar todo y detectará todo lo que querés.
+   
+        </p>
+    </h4> <a href="analizadefensa.html" class="siguientes-btn"> inicia aqui para su defensa hay monitorea tu celular tablet router y notebook</a>
+
+ <h3>
+<p>
+¿Querés chimear lo que le pasó a su prima? 
+Fue víctima de grooming desde 2012 hasta 2021. El delincuente borró el Instagram en 2021, 
+pero igual dejó rastros.
+    </p>
+ </h3>
+ <a href="evidenciagroamingprima.html" class="siguientes-btn"> La investigación con todos los hechos está disponible aquí. Hacé clic y podrás ver toda la información junto con el registro de evidencias.
+  </a>
+
+
+</div>
+           
+        </div>
+  
+</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar la hora cada segundo
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('es-AR', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+                document.querySelectorAll('.timestamp').forEach(el => {
+                    el.textContent = "Hoy " + timeString;
+                });
+            }
+            setInterval(updateTime, 1000);
+            updateTime();
+            
+            // Simular cambio de batería
+            function simulateBattery() {
+                const batteryElement = document.querySelector('.battery-level');
+                const batteryText = document.querySelector('.battery-container span:last-child');
+                let battery = parseInt(batteryText.textContent);
+                
+                // Cambio aleatorio entre -5% y +2% (generalmente disminuye)
+                battery += Math.floor(Math.random() * 7) - 5;
+                
+                // Mantener entre 1% y 100%
+                battery = Math.max(1, Math.min(100, battery));
+                
+                // Actualizar visualización
+                batteryText.textContent = battery + '%';
+                batteryElement.style.setProperty('--battery-width', battery + '%');
+                
+                // Cambiar clase según nivel
+                batteryElement.classList.remove('battery-low', 'battery-medium', 'battery-high');
+                if(battery < 15) {
+                    batteryElement.classList.add('battery-low');
+                    batteryElement.style.setProperty('--battery-color', '#d32f2f');
+                } else if(battery < 40) {
+                    batteryElement.classList.add('battery-medium');
+                    batteryElement.style.setProperty('--battery-color', '#ffa000');
+                } else {
+                    batteryElement.classList.add('battery-high');
+                    batteryElement.style.setProperty('--battery-color', '#388e3c');
+                }
+            }
+            
+            setInterval(simulateBattery, 20000);
+            
+            // Efecto hover para secciones
+            const sections = document.querySelectorAll('.info-section');
+            sections.forEach(section => {
+                section.addEventListener('mouseenter', () => {
+                    section.style.transform = 'translateY(-5px)';
+                    section.style.boxShadow = '0 15px 30px rgba(0,0,0,0.15)';
+                });
+                
+                section.addEventListener('mouseleave', () => {
+                    section.style.transform = '';
+                    section.style.boxShadow = '';
+                });
+            });
+            
+            // Simular cambio de ubicación periódicamente
+            function simulateMovement() {
+                const locations = [
+                    "Sierras de Córdoba Nº 539, Villa Juan de Garay",
+                    "Av. Alberdi 1200, Resistencia",
+                    "Shopping Sarmiento, Acceso Oeste",
+                    "Banco Santander Río, Av. 9 de Julio"
+                ];
+                const currentLocation = document.querySelector('.location-info .data-row:first-child .data-value');
+                const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+                currentLocation.textContent = randomLocation + ", Resistencia, Argentina";
+            }
+            
+            setInterval(simulateMovement, 120000);
+            
+            // Mostrar/ocultar detalles de malware
+            const malwareItems = document.querySelectorAll('.malware-item');
+            malwareItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('expanded');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

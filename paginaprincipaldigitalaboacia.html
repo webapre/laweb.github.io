@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abogacía Digital Avanzada</title>
+<style>
+  /* Sistema de temas de fondo */
+  :root {
+    /* Tema Neural Network */
+    --nn-primary: #6e48aa;
+    --nn-secondary: #9d50bb;
+    --nn-accent: #4776e6;
+    --nn-bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    --nn-grid: linear-gradient(rgba(110, 72, 170, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(110, 72, 170, 0.1) 1px, transparent 1px);
+    
+    /* Tema Quantum Computing */
+    --qc-primary: #00b4db;
+    --qc-secondary: #0083b0;
+    --qc-accent: #00f2ff;
+    --qc-bg: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+    --qc-grid: linear-gradient(rgba(0, 180, 219, 0.1) 1px, transparent 1px),
+               linear-gradient(90deg, rgba(0, 180, 219, 0.1) 1px, transparent 1px);
+    
+    /* Tema Dark AI */
+    --dai-primary: #ff0084;
+    --dai-secondary: #ff2d75;
+    --dai-accent: #e94057;
+    --dai-bg: linear-gradient(135deg, #000000, #434343);
+    --dai-grid: linear-gradient(rgba(255, 0, 132, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 132, 0.1) 1px, transparent 1px);
+    
+    /* Tema Cyberpunk */
+    --cp-primary: #f7ff00;
+    --cp-secondary: #db36a4;
+    --cp-accent: #ff2a6d;
+    --cp-bg: linear-gradient(135deg, #01012b, #005678, #05d9e8);
+    --cp-grid: linear-gradient(rgba(247, 255, 0, 0.1) 1px, transparent 1px),
+               linear-gradient(90deg, rgba(247, 255, 0, 0.1) 1px, transparent 1px);
+    
+    /* Variables activas (cambiar con JS para cambiar tema) */
+    --active-primary: var(--nn-primary);
+    --active-secondary: var(--nn-secondary);
+    --active-accent: var(--nn-accent);
+    --active-bg: var(--nn-bg);
+    --active-grid: var(--nn-grid);
+    --active-glow: 0 0 15px rgba(110, 72, 170, 0.7);
+  }
+
+  /* Reset futurista */
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Fondo dinámico con efecto de grid */
+  body {
+    font-family: 'Exo 2', 'Rajdhani', 'Segoe UI', system-ui, sans-serif;
+    background: var(--active-bg);
+    background-image: var(--active-grid);
+    background-size: 30px 30px;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.6;
+    padding: 20px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background 0.8s ease;
+  }
+
+  /* Contenedor principal */
+  .container {
+    width: min(100%, 900px);
+    background: rgba(15, 15, 35, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: var(--active-glow), 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--active-primary);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    z-index: 1;
+  }
+
+  /* Efecto de conexiones neuronales */
+  .neural-connections {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(circle at 20% 30%, var(--active-primary) 0%, transparent 20%),
+      radial-gradient(circle at 80% 70%, var(--active-secondary) 0%, transparent 20%),
+      radial-gradient(circle at 50% 90%, var(--active-accent) 0%, transparent 20%);
+    opacity: 0.1;
+    z-index: -1;
+    animation: pulse 8s infinite alternate;
+  }
+
+  @keyframes pulse {
+    0% { opacity: 0.05; }
+    50% { opacity: 0.15; }
+    100% { opacity: 0.05; }
+  }
+
+  /* Título con efecto de databending */
+  h1 {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    margin-bottom: 2rem;
+    background: linear-gradient(to right, var(--active-primary), var(--active-accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: textFlicker 3s infinite alternate;
+  }
+
+  @keyframes textFlicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+      opacity: 1;
+      text-shadow: 0 0 10px var(--active-primary);
+    }
+    20%, 22%, 24%, 55% {
+      opacity: 0.8;
+      text-shadow: none;
+    }
+  }
+
+  /* Selector de temas */
+  .theme-selector {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .theme-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .theme-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .theme-btn.nn { background: var(--nn-primary); }
+  .theme-btn.qc { background: var(--qc-primary); }
+  .theme-btn.dai { background: var(--dai-primary); }
+  .theme-btn.cp { background: var(--cp-primary); }
+
+  /* Botones con efecto de energía */
+  button {
+    background: linear-gradient(145deg, var(--active-primary), var(--active-secondary));
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    font-weight: 600;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px var(--active-primary);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    text-transform: uppercase;
+  }
+
+  button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: 0.6s;
+    z-index: -1;
+  }
+
+  button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px var(--active-primary);
+  }
+
+  button:hover::before {
+    left: 100%;
+  }
+
+  /* Efecto de submenú */
+  .submenu {
+    animation: fadeInUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    opacity: 0;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Efecto de partículas digitales */
+  .digital-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    background: var(--active-primary);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float 15s infinite linear;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-20vh) translateX(100px); opacity: 0; }
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .container {
+      padding: 1.5rem;
+    }
+    
+    .theme-selector {
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+
+  /* Modo reducido de movimiento */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  p {
+  margin-bottom: 1.2em;
+  line-height: 1.6; /* Mejor espaciado entre líneas */
+  color: #2d3748; /* Color de texto más moderno (gris oscuro azulado) */
+  font-family: 'Segoe UI', Roboto, -apple-system, sans-serif; /* Fuente más legible */
+  text-align: justify; /* Texto alineado justificado */
+  padding: 0.5em;
+  background-color: #f8f9fa; /* Fondo muy claro para el párrafo */
+  border-left: 4px solid #4f46e5; /* Borde lateral decorativo */
+  border-radius: 0 4px 4px 0; /* Bordes redondeados solo a la derecha */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sutil sombra */
+}
+
+/* Versión alternativa con fondo degradado */
+p.alt-style {
+  background: linear-gradient(90deg, #f0f4ff 0%, #ffffff 100%);
+  border-left-color: #10b981;
+  color: #1e293b;
+}
+
+/* Estilo para párrafos importantes */
+p.important {
+  background-color: #fff7ed;
+  border-left-color: #f97316;
+  font-weight: 500;
+}
+</style>
+</head>
+<body>
+  <div class="container">
+
+    
+ 
+
+      <div id="submenu" class="hidden submenu">
+
+        <p>Los profesores de Biología, Química y Educación Física deben enfocarse en enseñar de manera que los estudiantes aprendan y comprendan bien esos contenidos, ya que son fundamentales para su formación. Además, es muy importante que los adultos, especialmente las mujeres, desarrollen inteligencia emocional, porque esto les ayuda a manejar mejor sus emociones, relaciones y los desafíos de la vida cotidiana.</p>
+  
+  <p>Esto es especialmente relevante porque, según datos, cerca del 70% de las mujeres adultas cometen algún tipo de delito digital, muchas veces por desconocimiento o falta de información adecuada. También sucede que algunas personas se dejan llevar por lo que ven en redes sociales como Facebook o Instagram, lo que genera desinformación y ansiedad. En algunos casos, esta información incorrecta incluso puede afectar su salud emocional y mental.</p>
+  
+  <p>Por eso, es fundamental fortalecer tanto la educación formal en ciencias como el desarrollo de la inteligencia emocional para enfrentar mejor estos retos.</p>
+
+     <p>
+      No es una broma. En la vida, hay que tomarse las cosas en serio. No todo es para reírse. Tenés que desarrollar una mentalidad , con inteligencia emocional. Por favor, no creas todo lo que ves en las noticias, porque muchas veces son cosas inventadas. No prestes atención a todo lo que diga la policía cibercrimen si no estás bien informado. Cuando termine el curso profesional, te voy a compartir el Facebook oficial de la policía cibercrimen
+     </p>   
+     
+     <button class="submenu-btn" onclick="window.location.href='temas1.html'"> Conocimientos para aprender</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('btnAbogacia').addEventListener('click', () => {
+      const submenu = document.getElementById('submenu');
+      submenu.classList.toggle('hidden');
+      
+      // Cambiar el texto del botón principal según el estado
+      const mainBtn = document.getElementById('btnAbogacia');
+      if (submenu.classList.contains('hidden')) {
+        mainBtn.textContent = 'Abogacía Digital';
+      } else {
+        mainBtn.textContent = 'Ocultar Menú';
+      }
+    });
+  </script>
+</body>
+</html>

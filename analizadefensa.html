@@ -1,0 +1,2220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield Pro IDS</title>
+    <style>
+        :root {
+            --primary: #0d1117;
+            --secondary: #161b22;
+            --accent: #58a6ff;
+            --danger: #f85149;
+            --warning: #d29922;
+            --success: #3fb950;
+            --text: #c9d1d9;
+            --dark-text: #8b949e;
+            --terminal-bg: #0a0e14;
+            --terminal-text: #00ff00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--secondary);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(88, 166, 255, 0.3);
+        }
+
+        .logo .version {
+            color: var(--dark-text);
+            font-size: 0.8rem;
+            margin-left: 5px;
+            align-self: flex-end;
+        }
+
+        .status-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status {
+            background-color: var(--secondary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .status.active .status-dot {
+            background-color: var(--success);
+            box-shadow: 0 0 5px var(--success);
+        }
+
+        .status.warning .status-dot {
+            background-color: var(--warning);
+            box-shadow: 0 0 5px var(--warning);
+        }
+
+        .status.danger .status-dot {
+            background-color: var(--danger);
+            box-shadow: 0 0 5px var(--danger);
+        }
+
+        .status.scanning .status-dot {
+            background-color: var(--accent);
+            box-shadow: 0 0 5px var(--accent);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background-color: var(--secondary);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .panel-title {
+            color: var(--accent);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title .icon {
+            font-size: 1.2rem;
+        }
+
+        .device-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .info-item {
+            margin-bottom: 15px;
+        }
+
+        .info-label {
+            color: var(--dark-text);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+        }
+
+        .info-value {
+            font-weight: bold;
+            font-size: 0.95rem;
+            word-break: break-all;
+        }
+
+        .info-value.small {
+            font-size: 0.85rem;
+        }
+
+        .threat-list {
+            list-style: none;
+            max-height: 300px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--secondary);
+        }
+
+        .threat-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .threat-list::-webkit-scrollbar-track {
+            background: var(--secondary);
+            border-radius: 3px;
+        }
+
+        .threat-list::-webkit-scrollbar-thumb {
+            background-color: var(--accent);
+            border-radius: 3px;
+        }
+
+        .threat-item {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .threat-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .threat-item.critical {
+            border-left-color: var(--danger);
+            background-color: rgba(248, 81, 73, 0.1);
+        }
+
+        .threat-item.warning {
+            border-left-color: var(--warning);
+            background-color: rgba(210, 153, 34, 0.1);
+        }
+
+        .threat-item.info {
+            border-left-color: var(--accent);
+            background-color: rgba(88, 166, 255, 0.1);
+        }
+
+        .threat-item.success {
+            border-left-color: var(--success);
+            background-color: rgba(63, 185, 80, 0.1);
+        }
+
+        .threat-content {
+            flex: 1;
+        }
+
+        .threat-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            gap: 8px;
+        }
+
+        .threat-icon {
+            font-size: 0.9rem;
+        }
+
+        .threat-source {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .threat-type {
+            color: var(--dark-text);
+            font-size: 0.8rem;
+            margin-left: 22px;
+        }
+
+        .threat-desc {
+            font-size: 0.8rem;
+            color: var(--text);
+            opacity: 0.9;
+            margin-top: 3px;
+            margin-left: 22px;
+        }
+
+        .threat-time {
+            color: var(--dark-text);
+            font-size: 0.7rem;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background-color: #3d8eff;
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.danger {
+            background-color: var(--danger);
+        }
+
+        button.danger:hover {
+            background-color: #f6685e;
+        }
+
+        button.warning {
+            background-color: var(--warning);
+            color: #000;
+        }
+
+        button.warning:hover {
+            background-color: #e6a540;
+        }
+
+        button.success {
+            background-color: var(--success);
+        }
+
+        button.success:hover {
+            background-color: #4acf5f;
+        }
+
+        button.secondary {
+            background-color: var(--secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        button.secondary:hover {
+            background-color: #1f2937;
+        }
+
+        button .icon {
+            font-size: 1rem;
+        }
+
+        .terminal {
+            background-color: var(--terminal-bg);
+            color: var(--terminal-text);
+            padding: 15px;
+            border-radius: 8px;
+            height: 400px;
+            overflow-y: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .terminal::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(to bottom, rgba(10, 14, 20, 1), rgba(10, 14, 20, 0));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .terminal-line {
+            margin-bottom: 5px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .terminal-line::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--dark-text);
+        }
+
+        .terminal-line.system {
+            color: #58a6ff;
+        }
+
+        .terminal-line.alert {
+            color: #f85149;
+        }
+
+        .terminal-line.warning {
+            color: #d29922;
+        }
+
+        .terminal-line.success {
+            color: #3fb950;
+        }
+
+        .terminal-line.important {
+            color: #ff7b72;
+            font-weight: bold;
+        }
+
+        .terminal-line.debug {
+            color: #8b949e;
+            font-size: 0.8rem;
+        }
+
+        .scan-progress {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            margin: 15px 0;
+            height: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #1f6feb, #58a6ff);
+            width: 0%;
+            transition: width 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 0.7rem;
+            text-shadow: 0 0 3px #000;
+        }
+
+        .security-meters {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .meter {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .meter-title {
+            color: var(--dark-text);
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .meter-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .meter.cpu .meter-value {
+            color: #ff7b72;
+        }
+
+        .meter.memory .meter-value {
+            color: #58a6ff;
+        }
+
+        .meter.network .meter-value {
+            color: #3fb950;
+        }
+
+        .meter-bar {
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        .meter.cpu .meter-fill {
+            background-color: #ff7b72;
+            width: 30%;
+        }
+
+        .meter.memory .meter-fill {
+            background-color: #58a6ff;
+            width: 65%;
+        }
+
+        .meter.network .meter-fill {
+            background-color: #3fb950;
+            width: 45%;
+        }
+
+        .network-activity {
+            margin-top: 20px;
+        }
+
+        .network-graph {
+            height: 100px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .graph-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        .graph-point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            transform: translate(-50%, 50%);
+        }
+
+        .graph-point.in {
+            background-color: var(--success);
+        }
+
+        .graph-point.out {
+            background-color: var(--danger);
+        }
+
+        .network-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.8rem;
+        }
+
+        .stat-in {
+            color: var(--success);
+        }
+
+        .stat-out {
+            color: var(--danger);
+        }
+
+        .threat-map {
+            height: 200px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 400" preserveAspectRatio="none"><path fill="none" stroke="%23161b22" stroke-width="1" d="M0,0 L800,400 M800,0 L0,400"/></svg>');
+        }
+
+        .threat-point {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: threat-pulse 2s infinite;
+        }
+
+        @keyframes threat-pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+        }
+
+        .threat-point.critical {
+            background-color: rgba(248, 81, 73, 0.5);
+            box-shadow: 0 0 10px var(--danger);
+        }
+
+        .threat-point.warning {
+            background-color: rgba(210, 153, 34, 0.5);
+            box-shadow: 0 0 10px var(--warning);
+        }
+
+        .threat-point.info {
+            background-color: rgba(88, 166, 255, 0.5);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .threat-details {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .threat-details.active {
+            display: block;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .detail-label {
+            color: var(--dark-text);
+            width: 120px;
+            font-size: 0.8rem;
+        }
+
+        .detail-value {
+            font-size: 0.9rem;
+            word-break: break-all;
+            flex: 1;
+        }
+
+        .detail-value code {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+
+        .tab.active {
+            border-bottom-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .sensor {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .sensor:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .sensor-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .sensor-name {
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .sensor-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+
+        .sensor-status.active {
+            background-color: var(--success);
+            box-shadow: 0 0 5px var(--success);
+        }
+
+        .sensor-status.warning {
+            background-color: var(--warning);
+            box-shadow: 0 0 5px var(--warning);
+        }
+
+        .sensor-status.inactive {
+            background-color: var(--dark-text);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .notification-icon {
+            position: relative;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--secondary);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-title {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .settings-item {
+            margin-bottom: 15px;
+        }
+
+        .settings-label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .settings-control {
+            width: 100%;
+            padding: 8px 12px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            color: var(--text);
+            font-family: inherit;
+        }
+
+        .settings-control:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        select.settings-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .settings-footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .security-meters {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .blink {
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }.siguientes-btn {
+    display: inline-block;
+    padding: 18px 36px;
+    background: linear-gradient(to right, #6a11cb, #2575fc);  /* Gradiente morado/azul */
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;          /* Bordes completamente redondeados */
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.siguientes-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    background: linear-gradient(to right, #2575fc, #6a11cb);  /* Invierte el gradiente */
+}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+     <a href="evidenciadigital.html" class="siguientes-btn">atras</a>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h1>CyberShield <span class="version">PRO IDS v4.2.1</span></h1>
+            </div>
+            <div class="status-container">
+                <div class="status active" id="system-status">
+                    <div class="status-dot"></div>
+                    <span>SISTEMA ACTIVO</span>
+                </div>
+                <button class="secondary" id="settings-btn">
+                    <i class="fas fa-cog icon"></i>
+                    <span>Configuración</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard">
+            <div class="left-panel">
+                <div class="panel">
+                    <h2 class="panel-title">
+                        <span><i class="fas fa-laptop icon"></i> INFORMACIÓN DEL DISPOSITIVO</span>
+                        <i class="fas fa-sync-alt" style="cursor: pointer;" id="refresh-device"></i>
+                    </h2>
+                    <div class="device-info">
+                        <div class="info-item">
+                            <div class="info-label">Tipo de dispositivo</div>
+                            <div class="info-value" id="device-type">Detectando...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Sistema operativo</div>
+                            <div class="info-value" id="device-os">Detectando...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Navegador</div>
+                            <div class="info-value" id="device-browser">Detectando...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Versión</div>
+                            <div class="info-value" id="device-version">Detectando...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Resolución</div>
+                            <div class="info-value" id="device-resolution">Detectando...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Conectividad</div>
+                            <div class="info-value" id="device-connection">Detectando...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">RAM disponible</div>
+                            <div class="info-value" id="device-memory">Detectando...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">CPU cores</div>
+                            <div class="info-value" id="device-cores">Detectando...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Dirección IP</div>
+                            <div class="info-value small" id="device-ip">Detectando...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Localización</div>
+                            <div class="info-value small" id="device-location">Detectando...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Tiempo activo</div>
+                            <div class="info-value" id="device-uptime">00:00:00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2 class="panel-title">
+                        <span><i class="fas fa-shield-virus icon"></i> ESTADO DE SEGURIDAD</span>
+                        <i class="fas fa-info-circle" style="cursor: pointer;" title="Estado del sistema de protección"></i>
+                    </h2>
+                    <div class="security-status">
+                        <div class="info-item">
+                            <div class="info-label">Firewall</div>
+                            <div class="info-value" id="firewall-status">
+                                <span style="color: var(--success);"><i class="fas fa-check-circle"></i> Activado</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Protección en tiempo real</div>
+                            <div class="info-value" id="realtime-status">
+                                <span style="color: var(--success);"><i class="fas fa-check-circle"></i> Activado</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Último análisis</div>
+                            <div class="info-value" id="last-scan">Hoy, <span id="scan-time">00:00:00</span></div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Amenazas detectadas</div>
+                            <div class="info-value" id="threats-count">0</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Base de datos de virus</div>
+                            <div class="info-value" id="virus-db">
+                                <span style="color: var(--success);"><i class="fas fa-check-circle"></i> Actualizada</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="security-meters">
+                        <div class="meter cpu">
+                            <div class="meter-title">USO DE CPU</div>
+                            <div class="meter-value" id="cpu-usage">0%</div>
+                            <div class="meter-bar">
+                                <div class="meter-fill" id="cpu-bar"></div>
+                            </div>
+                        </div>
+                        <div class="meter memory">
+                            <div class="meter-title">USO DE MEMORIA</div>
+                            <div class="meter-value" id="memory-usage">0%</div>
+                            <div class="meter-bar">
+                                <div class="meter-fill" id="memory-bar"></div>
+                            </div>
+                        </div>
+                        <div class="meter network">
+                            <div class="meter-title">TRÁFICO DE RED</div>
+                            <div class="meter-value" id="network-usage">0 KB/s</div>
+                            <div class="meter-bar">
+                                <div class="meter-fill" id="network-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2 class="panel-title">
+                        <span><i class="fas fa-network-wired icon"></i> ACTIVIDAD DE RED</span>
+                        <i class="fas fa-chart-line" style="cursor: pointer;" title="Estadísticas de red"></i>
+                    </h2>
+                    <div class="network-activity">
+                        <div class="network-graph" id="network-graph"></div>
+                        <div class="network-stats">
+                            <div class="stat-in"><i class="fas fa-download"></i> <span id="traffic-in">0 KB</span></div>
+                            <div class="stat-out"><i class="fas fa-upload"></i> <span id="traffic-out">0 KB</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2 class="panel-title">
+                        <span><i class="fas fa-globe-americas icon"></i> MAPA DE AMENAZAS</span>
+                        <i class="fas fa-search-plus" style="cursor: pointer;" title="Ampliar mapa"></i>
+                    </h2>
+                    <div class="threat-map" id="threat-map"></div>
+                </div>
+
+                <div class="panel">
+                    <h2 class="panel-title"><i class="fas fa-sliders-h icon"></i> CONTROLES RÁPIDOS</h2>
+                    <div class="controls">
+                        <button id="scan-btn">
+                            <i class="fas fa-search icon"></i>
+                            <span>Analizar ahora</span>
+                        </button>
+                        <button id="quarantine-btn" class="warning">
+                            <i class="fas fa-box icon"></i>
+                            <span>Cuarentena</span>
+                        </button>
+                        <button id="lockdown-btn" class="danger">
+                            <i class="fas fa-lock icon"></i>
+                            <span>Bloqueo total</span>
+                        </button>
+                        <button id="update-btn" class="success">
+                            <i class="fas fa-sync-alt icon"></i>
+                            <span>Actualizar</span>
+                        </button>
+                        <button id="report-btn" class="secondary">
+                            <i class="fas fa-file-alt icon"></i>
+                            <span>Reporte</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="panel">
+                    <h2 class="panel-title">
+                        <span><i class="fas fa-terminal icon"></i> CONSOLA DE SEGURIDAD</span>
+                        <div>
+                            <i class="fas fa-trash-alt" style="cursor: pointer; margin-right: 10px;" title="Limpiar consola" id="clear-terminal"></i>
+                            <i class="fas fa-expand" style="cursor: pointer;" title="Pantalla completa" id="fullscreen-terminal"></i>
+                        </div>
+                    </h2>
+                    <div class="terminal" id="terminal">
+                        <div class="terminal-line system">> Sistema CyberShield PRO IDS iniciado</div>
+                        <div class="terminal-line system">> Versión 4.2.1 (Build 4721)</div>
+                        <div class="terminal-line system">> Cargando módulos de seguridad...</div>
+                        <div class="terminal-line success">> Módulos cargados correctamente</div>
+                        <div class="terminal-line system">> Iniciando monitorización en tiempo real</div>
+                        <div class="terminal-line system">> Servicio de firewall iniciado</div>
+                        <div class="terminal-line system">> Base de datos de virus cargada (v2023.11.15.01)</div>
+                        <div class="terminal-line success">> Sistema listo - Protección activa</div>
+                    </div>
+                    <div class="scan-progress">
+                        <div class="progress-bar" id="progress-bar"></div>
+                        <div class="progress-text" id="progress-text">0%</div>
+                    </div>
+                    <div class="controls">
+                        <button class="secondary" id="command-btn">
+                            <i class="fas fa-keyboard icon"></i>
+                            <span>Insertar comando</span>
+                        </button>
+                        <button class="secondary" id="save-log-btn">
+                            <i class="fas fa-save icon"></i>
+                            <span>Guardar log</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="threats">Amenazas</div>
+                        <div class="tab" data-tab="events">Eventos</div>
+                        <div class="tab" data-tab="sensors">Sensores</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="threats-tab">
+                        <h2 class="panel-title">
+                            <span><i class="fas fa-exclamation-triangle icon"></i> AMENAZAS RECIENTES</span>
+                            <div class="notification-icon">
+                                <i class="fas fa-bell" style="cursor: pointer;" title="Notificaciones"></i>
+                                <div class="notification-badge" id="threat-notification">0</div>
+                            </div>
+                        </h2>
+                        <ul class="threat-list" id="threat-list">
+                            <li class="threat-item info">
+                                <div class="threat-content">
+                                    <div class="threat-header">
+                                        <i class="fas fa-info-circle threat-icon"></i>
+                                        <div class="threat-source">Sistema inicializado</div>
+                                    </div>
+                                    <div class="threat-type">Evento del sistema</div>
+                                    <div class="threat-desc">CyberShield PRO IDS ha sido iniciado correctamente</div>
+                                </div>
+                                <div class="threat-time">justo ahora</div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tab-content" id="events-tab">
+                        <h2 class="panel-title"><i class="fas fa-list icon"></i> REGISTRO DE EVENTOS</h2>
+                        <ul class="threat-list" id="event-list">
+                            <li class="threat-item info">
+                                <div class="threat-content">
+                                    <div class="threat-header">
+                                        <i class="fas fa-info-circle threat-icon"></i>
+                                        <div class="threat-source">Sistema iniciado</div>
+                                    </div>
+                                    <div class="threat-type">Evento del sistema</div>
+                                    <div class="threat-desc">Todos los servicios de seguridad han sido iniciados</div>
+                                </div>
+                                <div class="threat-time">justo ahora</div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tab-content" id="sensors-tab">
+                        <h2 class="panel-title"><i class="fas fa-satellite-dish icon"></i> SENSORES ACTIVOS</h2>
+                        <div class="sensor-grid" id="sensor-grid">
+                            <!-- Los sensores se agregarán dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel" id="threat-detail-panel" style="display: none;">
+                    <h2 class="panel-title">
+                        <span><i class="fas fa-search-plus icon"></i> DETALLES DE AMENAZA</span>
+                        <i class="fas fa-times" style="cursor: pointer;" id="close-details"></i>
+                    </h2>
+                    <div class="threat-details" id="threat-details">
+                        <!-- Los detalles se cargarán dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de configuración -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <h2 class="modal-title"><i class="fas fa-cog"></i> Configuración de CyberShield</h2>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="general">General</div>
+                <div class="tab" data-tab="protection">Protección</div>
+                <div class="tab" data-tab="notifications">Notificaciones</div>
+                <div class="tab" data-tab="advanced">Avanzado</div>
+            </div>
+            
+            <div class="tab-content active" id="general-tab">
+                <div class="settings-item">
+                    <label class="settings-label">Idioma</label>
+                    <select class="settings-control">
+                        <option>Español</option>
+                        <option>English</option>
+                        <option>Português</option>
+                    </select>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Tema</label>
+                    <select class="settings-control">
+                        <option>Oscuro (Predeterminado)</option>
+                        <option>Claro</option>
+                        <option>Terminal</option>
+                        <option>High Contrast</option>
+                    </select>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Iniciar con el sistema</label>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="protection-tab">
+                <div class="settings-item">
+                    <label class="settings-label">Nivel de protección</label>
+                    <select class="settings-control">
+                        <option>Inteligente (Recomendado)</option>
+                        <option>Agresivo</option>
+                        <option>Equilibrado</option>
+                        <option>Personalizado</option>
+                    </select>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Protección en tiempo real</label>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Firewall</label>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Protección contra ransomware</label>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Protección de navegación</label>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="notifications-tab">
+                <div class="settings-item">
+                    <label class="settings-label">Notificar amenazas críticas</label>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Notificar amenazas medias</label>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Notificar eventos del sistema</label>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Notificar actualizaciones</label>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Sonido de alerta</label>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="advanced-tab">
+                <div class="settings-item">
+                    <label class="settings-label">Nivel de registro</label>
+                    <select class="settings-control">
+                        <option>Normal</option>
+                        <option>Detallado</option>
+                        <option>Depuración</option>
+                    </select>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Auto-cuarentena</label>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Análisis heurístico</label>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Umbral de CPU para análisis</label>
+                    <select class="settings-control">
+                        <option>Bajo (80%)</option>
+                        <option selected>Medio (60%)</option>
+                        <option>Alto (40%)</option>
+                    </select>
+                </div>
+                
+                <div class="settings-item">
+                    <label class="settings-label">Proxy</label>
+                    <input type="text" class="settings-control" placeholder="Ej: http://proxy.example.com:8080">
+                </div>
+            </div>
+            
+            <div class="settings-footer">
+                <button class="secondary" id="cancel-settings">Cancelar</button>
+                <button class="success" id="save-settings">Guardar cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos del sistema
+        const threatDatabase = [
+            {
+                id: 1,
+                type: "critical",
+                source: "Intento de inyección SQL",
+                description: "Se detectó un patrón de inyección SQL en las solicitudes HTTP",
+                location: "Proceso: chrome.exe (PID: 4821)",
+                risk: "Alto",
+                recommendation: "Bloquear IP origen y revisar registros",
+                timestamp: new Date(),
+                ip: "185.143.223.17",
+                country: "Rusia"
+            },
+            {
+                id: 2,
+                type: "warning",
+                source: "Cookie de rastreo",
+                description: "Se detectaron cookies de terceros con capacidad de rastreo",
+                location: "Dominio: tracking.adnetwork.com",
+                risk: "Medio",
+                recommendation: "Revisar configuración de privacidad del navegador",
+                timestamp: new Date(),
+                ip: "104.18.34.56",
+                country: "EE.UU."
+            },
+            {
+                id: 3,
+                type: "warning",
+                source: "Conexión no encriptada",
+                description: "Intento de conexión HTTP no segura a sitio con HTTPS disponible",
+                location: "URL: http://example.com/login",
+                risk: "Medio",
+                recommendation: "Forzar uso de HTTPS",
+                timestamp: new Date(),
+                ip: "93.184.216.34",
+                country: "Alemania"
+            },
+            {
+                id: 4,
+                type: "critical",
+                source: "Posible keylogger",
+                description: "Se detectó un patrón de captura de teclas sospechoso",
+                location: "Proceso: unknown_module.dll",
+                risk: "Crítico",
+                recommendation: "Aislar proceso y realizar análisis completo",
+                timestamp: new Date(),
+                ip: "192.168.1.105",
+                country: "Local"
+            },
+            {
+                id: 5,
+                type: "info",
+                source: "Actualización disponible",
+                description: "Nueva versión de la base de datos de virus disponible",
+                location: "Servidor de actualizaciones",
+                risk: "Bajo",
+                recommendation: "Actualizar cuanto antes",
+                timestamp: new Date(),
+                ip: "45.33.18.44",
+                country: "EE.UU."
+            }
+        ];
+
+        const sensors = [
+            { name: "Firewall", icon: "fa-fire", status: "active" },
+            { name: "Anti-malware", icon: "fa-virus", status: "active" },
+            { name: "Anti-phishing", icon: "fa-fish", status: "active" },
+            { name: "Anti-ransomware", icon: "fa-lock", status: "active" },
+            { name: "Monitor de red", icon: "fa-network-wired", status: "active" },
+            { name: "Monitor de procesos", icon: "fa-tasks", status: "active" },
+            { name: "Protección web", icon: "fa-globe", status: "active" },
+            { name: "Protección email", icon: "fa-envelope", status: "warning" },
+            { name: "Control de dispositivos", icon: "fa-usb", status: "inactive" },
+            { name: "Análisis heurístico", icon: "fa-brain", status: "active" },
+            { name: "Protección IoT", icon: "fa-plug", status: "inactive" },
+            { name: "Monitor de registro", icon: "fa-clipboard-list", status: "active" }
+        ];
+
+        const countries = [
+            "EE.UU.", "China", "Rusia", "Alemania", "Brasil", "India", 
+            "Japón", "Corea del Sur", "Reino Unido", "Francia", "Italia",
+            "Canadá", "México", "España", "Australia", "Sudáfrica"
+        ];
+
+        // Estado del sistema
+        let systemStatus = "active";
+        let threatsDetected = 0;
+        let eventsLogged = 1;
+        let currentTab = "threats";
+        let uptimeInterval;
+        let networkInterval;
+        let cpuInterval;
+        let memoryInterval;
+        let threatInterval;
+
+        // Elementos del DOM
+        const terminal = document.getElementById('terminal');
+        const threatList = document.getElementById('threat-list');
+        const eventList = document.getElementById('event-list');
+        const sensorGrid = document.getElementById('sensor-grid');
+        const threatMap = document.getElementById('threat-map');
+        const networkGraph = document.getElementById('network-graph');
+        const threatDetails = document.getElementById('threat-details');
+        const threatDetailPanel = document.getElementById('threat-detail-panel');
+        const threatNotification = document.getElementById('threat-notification');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const cpuUsage = document.getElementById('cpu-usage');
+        const cpuBar = document.getElementById('cpu-bar');
+        const memoryUsage = document.getElementById('memory-usage');
+        const memoryBar = document.getElementById('memory-bar');
+        const networkUsage = document.getElementById('network-usage');
+        const networkBar = document.getElementById('network-bar');
+        const trafficIn = document.getElementById('traffic-in');
+        const trafficOut = document.getElementById('traffic-out');
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            detectDevice();
+            setupTabs();
+            setupSensors();
+            startUptimeCounter();
+            startNetworkMonitor();
+            startResourceMonitor();
+            startThreatSimulation();
+            setupEventListeners();
+            simulateInitialThreats();
+        });
+
+        // Funciones de inicialización
+        function detectDevice() {
+            const deviceType = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? "Móvil" : "Computadora";
+            document.getElementById('device-type').textContent = deviceType;
+
+            // Detectar sistema operativo
+            let os = "Desconocido";
+            const userAgent = navigator.userAgent;
+            if (userAgent.indexOf("Windows") !== -1) os = "Windows";
+            else if (userAgent.indexOf("Mac") !== -1) os = "MacOS";
+            else if (userAgent.indexOf("Linux") !== -1) os = "Linux";
+            else if (userAgent.indexOf("Android") !== -1) os = "Android";
+            else if (userAgent.indexOf("iOS") !== -1 || userAgent.indexOf("iPhone") !== -1) os = "iOS";
+            document.getElementById('device-os').textContent = os;
+
+            // Detectar navegador
+            let browser = "Desconocido";
+            if (userAgent.indexOf("Firefox") !== -1) browser = "Firefox";
+            else if (userAgent.indexOf("Chrome") !== -1) browser = "Chrome";
+            else if (userAgent.indexOf("Safari") !== -1 && userAgent.indexOf("Chrome") === -1) browser = "Safari";
+            else if (userAgent.indexOf("Edge") !== -1) browser = "Edge";
+            else if (userAgent.indexOf("Opera") !== -1 || userAgent.indexOf("OPR") !== -1) browser = "Opera";
+            document.getElementById('device-browser').textContent = browser;
+
+            // Versión del navegador
+            let version = "Desconocida";
+            const versionMatch = userAgent.match(/(Firefox|Chrome|Safari|Edge|Opera|OPR)\/([\d.]+)/);
+            if (versionMatch && versionMatch.length >= 3) {
+                version = versionMatch[2];
+            }
+            document.getElementById('device-version').textContent = version;
+
+            // Resolución
+            document.getElementById('device-resolution').textContent = `${window.screen.width}x${window.screen.height}`;
+
+            // Conectividad
+            const connection = navigator.connection ? 
+                (navigator.connection.effectiveType || "Desconocido") : "Desconocido";
+            document.getElementById('device-connection').textContent = connection;
+
+            // Memoria (solo disponible en algunos navegadores)
+            if (navigator.deviceMemory) {
+                document.getElementById('device-memory').textContent = `${navigator.deviceMemory} GB RAM`;
+            } else {
+                document.getElementById('device-memory').textContent = "No disponible";
+            }
+
+            // Núcleos de CPU
+            if (navigator.hardwareConcurrency) {
+                document.getElementById('device-cores').textContent = `${navigator.hardwareConcurrency} núcleos`;
+            } else {
+                document.getElementById('device-cores').textContent = "No disponible";
+            }
+
+            // IP y localización (simuladas)
+            document.getElementById('device-ip').textContent = "192.168.1." + Math.floor(Math.random() * 255);
+            document.getElementById('device-location').textContent = "Lat: " + (Math.random() * 180 - 90).toFixed(4) + ", Long: " + (Math.random() * 360 - 180).toFixed(4);
+
+            // Actualizar hora del último análisis
+            const now = new Date();
+            document.getElementById('scan-time').textContent = now.toLocaleTimeString();
+        }
+
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remover clase active de todas las pestañas y contenidos
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Agregar clase active a la pestaña y contenido seleccionados
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                    currentTab = tabId;
+                });
+            });
+        }
+
+        function setupSensors() {
+            sensorGrid.innerHTML = '';
+            sensors.forEach(sensor => {
+                const sensorElement = document.createElement('div');
+                sensorElement.className = 'sensor';
+                sensorElement.innerHTML = `
+                    <div class="sensor-icon"><i class="fas ${sensor.icon}"></i></div>
+                    <div class="sensor-name">${sensor.name}</div>
+                    <div class="sensor-status ${sensor.status}"></div>
+                `;
+                sensorGrid.appendChild(sensorElement);
+            });
+        }
+
+        function startUptimeCounter() {
+            let seconds = 0;
+            uptimeInterval = setInterval(() => {
+                seconds++;
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
+                const secs = seconds % 60;
+                document.getElementById('device-uptime').textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function startNetworkMonitor() {
+            let inTraffic = 0;
+            let outTraffic = 0;
+            const graphData = [];
+            
+            // Inicializar gráfico con puntos aleatorios
+            for (let i = 0; i < 50; i++) {
+                graphData.push({
+                    type: Math.random() > 0.5 ? 'in' : 'out',
+                    value: Math.random() * 30 + 10
+                });
+            }
+            
+            renderNetworkGraph(graphData);
+            
+            networkInterval = setInterval(() => {
+                // Simular tráfico de red
+                const newIn = Math.random() * 100;
+                const newOut = Math.random() * 50;
+                
+                inTraffic += newIn;
+                outTraffic += newOut;
+                
+                // Actualizar estadísticas
+                trafficIn.textContent = `${(inTraffic / 1024).toFixed(1)} MB`;
+                trafficOut.textContent = `${(outTraffic / 1024).toFixed(1)} MB`;
+                networkUsage.textContent = `${Math.round(newIn + newOut)} KB/s`;
+                networkBar.style.width = `${Math.min(100, (newIn + newOut) / 150 * 100)}%`;
+                
+                // Actualizar gráfico
+                graphData.shift();
+                graphData.push({
+                    type: Math.random() > 0.6 ? 'in' : 'out',
+                    value: newIn + newOut
+                });
+                
+                renderNetworkGraph(graphData);
+            }, 2000);
+        }
+
+        function renderNetworkGraph(data) {
+            networkGraph.innerHTML = '';
+            
+            // Crear línea base
+            const line = document.createElement('div');
+            line.className = 'graph-line';
+            networkGraph.appendChild(line);
+            
+            // Agregar puntos de datos
+            data.forEach((point, i) => {
+                const x = (i / (data.length - 1)) * 100;
+                const y = 100 - (point.value / 100 * 90);
+                
+                const pointElement = document.createElement('div');
+                pointElement.className = `graph-point ${point.type}`;
+                pointElement.style.left = `${x}%`;
+                pointElement.style.bottom = `${y}%`;
+                networkGraph.appendChild(pointElement);
+            });
+        }
+
+        function startResourceMonitor() {
+            cpuInterval = setInterval(() => {
+                const usage = Math.random() * 30 + 10;
+                cpuUsage.textContent = `${Math.round(usage)}%`;
+                cpuBar.style.width = `${usage}%`;
+            }, 1500);
+            
+            memoryInterval = setInterval(() => {
+                const usage = Math.random() * 30 + 50;
+                memoryUsage.textContent = `${Math.round(usage)}%`;
+                memoryBar.style.width = `${usage}%`;
+            }, 2000);
+        }
+
+        function startThreatSimulation() {
+            threatInterval = setInterval(() => {
+                if (Math.random() > 0.7) {
+                    const randomThreat = threatDatabase[Math.floor(Math.random() * threatDatabase.length)];
+                    addThreat(randomThreat);
+                }
+            }, 10000);
+        }
+
+        function setupEventListeners() {
+            // Botones de control
+            document.getElementById('scan-btn').addEventListener('click', runSecurityScan);
+            document.getElementById('lockdown-btn').addEventListener('click', lockdownSystem);
+            document.getElementById('quarantine-btn').addEventListener('click', quarantineThreats);
+            document.getElementById('update-btn').addEventListener('click', updateSystem);
+            document.getElementById('report-btn').addEventListener('click', generateReport);
+            document.getElementById('refresh-device').addEventListener('click', detectDevice);
+            document.getElementById('clear-terminal').addEventListener('click', clearTerminal);
+            document.getElementById('fullscreen-terminal').addEventListener('click', toggleFullscreenTerminal);
+            document.getElementById('command-btn').addEventListener('click', showCommandPrompt);
+            document.getElementById('save-log-btn').addEventListener('click', saveTerminalLog);
+            document.getElementById('close-details').addEventListener('click', () => {
+                threatDetailPanel.style.display = 'none';
+            });
+            
+            // Configuración
+            document.getElementById('settings-btn').addEventListener('click', () => {
+                document.getElementById('settings-modal').style.display = 'flex';
+            });
+            
+            document.getElementById('modal-close').addEventListener('click', () => {
+                document.getElementById('settings-modal').style.display = 'none';
+            });
+            
+            document.getElementById('cancel-settings').addEventListener('click', () => {
+                document.getElementById('settings-modal').style.display = 'none';
+            });
+            
+            document.getElementById('save-settings').addEventListener('click', () => {
+                document.getElementById('settings-modal').style.display = 'none';
+                addTerminalMessage('success', '> Configuración guardada correctamente');
+            });
+            
+            // Cerrar modal haciendo clic fuera del contenido
+            document.getElementById('settings-modal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('settings-modal')) {
+                    document.getElementById('settings-modal').style.display = 'none';
+                }
+            });
+        }
+
+        function simulateInitialThreats() {
+            // Simular algunas amenazas iniciales después de un retraso
+            setTimeout(() => {
+                addThreat(threatDatabase[1]); // Cookie de rastreo
+                
+                setTimeout(() => {
+                    addThreat(threatDatabase[2]); // Conexión no encriptada
+                    
+                    setTimeout(() => {
+                        addThreat(threatDatabase[4]); // Posible keylogger
+                    }, 3000);
+                }, 2000);
+            }, 3000);
+        }
+
+        // Funciones principales
+        function runSecurityScan() {
+            const terminal = document.getElementById('terminal');
+            const scanBtn = document.getElementById('scan-btn');
+            const status = document.getElementById('system-status');
+            const threatsCount = document.getElementById('threats-count');
+            const threatList = document.getElementById('threat-list');
+
+            // Deshabilitar botón durante el análisis
+            scanBtn.disabled = true;
+            scanBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analizando...';
+            status.innerHTML = '<div class="status-dot"></div><span>ANALIZANDO...</span>';
+            status.className = "status scanning";
+            
+            // Actualizar sensor de anti-malware
+            sensors[1].status = "active";
+            setupSensors();
+
+            // Limpiar terminal y reiniciar progreso
+            addTerminalMessage('system', 'Iniciando análisis de seguridad completo');
+            progressBar.style.width = '0%';
+            progressText.textContent = '0%';
+
+            // Simular progreso del análisis
+            let progress = 0;
+            const scanInterval = setInterval(() => {
+                progress += Math.random() * 5 + 1;
+                if (progress > 100) progress = 100;
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${Math.floor(progress)}%`;
+
+                // Agregar mensajes aleatorios al terminal
+                if (progress < 20) {
+                    addTerminalMessage('system', `Inicializando motores de análisis (${Math.floor(progress)}%)`);
+                } else if (progress < 40) {
+                    addTerminalMessage('system', `Escaneando archivos del sistema (${Math.floor(progress)}%)`);
+                } else if (progress < 60) {
+                    addTerminalMessage('system', `Analizando procesos en ejecución (${Math.floor(progress)}%)`);
+                } else if (progress < 80) {
+                    addTerminalMessage('system', `Verificando conexiones de red (${Math.floor(progress)}%)`);
+                } else if (progress < 95) {
+                    addTerminalMessage('system', `Analizando comportamiento del sistema (${Math.floor(progress)}%)`);
+                }
+
+                // Simular detección de amenazas aleatorias
+                if (progress > 30 && progress < 90 && Math.random() > 0.8) {
+                    const randomThreat = threatDatabase[Math.floor(Math.random() * threatDatabase.length)];
+                    addThreat(randomThreat);
+                }
+
+                // Finalizar análisis
+                if (progress === 100) {
+                    clearInterval(scanInterval);
+                    addTerminalMessage('success', 'Análisis completado con éxito');
+                    
+                    // Restaurar estado
+                    setTimeout(() => {
+                        scanBtn.disabled = false;
+                        scanBtn.innerHTML = '<i class="fas fa-search"></i> Analizar ahora';
+                        status.innerHTML = '<div class="status-dot"></div><span>SISTEMA ACTIVO</span>';
+                        status.className = "status active";
+                        
+                        // Actualizar hora del último análisis
+                        const now = new Date();
+                        document.getElementById('scan-time').textContent = now.toLocaleTimeString();
+                    }, 1000);
+                }
+            }, 300);
+        }
+
+        function addThreat(threat) {
+            // Agregar al terminal
+            const typeClass = threat.type === 'critical' ? 'alert' : threat.type;
+            addTerminalMessage(typeClass, `ALERTA: ${threat.source} - ${threat.description}`);
+            
+            // Agregar a la lista de amenazas
+            const threatItem = document.createElement('li');
+            threatItem.className = `threat-item ${threat.type}`;
+            threatItem.dataset.id = threat.id;
+            
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            
+            threatItem.innerHTML = `
+                <div class="threat-content">
+                    <div class="threat-header">
+                        <i class="fas ${threat.type === 'critical' ? 'fa-exclamation-circle' : threat.type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle'} threat-icon"></i>
+                        <div class="threat-source">${threat.source}</div>
+                    </div>
+                    <div class="threat-type">${threat.location}</div>
+                    <div class="threat-desc">${threat.description}</div>
+                </div>
+                <div class="threat-time">${timeStr}</div>
+            `;
+            
+            // Insertar después del primer elemento (que es el mensaje de inicio)
+            if (threatList.children.length > 1) {
+                threatList.insertBefore(threatItem, threatList.children[1]);
+            } else {
+                threatList.appendChild(threatItem);
+            }
+            
+            // Agregar al mapa de amenazas
+            addThreatToMap(threat);
+            
+            // Actualizar contador de amenazas
+            threatsDetected++;
+            document.getElementById('threats-count').textContent = threatsDetected;
+            
+            // Mostrar notificación
+            if (currentTab !== 'threats') {
+                threatNotification.textContent = parseInt(threatNotification.textContent || 0) + 1;
+                threatNotification.style.display = 'flex';
+            }
+            
+            // Agregar evento de clic para mostrar detalles
+            threatItem.addEventListener('click', () => showThreatDetails(threat));
+            
+            // Agregar a la lista de eventos
+            addEvent(threat);
+            
+            // Efecto visual para amenazas críticas
+            if (threat.type === 'critical') {
+                threatItem.classList.add('shake');
+                setTimeout(() => threatItem.classList.remove('shake'), 500);
+            }
+        }
+
+        function addEvent(threat) {
+            const eventItem = document.createElement('li');
+            eventItem.className = `threat-item ${threat.type}`;
+            
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            
+            eventItem.innerHTML = `
+                <div class="threat-content">
+                    <div class="threat-header">
+                        <i class="fas ${threat.type === 'critical' ? 'fa-exclamation-circle' : threat.type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle'} threat-icon"></i>
+                        <div class="threat-source">${threat.source}</div>
+                    </div>
+                    <div class="threat-type">${threat.location}</div>
+                    <div class="threat-desc">${threat.description}</div>
+                </div>
+                <div class="threat-time">${timeStr}</div>
+            `;
+            
+            eventList.insertBefore(eventItem, eventList.children[1]);
+            eventsLogged++;
+        }
+
+        function addThreatToMap(threat) {
+            const threatPoint = document.createElement('div');
+            threatPoint.className = `threat-point ${threat.type}`;
+            
+            // Posición aleatoria en el mapa
+            const left = 10 + Math.random() * 80;
+            const top = 10 + Math.random() * 80;
+            
+            threatPoint.style.left = `${left}%`;
+            threatPoint.style.top = `${top}%`;
+            
+            threatMap.appendChild(threatPoint);
+            
+            // Eliminar después de la animación
+            setTimeout(() => {
+                threatPoint.remove();
+            }, 2000);
+        }
+
+        function showThreatDetails(threat) {
+            threatDetailPanel.style.display = 'block';
+            threatDetails.innerHTML = `
+                <div class="detail-row">
+                    <div class="detail-label">Tipo:</div>
+                    <div class="detail-value">
+                        <span class="threat-${threat.type}">
+                            ${threat.type === 'critical' ? 'Crítico' : threat.type === 'warning' ? 'Advertencia' : 'Informativo'}
+                        </span>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Origen:</div>
+                    <div class="detail-value">${threat.source}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Ubicación:</div>
+                    <div class="detail-value">${threat.location}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Descripción:</div>
+                    <div class="detail-value">${threat.description}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Nivel de riesgo:</div>
+                    <div class="detail-value">${threat.risk}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Recomendación:</div>
+                    <div class="detail-value">${threat.recommendation}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Dirección IP:</div>
+                    <div class="detail-value"><code>${threat.ip}</code></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">País origen:</div>
+                    <div class="detail-value">${threat.country}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Timestamp:</div>
+                    <div class="detail-value">${threat.timestamp.toLocaleString()}</div>
+                </div>
+            `;
+            
+            // Desplazarse a la sección de detalles
+            threatDetailPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function lockdownSystem() {
+            const terminal = document.getElementById('terminal');
+            const status = document.getElementById('system-status');
+            
+            addTerminalMessage('alert', 'INICIANDO BLOQUEO TOTAL DEL SISTEMA');
+            addTerminalMessage('system', 'Desconectando todas las conexiones de red...');
+            
+            // Actualizar sensores
+            sensors[0].status = "active"; // Firewall
+            sensors[4].status = "active"; // Monitor de red
+            setupSensors();
+            
+            setTimeout(() => {
+                addTerminalMessage('system', 'Cerrando todas las aplicaciones no esenciales...');
+                status.innerHTML = '<div class="status-dot"></div><span>BLOQUEO ACTIVO</span>';
+                status.className = "status danger";
+                
+                // Simular detección y bloqueo de amenazas
+                setTimeout(() => {
+                    addTerminalMessage('success', 'Todas las amenazas han sido aisladas');
+                    addTerminalMessage('system', 'Sistema en modo seguro - Solo operaciones esenciales permitidas');
+                    
+                    // Agregar a la lista de amenazas
+                    const lockdownThreat = {
+                        id: 999,
+                        type: "critical",
+                        source: "Bloqueo total activado",
+                        description: "El sistema ha entrado en modo de bloqueo total por seguridad",
+                        location: "Sistema completo",
+                        risk: "Crítico",
+                        recommendation: "Revisar registros y contactar al administrador",
+                        timestamp: new Date(),
+                        ip: "N/A",
+                        country: "N/A"
+                    };
+                    
+                    addThreat(lockdownThreat);
+                }, 1500);
+            }, 1000);
+        }
+
+        function quarantineThreats() {
+            const terminal = document.getElementById('terminal');
+            const status = document.getElementById('system-status');
+            
+            addTerminalMessage('warning', 'PONIENDO AMENAZAS EN CUARENTENA');
+            addTerminalMessage('system', 'Analizando elementos sospechosos...');
+            
+            setTimeout(() => {
+                const threats = Math.floor(Math.random() * 3) + 1;
+                addTerminalMessage('system', `${threats} elementos movidos a cuarentena`);
+                addTerminalMessage('success', 'Cuarentena completada con éxito');
+                status.innerHTML = '<div class="status-dot"></div><span>CUARENTENA ACTIVA</span>';
+                status.className = "status warning";
+                
+                // Agregar a la lista de amenazas
+                const quarantineThreat = {
+                    id: 998,
+                    type: "warning",
+                    source: `${threats} elementos en cuarentena`,
+                    description: "Elementos potencialmente peligrosos han sido aislados",
+                    location: "Cuarentena del sistema",
+                    risk: "Medio",
+                    recommendation: "Revisar cuarentena para análisis adicional",
+                    timestamp: new Date(),
+                    ip: "N/A",
+                    country: "N/A"
+                };
+                
+                addThreat(quarantineThreat);
+                
+                // Restaurar estado después de 3 segundos
+                setTimeout(() => {
+                    status.innerHTML = '<div class="status-dot"></div><span>SISTEMA ACTIVO</span>';
+                    status.className = "status active";
+                }, 3000);
+            }, 2000);
+        }
+
+        function updateSystem() {
+            const terminal = document.getElementById('terminal');
+            const updateBtn = document.getElementById('update-btn');
+            
+            updateBtn.disabled = true;
+            updateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Actualizando...';
+            
+            addTerminalMessage('system', 'Buscando actualizaciones...');
+            
+            setTimeout(() => {
+                addTerminalMessage('system', 'Descargando actualizaciones (32.4 MB)...');
+                
+                setTimeout(() => {
+                    addTerminalMessage('system', 'Instalando actualizaciones...');
+                    
+                    setTimeout(() => {
+                        addTerminalMessage('success', 'Actualización completada correctamente');
+                        addTerminalMessage('system', 'Reiniciando servicios de seguridad...');
+                        
+                        setTimeout(() => {
+                            addTerminalMessage('success', 'Todos los servicios han sido reiniciados');
+                            updateBtn.disabled = false;
+                            updateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar';
+                            
+                            // Actualizar base de datos de virus
+                            const now = new Date();
+                            const virusDbDate = `${now.getFullYear()}.${(now.getMonth()+1).toString().padStart(2, '0')}.${now.getDate().toString().padStart(2, '0')}.${Math.floor(Math.random() * 10).toString().padStart(2, '0')}`;
+                            document.getElementById('virus-db').innerHTML = `<span style="color: var(--success);"><i class="fas fa-check-circle"></i> Actualizada (v${virusDbDate})</span>`;
+                        }, 2000);
+                    }, 2500);
+                }, 3000);
+            }, 1000);
+        }
+
+        function generateReport() {
+            addTerminalMessage('system', 'Generando reporte de seguridad...');
+            
+            setTimeout(() => {
+                addTerminalMessage('success', 'Reporte generado correctamente');
+                addTerminalMessage('system', 'Resumen del reporte:');
+                addTerminalMessage('system', `- Amenazas detectadas: ${threatsDetected}`);
+                addTerminalMessage('system', '- Último análisis: ' + new Date().toLocaleString());
+                addTerminalMessage('system', '- Estado del sistema: Protección activa');
+                
+                // Simular descarga
+                setTimeout(() => {
+                    addTerminalMessage('system', 'El reporte ha sido guardado como "security_report_' + new Date().toISOString().slice(0, 10) + '.pdf"');
+                }, 1000);
+            }, 2000);
+        }
+
+        function clearTerminal() {
+            terminal.innerHTML = '<div class="terminal-line system">> Consola limpiada</div>';
+        }
+
+        function toggleFullscreenTerminal() {
+            if (!document.fullscreenElement) {
+                terminal.requestFullscreen().catch(err => {
+                    addTerminalMessage('warning', `Error al activar pantalla completa: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        function showCommandPrompt() {
+            const command = prompt("Ingrese comando de seguridad (help para ayuda):");
+            
+            if (command) {
+                addTerminalMessage('system', `> Ejecutando comando: ${command}`);
+                
+                switch (command.toLowerCase()) {
+                    case 'help':
+                        addTerminalMessage('system', 'Comandos disponibles:');
+                        addTerminalMessage('system', '- scan: Ejecutar análisis rápido');
+                        addTerminalMessage('system', '- status: Mostrar estado del sistema');
+                        addTerminalMessage('system', '- threats: Listar amenazas conocidas');
+                        addTerminalMessage('system', '- clear: Limpiar la consola');
+                        break;
+                        
+                    case 'scan':
+                        runSecurityScan();
+                        break;
+                        
+                    case 'status':
+                        addTerminalMessage('system', 'Estado del sistema:');
+                        addTerminalMessage('system', '- Protección: Activa');
+                        addTerminalMessage('system', `- Amenazas: ${threatsDetected} detectadas`);
+                        addTerminalMessage('system', '- Actualizaciones: Al día');
+                        break;
+                        
+                    case 'threats':
+                        addTerminalMessage('system', 'Amenazas recientes:');
+                        threatDatabase.slice(0, 3).forEach(threat => {
+                            addTerminalMessage(threat.type === 'critical' ? 'alert' : threat.type, 
+                                `${threat.source} - ${threat.description}`);
+                        });
+                        break;
+                        
+                    case 'clear':
+                        clearTerminal();
+                        break;
+                        
+                    default:
+                        addTerminalMessage('warning', `Comando no reconocido: ${command}`);
+                }
+            }
+        }
+
+        function saveTerminalLog() {
+            addTerminalMessage('system', 'Guardando registro de la consola...');
+            
+            setTimeout(() => {
+                addTerminalMessage('success', 'Registro guardado como "terminal_log_' + new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-') + '.log"');
+            }, 1000);
+        }
+
+        function addTerminalMessage(type, message) {
+            const newLine = document.createElement('div');
+            newLine.className = `terminal-line ${type}`;
+            
+            // Eliminar el ">" si el mensaje ya lo incluye
+            const displayMessage = message.startsWith('>') ? message.substring(1) : message;
+            newLine.textContent = `> ${displayMessage}`;
+            
+            terminal.appendChild(newLine);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        // Limpieza al salir
+        window.addEventListener('beforeunload', () => {
+            clearInterval(uptimeInterval);
+            clearInterval(networkInterval);
+            clearInterval(cpuInterval);
+            clearInterval(memoryInterval);
+            clearInterval(threatInterval);
+        });
+    </script>
+</body>
+</html>

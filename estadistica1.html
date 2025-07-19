@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Víctima - Monitoreo Detectado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #1e1e1e;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        h1 {
+            color: #ff4444;
+            text-align: center;
+            border-bottom: 3px solid #ff4444;
+            padding-bottom: 15px;
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+        }
+        h2 {
+            color: #4fc3f7;
+            margin-top: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 8px;
+            font-size: 22px;
+        }
+        .victim-info {
+            background-color: #2d1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 5px solid #ff4444;
+        }
+        .device-info, .location-info, .network-info {
+            background-color: #1e2d2e;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 5px solid #4fc3f7;
+        }
+        .weather-info {
+            background-color: #1e2d3d;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 5px solid #64ffda;
+        }
+        .threat-detection {
+            background-color: #3d1e1e;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border: 2px solid #ff4444;
+            animation: pulse 2s infinite;
+        }
+        .threat-alert {
+            background-color: #ff4444;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+        }
+        .threat-item {
+            background-color: #2d1e2e;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 5px solid #ba68c8;
+        }
+        .critical {
+            border-left: 5px solid #ff4444;
+            background-color: #3d1e1e;
+        }
+        .warning {
+            background-color: #fff8e1;
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border-left: 8px solid #ffa000;
+            font-size: 16px;
+        }
+        .data-row {
+            display: flex;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 5px;
+        }
+        .data-label {
+            font-weight: bold;
+            min-width: 250px;
+            color: #bb86fc;
+        }
+        .map-link {
+            color: #4fc3f7;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .map-link:hover {
+            text-decoration: underline;
+            color: #64ffda;
+        }
+        .battery-low {
+            color: #ff4444;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
+        }
+        .timestamp {
+            color: #a7a7a7;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0); }
+        }
+        .threat-level {
+            font-size: 24px;
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(90deg, #ff4444, #ff8a80);
+            color: white;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .threat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+   
+ 
+
+.siguientes-btn:active {
+    transform: translateY(0); /* Efecto de presionar */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}  .siguientes-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: #9b59b6;  /* Morado */
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;  /* Bordes muy redondeados */
+    font-family: Arial, sans-serif;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.siguientes-btn:hover {
+    background-color: #8e44ad;  /* Morado más oscuro */
+    letter-spacing: 1px;  /* Efecto de separación de letras */
+} 
+    </style>
+</head>
+<body>  <a href="evidenciadigital.html" class="siguientes-btn">atras</a>
+    <div class="container">
+        <h1>REGISTRO DE VÍCTIMA - MONITOREO ACTIVO</h1>
+        
+        <div class="victim-info">
+            <h2>INFORMACIÓN PERSONAL</h2>
+            <div class="data-row">
+                <div class="data-label">Nombre completo:</div>
+                <div>FEDERICO ARIEL BILLORDO</div>
+            </div>
+            <div class="data-row">
+                <div class="data-label">Documento Nacional de Identidad:</div>
+                <div>42.170.533</div>
+            </div>
+        </div>
+        
+        <!-- Secciones anteriores (dispositivo, ubicación, red, clima) -->
+        <!-- ... (mismo contenido que antes) ... -->
+        
+        <div class="threat-detection">
+            <h2 style="color: #ff4444; text-align: center; font-size: 26px;">DETECCIÓN DE AMENAZAS ACTIVAS</h2>
+            
+            <div class="threat-level">
+                NIVEL DE AMENAZA: CRÍTICO
+            </div>
+            
+            <div class="threat-alert">
+                ¡VÍCTIMA BAJO ATAQUE! MULTIPLES AMENAZAS DETECTADAS
+            </div>
+            
+            <div class="threat-grid">
+                <div class="threat-item critical">
+                    <strong>SUPLANTACIÓN DE IDENTIDAD</strong>
+                    <p>Actividad fraudulenta detectada usando los datos personales de la víctima</p>
+                    <div class="timestamp">[Última detección: <span class="current-time"></span>]</div>
+                </div>
+                
+                <div class="threat-item critical">
+                    <strong>PHISHING ACTIVO</strong>
+                    <p>Intentos de robo de credenciales bancarias detectados</p>
+                    <div class="timestamp">[Última detección: <span class="current-time"></span>]</div>
+                </div>
+                
+                <div class="threat-item">
+                    <strong>INTRUSIÓN EN DISPOSITIVO</strong>
+                    <p>Acceso no autorizado al sistema de la víctima</p>
+                    <div class="timestamp">[Última detección: <span class="current-time"></span>]</div>
+                </div>
+                
+                <div class="threat-item critical">
+                    <strong>ROBO DE DATOS</strong>
+                    <p>Extracción no autorizada de información personal</p>
+                    <div class="timestamp">[Última detección: <span class="current-time"></span>]</div>
+                </div>
+                
+                <div class="threat-item">
+                    <strong>MONITOREO DE ACTIVIDAD</strong>
+                    <p>Registro constante de teclas pulsadas y actividad en pantalla</p>
+                    <div class="timestamp">[Última detección: <span class="current-time"></span>]</div>
+                </div>
+                
+                <div class="threat-item critical">
+                    <strong>FRAUDE FINANCIERO</strong>
+                    <p>Intentos de transferencias bancarias no autorizadas</p>
+                    <div class="timestamp">[Última detección: <span class="current-time"></span>]</div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="warning" style="margin-top: 30px; background-color: #3d1e1e; color: white; border-left: 8px solid #ff4444;">
+                <h3 style="color: #ff8a80; margin-top: 0;">ACCIÓN INMEDIATA REQUERIDA</h3>
+                <p>La víctima está siendo objetivo de múltiples ataques coordinados. Se recomienda:</p>
+                <ul>
+                    <li>Bloquear inmediatamente todas las cuentas financieras</li>
+                    <li>Reportar el robo de identidad a las autoridades</li>
+                    <li>Desconectar el dispositivo de todas las redes</li>
+                    <li>Realizar un análisis forense completo del sistema</li>
+                    <li>Notificar a familiares y contactos sobre posible suplantación</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+ 
+
+    <script>
+        // JavaScript mejorado con simulación de amenazas
+        document.addEventListener('DOMContentLoaded', function() {
+            const threatMessages = [
+                "Sistema comprometido: Backdoor instalado",
+                "Keylogger activo: Capturando pulsaciones de teclado",
+                "Conexión remota establecida desde IP 193.145.239.12",
+                "Extracción de datos: 1.2GB de información personal copiada",
+                "Intento de acceso a banca online detectado",
+                "Cambio no autorizado en configuración de seguridad",
+                "Inyección de código malicioso en procesos del sistema",
+                "Suplantación de identidad en redes sociales confirmada",
+                "Intento de compra online con tarjetas de la víctima",
+                "Ransomware detectado: Cifrando archivos personales"
+            ];
+            
+            const threatSimulation = document.getElementById('threat-simulation');
+            const currentTimeElements = document.querySelectorAll('.current-time');
+            
+            function updateCurrentTime() {
+                const now = new Date();
+                const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                 now.getMinutes().toString().padStart(2, '0') + ':' + 
+                                 now.getSeconds().toString().padStart(2, '0');
+                
+                currentTimeElements.forEach(el => {
+                    el.textContent = timeString;
+                });
+                
+                return timeString;
+            }
+            
+            function simulateThreat() {
+                const now = new Date();
+                const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                 now.getMinutes().toString().padStart(2, '0') + ':' + 
+                                 now.getSeconds().toString().padStart(2, '0');
+                
+                const randomMessage = threatMessages[Math.floor(Math.random() * threatMessages.length)];
+                const logEntry = document.createElement('div');
+                logEntry.innerHTML = `<span style="color: #ff4444">[${timeString}]</span> <span style="color: #4fc3f7">ALERTA:</span> ${randomMessage}`;
+                threatSimulation.appendChild(logEntry);
+                
+                // Mantener el scroll al final
+                threatSimulation.scrollTop = threatSimulation.scrollHeight;
+                
+                // Parpadear el indicador de simulación
+                const simIndicator = document.getElementById('simulation-active');
+                simIndicator.style.backgroundColor = '#ff0000';
+                setTimeout(() => {
+                    simIndicator.style.backgroundColor = '#ff4444';
+                }, 500);
+            }
+            
+            // Actualizar cada segundo
+            setInterval(updateCurrentTime, 1000);
+            
+            // Simular amenazas cada 3-8 segundos
+            setInterval(simulateThreat, Math.random() * 5000 + 3000);
+            
+            // Iniciar con algunas entradas
+            for(let i = 0; i < 5; i++) {
+                setTimeout(simulateThreat, i * 1000);
+            }
+            
+            // Simular cambio aleatorio de nivel de amenaza
+            setInterval(() => {
+                const threatLevel = document.querySelector('.threat-level');
+                const levels = [
+                    { text: "NIVEL DE AMENAZA: CRÍTICO", color: "#ff4444" },
+                    { text: "NIVEL DE AMENAZA: ALTO", color: "#ff8a80" },
+                    { text: "NIVEL DE AMENAZA: EXTREMO", color: "#d50000" }
+                ];
+                const randomLevel = levels[Math.floor(Math.random() * levels.length)];
+                threatLevel.textContent = randomLevel.text;
+                threatLevel.style.background = `linear-gradient(90deg, ${randomLevel.color}, #ff8a80)`;
+            }, 10000);
+        });
+    </script>
+</body>
+</html>

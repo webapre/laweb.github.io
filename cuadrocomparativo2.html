@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuadro Comparativo de Amenazas Cibernéticas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #2980b9;
+            margin-top: 40px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .example-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .example-title {
+            color: #e74c3c;
+            margin-top: 0;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        @media print {
+            .controls {
+                display: none;
+            }
+            
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            
+            table {
+                box-shadow: none;
+            }
+        }
+       /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+        .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+        /* Estilo para el cuerpo para evitar que el contenido quede detrás */
+        body {
+            margin: 0;
+            padding: 40px 20px 20px; /* Añade espacio arriba para el botón */
+            position: relative; /* Necesario para el posicionamiento absoluto del botón */
+        } 
+        
+       /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+        .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+        /* Estilo para el cuerpo para evitar que el contenido quede detrás */
+        body {
+            margin: 0;
+            padding: 40px 20px 20px; /* Añade espacio arriba para el botón */
+            position: relative; /* Necesario para el posicionamiento absoluto del botón */
+        }  
+
+    </style>
+</head>
+<body>
+    <h1>Cuadro Comparativo de Amenazas Cibernéticas</h1>
+    
+  <!-- Botón en esquina superior izquierda -->
+    <div class="button-container">
+        <a href="temas1.html" class="siguientes-btn">atras</a>
+    </div>
+  
+    
+    <h2>Tabla Comparativa Principal</h2>
+    <table id="mainTable">
+        <thead>
+            <tr>
+                <th>Amenaza</th>
+                <th>Descripción</th>
+                <th>Método de Infección/Activación</th>
+                <th>Impacto/Daños</th>
+                <th>Medidas de Prevención</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Malware</td>
+                <td>Software malicioso diseñado para dañar o infiltrarse en sistemas.</td>
+                <td>- Descargas maliciosas<br>- Phishing<br>- USB infectados</td>
+                <td>- Robo de datos<br>- Corrupción del sistema<br>- Espionaje</td>
+                <td>- Antivirus actualizado<br>- No abrir archivos sospechosos<br>- Actualizar software</td>
+            </tr>
+            <tr>
+                <td>Virus</td>
+                <td>Tipo de malware que infecta archivos ejecutables y se propaga al ejecutarlos.</td>
+                <td>- Archivos adjuntos infectados<br>- Software pirata</td>
+                <td>- Infección en cascada<br>- Daño a programas<br>- Pérdida de datos</td>
+                <td>- No ejecutar archivos desconocidos<br>- Escaneo periódico con antivirus</td>
+            </tr>
+            <tr>
+                <td>Gusanos (Worms)</td>
+                <td>Malware autónomo que se propaga por redes sin intervención del usuario.</td>
+                <td>- Explotación de vulnerabilidades en redes</td>
+                <td>- Consumo de ancho de banda<br>- Propagación masiva<br>- Infección de dispositivos</td>
+                <td>- Parches de seguridad<br>- Firewalls<br>- Monitoreo de red</td>
+            </tr>
+            <tr>
+                <td>Troyanos</td>
+                <td>Software malicioso disfrazado de programa legítimo.</td>
+                <td>- Descargas engañosas (ej. antivirus falsos)</td>
+                <td>- Robo de información<br>- Instalación de malware adicional</td>
+                <td>- Verificar fuentes de descarga<br>- Usar cuentas sin privilegios de administrador</td>
+            </tr>
+            <tr>
+                <td>Spyware</td>
+                <td>Malware que recopila información sin consentimiento.</td>
+                <td>- Software gratuito infectado<br>- Phishing</td>
+                <td>- Robo de contraseñas<br>- Monitoreo de actividad<br>- Pérdida de privacidad</td>
+                <td>- No descargar software de fuentes dudosas<br>- Usar herramientas anti-spyware</td>
+            </tr>
+            <tr>
+                <td>Ransomware</td>
+                <td>Malware que cifra archivos y exige rescate.</td>
+                <td>- Archivos adjuntos maliciosos<br>- Exploits</td>
+                <td>- Pérdida de acceso a datos<br>- Extorsión económica</td>
+                <td>- Copias de seguridad (backups)<br>- No pagar rescate<br>- Actualizaciones de seguridad</td>
+            </tr>
+            <tr>
+                <td>Adware</td>
+                <td>Software que muestra publicidad no deseada y recopila datos.</td>
+                <td>- Bundling (empaquetado con software legítimo)</td>
+                <td>- Molestias por anuncios<br>- Pérdida de rendimiento<br>- Riesgo de spyware</td>
+                <td>- Usar bloqueadores de anuncios<br>- Leer términos de instalación</td>
+            </tr>
+            <tr>
+                <td>Rootkit</td>
+                <td>Malware oculto que otorga control administrativo al atacante.</td>
+                <td>- Explotación de vulnerabilidades</td>
+                <td>- Acceso remoto no autorizado<br>- Robo de datos<br>- Espionaje</td>
+                <td>- Herramientas anti-rootkit<br>- Uso de cuentas sin privilegios elevados</td>
+            </tr>
+            <tr>
+                <td>Bombas Lógicas</td>
+                <td>Código malicioso que se activa bajo condiciones específicas.</td>
+                <td>- Inserción en software legítimo</td>
+                <td>- Borrado de archivos<br>- Alteración de datos<br>- Caídas del sistema</td>
+                <td>- Auditorías de código<br>- Controles de acceso estrictos</td>
+            </tr>
+            <tr>
+                <td>Ataques Día Cero</td>
+                <td>Explotación de vulnerabilidades desconocidas antes de que se parcheen.</td>
+                <td>- Ataques dirigidos a fallos no divulgados</td>
+                <td>- Infiltración en sistemas<br>- Robo de información crítica</td>
+                <td>- Programas de Bug Bounty<br>- Soluciones avanzadas de detección (IDS/IPS)</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>Ejemplos Prácticos</h2>
+    
+    <div class="example-section">
+        <h3 class="example-title">1. Ataque de Día Cero: Apagón Eléctrico en Ucrania (2015, 2016)</h3>
+        <p><strong>Vulnerabilidad explotada:</strong> Fallos desconocidos en sistemas SCADA (control industrial).</p>
+        <p><strong>Método:</strong> Los ciberatacantes usaron malware <strong>BlackEnergy</strong> y <strong>Industroyer</strong> para infiltrarse en las redes eléctricas.</p>
+        <p><strong>Impacto:</strong></p>
+        <ul>
+            <li><strong>2015:</strong> 225,000 personas sin luz por 6 horas.</li>
+            <li><strong>2016:</strong> Apagón en Kiev durante 1 hora.</li>
+        </ul>
+        <p><strong>Condición "Día Cero":</strong> Se aprovecharon de vulnerabilidades <strong>no parcheadas</strong> en sistemas críticos.</p>
+        <p><strong>¿Cómo se pudo prevenir?</strong></p>
+        <ul>
+            <li>Monitoreo de redes industriales con <strong>IDS/IPS</strong>.</li>
+            <li>Programas de <strong>Bug Bounty</strong> para detectar fallos antes que los hackers.</li>
+        </ul>
+    </div>
+    
+    <div class="example-section">
+        <h3 class="example-title">2. Ransomware: WannaCry (2017)</h3>
+        <p><strong>Vulnerabilidad:</strong> Exploit <strong>EternalBlue</strong> (Microsoft, no parcheado a tiempo).</p>
+        <p><strong>Impacto:</strong></p>
+        <ul>
+            <li>Hospitales del Reino Unido paralizados.</li>
+            <li>200,000 víctimas en 150 países.</li>
+        </ul>
+        <p><strong>Condición "Día Cero":</strong> Microsoft ya tenía el parche, pero muchos no lo instalaron.</p>
+        <p><strong>¿Cómo se pudo evitar?</strong></p>
+        <ul>
+            <li>Actualizaciones automáticas de Windows.</li>
+            <li>Copias de seguridad (<strong>backups</strong>) fuera de línea.</li>
+        </ul>
+    </div>
+    
+    <div class="example-section">
+        <h3 class="example-title">3. Bombas Lógicas: Stuxnet (2010)</h3>
+        <p><strong>Vulnerabilidad:</strong> Sistemas SCADA de centrifugadoras nucleares iraníes.</p>
+        <p><strong>Método:</strong> Código malicioso que se activó bajo condiciones específicas de operación.</p>
+        <p><strong>Impacto:</strong></p>
+        <ul>
+            <li>Destrucción física de centrifugadoras.</li>
+            <li>Retraso en el programa nuclear iraní.</li>
+        </ul>
+        <p><strong>Lección aprendida:</strong></p>
+        <ul>
+            <li>Monitorizar código en sistemas críticos.</li>
+            <li>Aislar sistemas industriales de redes externas.</li>
+        </ul>
+    </div>
+    
+    <h2>Tabla Comparativa de Ejemplos Reales</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Amenaza</th>
+                <th>Ejemplo Real</th>
+                <th>Condición Clave</th>
+                <th>Impacto</th>
+                <th>Lección Aprendida</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ataque Día Cero</td>
+                <td>Apagón en Ucrania (2015)</td>
+                <td>Uso de vulnerabilidades desconocidas</td>
+                <td>Caos en infraestructura crítica</td>
+                <td>Actualizar sistemas industriales</td>
+            </tr>
+            <tr>
+                <td>Ransomware</td>
+                <td>WannaCry (2017)</td>
+                <td>Explotación de un parche no instalado</td>
+                <td>Hospitales inoperativos</td>
+                <td>Backups + parches urgentes</td>
+            </tr>
+            <tr>
+                <td>Bomba Lógica</td>
+                <td>Stuxnet (2010)</td>
+                <td>Activación por condiciones específicas</td>
+                <td>Destrucción de equipos físicos</td>
+                <td>Monitorizar código interno</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <footer>
+        <p>Documento generado el <span id="date"></span> | © 2023 Seguridad Cibernética</p>
+    </footer>
+
+    <script>
+        // Mostrar fecha actual
+        document.getElementById('date').textContent = new Date().toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        // Función para imprimir
+        document.getElementById('printBtn').addEventListener('click', function() {
+            window.print();
+        });
+        
+        // Función para generar PDF (usando jsPDF)
+        document.getElementById('pdfBtn').addEventListener('click', function() {
+            // Cargar la librería jsPDF dinámicamente
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+            script.onload = function() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Título
+                doc.setFontSize(20);
+                doc.text('Cuadro Comparativo de Amenazas Cibernéticas', 105, 15, { align: 'center' });
+                
+                // Fecha
+                doc.setFontSize(12);
+                doc.text('Generado el: ' + new Date().toLocaleDateString(), 105, 25, { align: 'center' });
+                
+                // Agregar contenido (simplificado para el ejemplo)
+                doc.setFontSize(12);
+                let y = 40;
+                
+                // Tabla principal
+                doc.setFontSize(14);
+                doc.text('Tabla Comparativa Principal', 105, y, { align: 'center' });
+                y += 10;
+                
+                // Crear tabla (versión simplificada)
+                const headers = ["Amenaza", "Descripción", "Método", "Impacto", "Prevención"];
+                const rows = [
+                    ["Malware", "Software malicioso", "Descargas, phishing", "Robo de datos", "Antivirus"],
+                    ["Virus", "Infecta archivos", "Ejecutables", "Daño a programas", "Escaneo periódico"],
+                    // ... agregar más filas según sea necesario
+                ];
+                
+                doc.autoTable({
+                    startY: y,
+                    head: [headers],
+                    body: rows,
+                    margin: { top: 20 },
+                    styles: { fontSize: 10 },
+                    headStyles: { fillColor: [52, 152, 219] }
+                });
+                
+                // Guardar PDF
+                doc.save('Amenazas_Ciberneticas.pdf');
+            };
+            document.head.appendChild(script);
+        });
+    </script>
+</body>
+</html>

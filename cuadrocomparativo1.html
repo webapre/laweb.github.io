@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cuadro Comparativo </title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      margin: 20px;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: #34495e;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    tr:hover {
+      background-color: #e1f5fe;
+    }
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    .filter {
+      margin: 10px 0;
+    }
+    select, button {
+      padding: 8px 15px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-left: 10px;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    @media print {
+      body {
+        background-color: white;
+        margin: 0;
+        padding: 0;
+      }
+      .controls {
+        display: none;
+      }
+      table {
+        box-shadow: none;
+      }
+      h1 {
+        color: black;
+      }
+    }
+    @page {
+      size: A4 landscape;
+      margin: 1cm;
+    }
+
+      /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+        .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+        /* Estilo para el cuerpo para evitar que el contenido quede detrás */
+        body {
+            margin: 0;
+            padding: 40px 20px 20px; /* Añade espacio arriba para el botón */
+            position: relative; /* Necesario para el posicionamiento absoluto del botón */
+        }
+  </style>
+</head>
+<body>
+ <!-- Botón en esquina superior izquierda -->
+    <div class="button-container">
+    <a href="temas1.html" class="siguientes-btn">atras</a>
+    </div>
+  
+<h1> Diferentes grupos</h1>
+
+<div class="controls">
+  <div class="filter">
+    <label for="temaFilter">Filtrar por Tema:</label>
+    <select id="temaFilter" onchange="filtrarTabla()">
+      <option value="todos">Todos</option>
+      <option value="Blue Team">Blue Team</option>
+      <option value="SDLC">SDLC</option>
+      <option value="Incidentes">Incidentes</option>
+      <option value="Pentest">Pentest</option>
+      <option value="Purple Team">Purple Team</option>
+      <option value="Red Team">Red Team</option>
+    </select>
+  </div>
+
+</div>
+
+<table id="tablaComparativa">
+  <thead>
+    <tr>
+      <th>Tema</th>
+      <th>Descripción General</th>
+      <th>Objetivos Principales</th>
+      <th>Fases/Componentes Clave</th>
+      <th>Herramientas/Métodos</th>
+      <th>Beneficios</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-tema="Blue Team">
+      <td>Blue Team - Hardening de Sistemas</td>
+      <td>Equipos defensivos que protegen los sistemas</td>
+      <td>Fortalecer sistemas contra ataques</td>
+      <td>Hardening del sistema, monitoreo continuo, gestión de parches</td>
+      <td>Configuración segura, backups, IDS/IPS</td>
+      <td>Reducción de superficie de ataque, resiliencia</td>
+    </tr>
+    <tr data-tema="SDLC">
+      <td>Ciclo de Vida del Desarrollo de Software (SDLC)</td>
+      <td>Proceso estructurado para desarrollar software seguro</td>
+      <td>Entregar software funcional, seguro y mantenible</td>
+      <td>Planificación, análisis, diseño, desarrollo, pruebas, implementación, mantenimiento</td>
+      <td>Modelado de amenazas, pruebas de seguridad</td>
+      <td>Reducción de vulnerabilidades, calidad de software</td>
+    </tr>
+    <tr data-tema="Incidentes">
+      <td>Incidentes, BCP & DRP</td>
+      <td>Planificación ante interrupciones e incidentes</td>
+      <td>Mantener la operación y recuperación</td>
+      <td>Identificación, respuesta, recuperación (DRP), continuidad (BCP)</td>
+      <td>Análisis de impacto, plan de contingencia</td>
+      <td>Minimiza impacto de incidentes, asegura continuidad</td>
+    </tr>
+    <tr data-tema="Pentest">
+      <td>Hacker negro </td>
+      <td>atacar a la victima al mobil y notebook</td>
+      <td>monitoreo analisis y entrar al dispositivos mobil y notebook</td>
+      <td>tiene su objetivo al atacar a esa victima</td>
+      <td>las herramienta de los atacantes son el sistema operativo kali linux </td>
+      <td>Los delincuentes critican, juzgan, e incluso engañan a las víctimas usando números falsos 
+        para obtener su intimidad, lo que puede derivar en delitos como el grooming y la violencia digital. 
+        Mientras no haya justicia real, estos crímenes seguirán ocurriendo, ya que incluso algunos jueces,
+         juezas y policías están comprometidos con estos delincuentes o son parte de esa corrupción </td>
+    </tr>
+    <tr data-tema="Purple Team">
+      <td>Purple Team</td>
+      <td>Colaboración entre Red Team y Blue Team</td>
+      <td>Mejorar defensas combinando ataque y defensa</td>
+      <td>Ejercicios colaborativos, análisis conjunto</td>
+      <td>Simulación de ataques, respuesta en tiempo real</td>
+      <td>Mejor comunicación, mejoras rápidas</td>
+    </tr>
+    <tr data-tema="Red Team">
+      <td>Red Team - Evaluación de Debilidades</td>
+      <td>Simula ataques reales para detectar debilidades</td>
+      <td>Evaluar y fortalecer defensas como un atacante</td>
+      <td>Escaneo, explotación, movimiento lateral, exfiltración</td>
+      <td>Intrusión, OSINT, scripts personalizados</td>
+      <td>Exposición de fallos críticos, preparación ante ataques</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  function filtrarTabla() {
+    const filtro = document.getElementById("temaFilter").value;
+    const filas = document.querySelectorAll("#tablaComparativa tbody tr");
+    filas.forEach(fila => {
+      if (filtro === "todos" || fila.getAttribute("data-tema") === filtro) {
+        fila.style.display = "";
+      } else {
+        fila.style.display = "none";
+      }
+    });
+  }
+
+  function imprimirTabla() {
+    window.print();
+  }
+
+  function generarPDF() {
+    // Usamos html2pdf.js para generar el PDF
+    const element = document.getElementById("tablaComparativa");
+    const opt = {
+      margin: 10,
+      filename: 'CuadroComparativoSeguridad.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+    };
+
+    // Cargamos la librería dinámicamente si no está disponible
+    if (typeof html2pdf !== 'undefined') {
+      html2pdf().from(element).set(opt).save();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+      script.onload = () => {
+        html2pdf().from(element).set(opt).save();
+      };
+      document.head.appendChild(script);
+    }
+  }
+</script>
+
+</body>
+</html>

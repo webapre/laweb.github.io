@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA DE DEFENSA CIBERNÉTICA - VÍCTIMA EN RIESGO</title>
+    <style>
+        :root {
+            --hacker-green: #00ff41;
+            --matrix-green: #00b140;
+            --cyber-red: #ff0038;
+            --cyber-blue: #00b4ff;
+            --cyber-purple: #9d00ff;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--dark-bg);
+            color: var(--hacker-green);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 65, 0.02) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 177, 64, 0.02) 0%, transparent 20%),
+                linear-gradient(to bottom, transparent 95%, rgba(0, 255, 65, 0.03) 100%);
+            background-size: 100% 100%;
+        }
+        
+        .cyber-glitch {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
+            pointer-events: none;
+            z-index: 10000;
+            animation: glitch 5s infinite linear;
+            mix-blend-mode: overlay;
+        }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(10, 10, 10, 0.8);
+            border: 1px solid var(--matrix-green);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1),
+                        0 0 40px rgba(0, 177, 64, 0.1),
+                        0 0 80px rgba(0, 80, 32, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--hacker-green), transparent);
+            animation: scanline 3s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        
+        h1, h2, h3 {
+            color: var(--cyber-blue);
+            text-shadow: 0 0 5px var(--cyber-blue),
+                         0 0 10px var(--cyber-blue);
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+        
+        h1 {
+            font-size: 36px;
+            text-align: center;
+            border-bottom: 3px solid var(--cyber-red);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            animation: titleGlow 2s infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 5px var(--cyber-blue), 0 0 10px var(--cyber-blue); }
+            100% { text-shadow: 0 0 10px var(--cyber-blue), 0 0 20px var(--cyber-blue), 0 0 30px var(--cyber-purple); }
+        }
+        
+        .section {
+            background-color: rgba(15, 15, 15, 0.7);
+            border: 1px solid var(--matrix-green);
+            padding: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
+        }
+        
+        .section::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 255, 65, 0.05) 0%, transparent 50%, rgba(0, 177, 64, 0.05) 100%);
+            pointer-events: none;
+        }
+        
+        .critical-section {
+            border: 1px solid var(--cyber-red);
+            animation: pulseCritical 1.5s infinite;
+            background-color: rgba(40, 5, 5, 0.7);
+        }
+        
+        @keyframes pulseCritical {
+            0% { box-shadow: 0 0 5px var(--cyber-red); }
+            50% { box-shadow: 0 0 20px var(--cyber-red); }
+            100% { box-shadow: 0 0 5px var(--cyber-red); }
+        }
+        
+        .data-row {
+            display: flex;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid var(--matrix-green);
+            transition: all 0.3s ease;
+        }
+        
+        .data-row:hover {
+            background-color: rgba(0, 255, 65, 0.1);
+            border-left: 3px solid var(--hacker-green);
+        }
+        
+        .data-label {
+            font-weight: bold;
+            min-width: 300px;
+            color: var(--cyber-blue);
+            text-shadow: 0 0 5px rgba(0, 180, 255, 0.3);
+        }
+        
+        .threat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .threat-item {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.8), rgba(10, 10, 10, 0.9));
+            border: 1px solid var(--cyber-red);
+            padding: 15px;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .threat-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 45%, rgba(255, 0, 56, 0.1) 50%, transparent 55%);
+            background-size: 200% 200%;
+            animation: threatScan 3s linear infinite;
+        }
+        
+        @keyframes threatScan {
+            0% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+        
+        .threat-level {
+            font-size: 28px;
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--cyber-red), var(--cyber-purple));
+            color: white;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 0, 56, 0.7);
+            animation: threatPulse 2s infinite;
+            border: 1px solid var(--cyber-red);
+        }
+        
+        @keyframes threatPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .cyber-terminal {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--hacker-green);
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+            position: relative;
+        }
+        
+        .terminal-line {
+            margin-bottom: 5px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+        }
+        
+        .terminal-prompt {
+            color: var(--hacker-green);
+            font-weight: bold;
+        }
+        
+        .terminal-command {
+            color: var(--cyber-blue);
+        }
+        
+        .terminal-response {
+            color: var(--matrix-green);
+        }
+        
+        .terminal-alert {
+            color: var(--cyber-red);
+            font-weight: bold;
+        }
+        
+        .cyber-defense-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .defense-module {
+            background: linear-gradient(145deg, rgba(10, 20, 30, 0.8), rgba(5, 10, 15, 0.9));
+            border: 1px solid var(--cyber-blue);
+            padding: 15px;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .defense-module::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 45%, rgba(0, 180, 255, 0.1) 50%, transparent 55%);
+            background-size: 200% 200%;
+            animation: defenseScan 4s linear infinite;
+        }
+        
+        @keyframes defenseScan {
+            0% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+        
+        .defense-active {
+            border: 1px solid var(--hacker-green);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+        }
+        
+        .defense-compromised {
+            border: 1px solid var(--cyber-red);
+            box-shadow: 0 0 15px rgba(255, 0, 56, 0.3);
+            animation: pulseCritical 1s infinite;
+        }
+        
+        .cyber-map {
+            width: 100%;
+            height: 400px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--cyber-purple);
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-node {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: var(--cyber-blue);
+            box-shadow: 0 0 10px var(--cyber-blue);
+            transform: translate(-50%, -50%);
+        }
+        
+        .map-connection {
+            position: absolute;
+            background-color: rgba(0, 180, 255, 0.3);
+            height: 2px;
+            transform-origin: left center;
+        }
+        
+        .map-attack {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--cyber-red);
+            box-shadow: 0 0 10px var(--cyber-red);
+            animation: attackPulse 1s infinite;
+        }
+        
+        @keyframes attackPulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+        
+        .cyber-radar {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 2px solid var(--hacker-green);
+            position: relative;
+            margin: 20px auto;
+            background: radial-gradient(circle, transparent 70%, rgba(0, 255, 65, 0.05) 100%);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1),
+                        inset 0 0 20px rgba(0, 255, 65, 0.1);
+        }
+        
+        .radar-sweep {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            clip-path: polygon(50% 50%, 50% 0%, 50% 50%);
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.3));
+            animation: radarRotate 4s linear infinite;
+        }
+        
+        @keyframes radarRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .radar-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--cyber-red);
+            box-shadow: 0 0 10px var(--cyber-red);
+            transform: translate(-50%, -50%);
+        }
+        
+        .hidden-network {
+            background-color: rgba(157, 0, 255, 0.1);
+            border: 1px solid var(--cyber-purple);
+            padding: 20px;
+            margin-top: 30px;
+            position: relative;
+        }
+        
+        .hidden-network::before {
+            content: "RED OCULTA";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background-color: var(--darker-bg);
+            padding: 0 10px;
+            color: var(--cyber-purple);
+            font-weight: bold;
+        }
+        
+        .cyber-counter {
+            font-size: 24px;
+            color: var(--cyber-red);
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 0, 56, 0.7);
+        }
+        
+        .access-denied {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--cyber-red);
+            font-size: 36px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            display: none;
+        }
+        
+        .access-denied h2 {
+            color: var(--cyber-red);
+            text-shadow: 0 0 10px var(--cyber-red),
+                         0 0 20px var(--cyber-red);
+            margin-bottom: 30px;
+            animation: denyPulse 1s infinite alternate;
+        }
+        
+        @keyframes denyPulse {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .cyber-button {
+            background: linear-gradient(90deg, var(--cyber-red), var(--cyber-purple));
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cyber-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s;
+        }
+        
+        .cyber-button:hover::before {
+            left: 100%;
+        }
+        
+        .cyber-button:active {
+            transform: scale(0.95);
+        }
+   .siguientes-btn {
+    display: inline-block;
+    padding: 15px 30px;           /* Más grande (arriba/abajo - izquierda/derecha) */
+    background-color: #3498db;     /* Azul */
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;           /* Bordes más redondeados */
+    font-family: Arial, sans-serif;
+    font-size: 18px;              /* Texto más grande */
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.siguientes-btn:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);       /* Efecto de agrandar al pasar el mouse */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+    </style>
+</head>
+<body><a href="evidenciadigital.html" class="siguientes-btn">atras</a>
+
+    <div class="cyber-glitch"></div>
+    
+    <div class="container">
+        <h1>■ SISTEMA DE DEFENSA CIBERNÉTICA AVANZADA ■</h1>
+        
+        <div class="section critical-section">
+            <h2>■ VÍCTIMA IDENTIFICADA ■</h2>
+            <div class="data-row">
+                <div class="data-label">NOMBRE COMPLETO:</div>
+                <div>FEDERICO ARIEL BILLORDO</div>
+            </div>
+            <div class="data-row">
+                <div class="data-label">IDENTIFICACIÓN:</div>
+                <div>DNI 42.170.533</div>
+            </div>
+            <div class="data-row">
+                <div class="data-label">ESTATUS:</div>
+                <div style="color: var(--cyber-red); font-weight: bold;">COMPROMETIDO - ALTO RIESGO</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>■ DETECCIÓN DE AMENAZAS EN TIEMPO REAL ■</h2>
+            <div class="threat-level">
+                ■ NIVEL DE AMENAZA: CRÍTICO ■
+            </div>
+            
+            <div class="cyber-counter" id="threat-counter">
+                AMENAZAS DETECTADAS: 900
+            </div>
+            
+            <div class="threat-grid">
+                <div class="threat-item">
+                    <h3>■ SUPLANTACIÓN DE IDENTIDAD ■</h3>
+                    <p>Actividad fraudulenta detectada en 12 servicios diferentes usando los datos de la víctima</p>
+                    <div class="terminal-response">>> Última detección: <span class="current-time"></span></div>
+                </div>
+                
+                <div class="threat-item">
+                    <h3>■ INFILTRACIÓN PROFUNDA ■</h3>
+                    <p>Rootkit detectado en sistema con acceso a nivel kernel</p>
+                    <div class="terminal-response">>> Última detección: <span class="current-time"></span></div>
+                </div>
+                
+                <div class="threat-item">
+                    <h3>■ RED BOTNET ■</h3>
+                    <p>Dispositivo conectado a red zombi con actividad maliciosa</p>
+                    <div class="terminal-response">>> Última detección: <span class="current-time"></span></div>
+                </div>
+                
+                <div class="threat-item">
+                    <h3>■ EXFILTRACIÓN DE DATOS ■</h3>
+                    <p>Transferencia continua de datos personales a servidores externos</p>
+                    <div class="terminal-response">>> Última detección: <span class="current-time"></span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>■ SISTEMAS DE DEFENSA ACTIVOS ■</h2>
+            
+            <div class="cyber-defense-grid">
+                <div class="defense-module defense-active" id="firewall-module">
+                    <h3>■ CORTAFUEGOS QUANTUM ■</h3>
+                    <p>Estado: <span style="color: var(--hacker-green);">ACTIVO</span></p>
+                    <p>Bloqueando 142 intentos de intrusión</p>
+                    <div class="terminal-response">>> Integridad: 92%</div>
+                </div>
+                
+                <div class="defense-module defense-active" id="antivirus-module">
+                    <h3>■ ANTIVIRUS NEURAL ■</h3>
+                    <p>Estado: <span style="color: var(--hacker-green);">ACTIVO</span></p>
+                    <p>Eliminadas 8 amenazas persistentes</p>
+                    <div class="terminal-response">>> Cobertura: 87%</div>
+                </div>
+                
+                <div class="defense-module defense-compromised" id="encryption-module">
+                    <h3>■ ENCRIPTACIÓN QUÁNTICA ■</h3>
+                    <p>Estado: <span style="color: var(--cyber-red);">COMPROMETIDO</span></p>
+                    <p>Claves de cifrado potencialmente expuestas</p>
+                    <div class="terminal-response">>> Alerta: Falla en módulo ECC</div>
+                </div>
+                
+                <div class="defense-module defense-active" id="behavior-module">
+                    <h3>■ ANÁLISIS DE COMPORTAMIENTO ■</h3>
+                    <p>Estado: <span style="color: var(--hacker-green);">ACTIVO</span></p>
+                    <p>Detectadas 23 anomalías en las últimas 2 horas</p>
+                    <div class="terminal-response">>> Precisión: 94%</div>
+                </div>
+            </div>
+            
+            <div class="cyber-radar">
+                <div class="radar-sweep"></div>
+                <div class="radar-dot" style="top: 30%; left: 40%;"></div>
+                <div class="radar-dot" style="top: 60%; left: 70%;"></div>
+                <div class="radar-dot" style="top: 45%; left: 20%;"></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>■ TERMINAL DE MONITOREO ■</h2>
+            <div class="cyber-terminal" id="cyber-terminal">
+                <div class="terminal-line"><span class="terminal-prompt">root@cyberdefense:~#</span> <span class="terminal-command">iniciar_escaneo_profundo -target victim_42170533</span></div>
+                <div class="terminal-line"><span class="terminal-response">>> Escaneo iniciado. Analizando múltiples vectores de ataque...</span></div>
+                <div class="terminal-line"><span class="terminal-response">>> Detectada conexión no autorizada desde IP:45.191.80.132 </span></div>
+                <div class="terminal-line"><span class="terminal-alert">!! ALERTA: Intento de acceso a datos bancarios detectado de la familia de la victima</span></div>
+                <div class="terminal-line"><span class="terminal-response">>> Activando contramedidas nivel 3...</span></div>
+            </div>
+        </div>
+        
+        <div class="section hidden-network">
+            <h2>■ REDES OCULTAS DETECTADAS ■</h2>
+            <div class="cyber-map" id="cyber-map">
+                <!-- Los nodos y conexiones se generarán con JS -->
+            </div>
+          </div>
+        
+        <div class="section critical-section">
+            <h2>■ PROTOCOLOS DE DEFENSA ACTIVADOS ■</h2>
+            <div class="terminal-line"><span class="terminal-response">>> Ejecutando Protocolo Cerberus: Aislamiento de red iniciado</span></div>
+            <div class="terminal-line"><span class="terminal-response">>> Ejecutando Protocolo Phoenix: Restauración de backups encriptados</span></div>
+          
+           
+        </div>
+    </div>
+    
+   
+
+    <script>
+        // Sistema de defensa cibernética avanzado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Efecto de terminal escribiendo
+            const terminal = document.getElementById('cyber-terminal');
+            const threatCounter = document.getElementById('threat-counter');
+            let threatCount = 0;
+            
+            // Actualizar hora actual
+            function updateCurrentTime() {
+                const now = new Date();
+                const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                 now.getMinutes().toString().padStart(2, '0') + ':' + 
+                                 now.getSeconds().toString().padStart(2, '0');
+                
+                document.querySelectorAll('.current-time').forEach(el => {
+                    el.textContent = timeString;
+                });
+                
+                return timeString;
+            }
+            
+            // Mensajes de terminal aleatorios
+            const terminalMessages = [
+                "Analizando kernel en busca de rootkits...",
+                "Escaneando puertos abiertos no autorizados...",
+                "Verificando integridad de archivos del sistema...",
+                "Buscando procesos ocultos...",
+                "Analizando tráfico de red sospechoso...",
+                "Verificando registros de acceso no autorizados...",
+                "Escaneando en busca de keyloggers...",
+                "Analizando memoria en busca de inyecciones...",
+                "Buscando conexiones C2 (Comando y Control)...",
+                "Verificando registros de DNS alterados..."
+            ];
+            
+            const threatMessages = [
+                "Nuevo intento de phishing detectado desde IP 185.143.223.67",
+                "Posible fuga de datos detectada - 2.4MB transferidos",
+                "Inyección SQL detectada en formulario de login",
+                "Ransomware detectado: variante LockBit 3.0",
+                "Ataque DDoS detectado desde red botnet",
+                "Intento de explotación de vulnerabilidad Log4j",
+                "Credenciales robadas detectadas en dark web",
+                "Ataque MITM (Man-in-the-Middle) detectado",
+                "Intento de acceso a cámara web no autorizado",
+                "Descarga de payload malicioso detectada"
+            ];
+            
+            // Simular actividad en terminal
+            function simulateTerminalActivity() {
+                const now = new Date();
+                const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                 now.getMinutes().toString().padStart(2, '0') + ':' + 
+                                 now.getSeconds().toString().padStart(2, '0');
+                
+                // Alternar entre mensajes normales y amenazas
+                if(Math.random() > 0.6) {
+                    // Mensaje de amenaza
+                    const randomThreat = threatMessages[Math.floor(Math.random() * threatMessages.length)];
+                    const logEntry = document.createElement('div');
+                    logEntry.className = 'terminal-line';
+                    logEntry.innerHTML = `<span class="terminal-alert">!! ${randomThreat} [${timeString}]</span>`;
+                    terminal.appendChild(logEntry);
+                    
+                    // Incrementar contador de amenazas
+                    threatCount++;
+                    threatCounter.textContent = `AMENAZAS DETECTADAS: ${threatCount}`;
+                    
+                    // Parpadear contador
+                    threatCounter.style.color = '#ff0000';
+                    setTimeout(() => {
+                        threatCounter.style.color = '#ff0038';
+                    }, 500);
+                } else {
+                    // Mensaje normal
+                    const randomMessage = terminalMessages[Math.floor(Math.random() * terminalMessages.length)];
+                    const logEntry = document.createElement('div');
+                    logEntry.className = 'terminal-line';
+                    logEntry.innerHTML = `<span class="terminal-response">>> ${randomMessage} [${timeString}]</span>`;
+                    terminal.appendChild(logEntry);
+                }
+                
+                // Mantener el scroll al final
+                terminal.scrollTop = terminal.scrollHeight;
+                
+                // Cambiar aleatoriamente el estado de los módulos de defensa
+                if(Math.random() > 0.8) {
+                    toggleModuleState();
+                }
+            }
+            
+            // Cambiar estado de módulos de defensa
+            function toggleModuleState() {
+                const modules = ['firewall', 'antivirus', 'encryption', 'behavior'];
+                const randomModule = modules[Math.floor(Math.random() * modules.length)];
+                const moduleElement = document.getElementById(`${randomModule}-module`);
+                
+                if(moduleElement.classList.contains('defense-active')) {
+                    moduleElement.classList.remove('defense-active');
+                    moduleElement.classList.add('defense-compromised');
+                    moduleElement.querySelector('span').textContent = 'COMPROMETIDO';
+                    moduleElement.querySelector('span').style.color = 'var(--cyber-red)';
+                    
+                    // Agregar mensaje a terminal
+                    const now = new Date();
+                    const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                     now.getMinutes().toString().padStart(2, '0') + ':' + 
+                                     now.getSeconds().toString().padStart(2, '0');
+                    
+                    const logEntry = document.createElement('div');
+                    logEntry.className = 'terminal-line';
+                    logEntry.innerHTML = `<span class="terminal-alert">!! MÓDULO ${randomModule.toUpperCase()} COMPROMETIDO [${timeString}]</span>`;
+                    terminal.appendChild(logEntry);
+                } else {
+                    moduleElement.classList.remove('defense-compromised');
+                    moduleElement.classList.add('defense-active');
+                    moduleElement.querySelector('span').textContent = 'ACTIVO';
+                    moduleElement.querySelector('span').style.color = 'var(--hacker-green)';
+                }
+            }
+            
+            // Generar mapa de red cibernética
+            function generateCyberMap() {
+                const map = document.getElementById('cyber-map');
+                const width = map.offsetWidth;
+                const height = map.offsetHeight;
+                
+                // Crear nodos
+                const nodeCount = 15;
+                const nodes = [];
+                
+                for(let i = 0; i < nodeCount; i++) {
+                    const node = document.createElement('div');
+                    node.className = 'map-node';
+                    
+                    // Posición aleatoria pero no demasiado cerca de los bordes
+                    const x = Math.random() * (width - 40) + 20;
+                    const y = Math.random() * (height - 40) + 20;
+                    
+                    node.style.left = `${x}px`;
+                    node.style.top = `${y}px`;
+                    
+                    // Tamaño aleatorio
+                    const size = Math.random() * 10 + 8;
+                    node.style.width = `${size}px`;
+                    node.style.height = `${size}px`;
+                    
+                    // Color aleatorio (azul, verde o púrpura)
+                    const colors = ['#00b4ff', '#00ff41', '#9d00ff'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    node.style.backgroundColor = color;
+                    node.style.boxShadow = `0 0 10px ${color}`;
+                    
+                    map.appendChild(node);
+                    nodes.push({x, y, element: node});
+                    
+                    // Hacer algunos nodos rojos (amenazas)
+                    if(Math.random() > 0.7) {
+                        node.style.backgroundColor = '#ff0038';
+                        node.style.boxShadow = '0 0 10px #ff0038';
+                        
+                        // Añadir efecto de ataque
+                        if(Math.random() > 0.5) {
+                            const attack = document.createElement('div');
+                            attack.className = 'map-attack';
+                            attack.style.left = `${x}px`;
+                            attack.style.top = `${y}px`;
+                            map.appendChild(attack);
+                            
+                            // Eliminar después de la animación
+                            setTimeout(() => {
+                                attack.remove();
+                            }, 1000);
+                        }
+                    }
+                }
+                
+                // Crear conexiones entre nodos
+                for(let i = 0; i < nodes.length; i++) {
+                    for(let j = i + 1; j < nodes.length; j++) {
+                        if(Math.random() > 0.7) { // 30% de probabilidad de conexión
+                            const node1 = nodes[i];
+                            const node2 = nodes[j];
+                            
+                            const length = Math.sqrt(Math.pow(node2.x - node1.x, 2) + Math.pow(node2.y - node1.y, 2));
+                            const angle = Math.atan2(node2.y - node1.y, node2.x - node1.x) * 180 / Math.PI;
+                            
+                            const connection = document.createElement('div');
+                            connection.className = 'map-connection';
+                            connection.style.width = `${length}px`;
+                            connection.style.left = `${node1.x}px`;
+                            connection.style.top = `${node1.y}px`;
+                            connection.style.transform = `rotate(${angle}deg)`;
+                            
+                            // Color de conexión basado en nodos
+                            if(node1.element.style.backgroundColor === 'rgb(255, 0, 56)' || 
+                               node2.element.style.backgroundColor === 'rgb(255, 0, 56)') {
+                                connection.style.backgroundColor = 'rgba(255, 0, 56, 0.5)';
+                            } else {
+                                connection.style.backgroundColor = 'rgba(0, 180, 255, 0.3)';
+                            }
+                            
+                            map.appendChild(connection);
+                        }
+                    }
+                }
+            }
+            
+            // Botones de acción
+            document.getElementById('activate-defense').addEventListener('click', function() {
+                // Mostrar mensaje en terminal
+                const now = new Date();
+                const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                     now.getMinutes().toString().padStart(2, '0') + ':' + 
+                                     now.getSeconds().toString().padStart(2, '0');
+                
+                const logEntry = document.createElement('div');
+                logEntry.className = 'terminal-line';
+                logEntry.innerHTML = `<span class="terminal-response">>> ACTIVANDO DEFENSAS TOTALES - PROTOCOLO AEGIS [${timeString}]</span>`;
+                terminal.appendChild(logEntry);
+                
+                // Restaurar todos los módulos
+                document.querySelectorAll('.defense-module').forEach(module => {
+                    module.classList.remove('defense-compromised');
+                    module.classList.add('defense-active');
+                    module.querySelector('span').textContent = 'ACTIVO';
+                    module.querySelector('span').style.color = 'var(--hacker-green)';
+                });
+                
+                // Mostrar alerta
+                document.getElementById('access-denied').style.display = 'flex';
+            });
+            
+            document.getElementById('counter-attack').addEventListener('click', function() {
+                // Mostrar mensaje en terminal
+                const now = new Date();
+                const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                     now.getMinutes().toString().padStart(2, '0') + ':' + 
+                                     now.getSeconds().toString().padStart(2, '0');
+                
+                const logEntry = document.createElement('div');
+                logEntry.className = 'terminal-line';
+                logEntry.innerHTML = `<span class="terminal-alert">!! INICIANDO CONTRAATAQUE - PROTOCOLO TITAN [${timeString}]</span>`;
+                terminal.appendChild(logEntry);
+                
+                // Simular contraataque
+                setTimeout(() => {
+                    const logEntry = document.createElement('div');
+                    logEntry.className = 'terminal-line';
+                    logEntry.innerHTML = `<span class="terminal-response">>> CONTRAATAQUE EXITOSO - 3 SERVIDORES ATACANTES NEUTRALIZADOS [${timeString}]</span>`;
+                    terminal.appendChild(logEntry);
+                    
+                    threatCount = Math.max(0, threatCount - 3);
+                    threatCounter.textContent = `AMENAZAS DETECTADAS: ${threatCount}`;
+                }, 2000);
+            });
+            
+            document.getElementById('close-alert').addEventListener('click', function() {
+                document.getElementById('access-denied').style.display = 'none';
+            });
+            
+            // Inicializar
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 1000);
+            setInterval(simulateTerminalActivity, 3000);
+            generateCyberMap();
+            
+            // Iniciar con algunos mensajes
+            for(let i = 0; i < 5; i++) {
+                setTimeout(simulateTerminalActivity, i * 800);
+            }
+        });
+    </script>
+</body>
+</html>

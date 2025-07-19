@@ -1,0 +1,2691 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Avanzado de Detección</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --primary-dark: #3367d6;
+            --secondary-color: #34a853;
+            --error-color: #ea4335;
+            --warning-color: #fbbc05;
+            --dark-color: #202124;
+            --darker-color: #171717;
+            --light-color: #f8f9fa;
+            --lighter-color: #ffffff;
+            --border-color: #dadce0;
+            --text-color: #3c4043;
+            --text-light: #5f6368;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --desktop-color: #4285f4;
+            --laptop-color: #34a853;
+            --tablet-color: #fbbc05;
+            --mobile-color: #ea4335;
+            --tv-color: #9b59b6;
+            --console-color: #34495e;
+            --iot-color: #16a085;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--light-color);
+            color: var(--text-color);
+            padding: 20px;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: var(--lighter-color);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .container:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+            font-weight: 300;
+            position: relative;
+        }
+
+        .header i {
+            margin-right: 12px;
+            font-size: 1.2em;
+        }
+
+        .info-section {
+            margin: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            background-color: var(--darker-color);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+        }
+
+        .section-content {
+            background-color: var(--lighter-color);
+            padding: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .info-card {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+
+        .info-card .label {
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-card .label i {
+            color: var(--primary-color);
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .info-card .value {
+            color: var(--text-light);
+            font-weight: 400;
+            padding-left: 30px;
+        }
+
+        .device-card {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .device-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .device-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .device-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .device-title {
+            font-size: 20px;
+            margin: 10px 0 5px;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .device-subtitle {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .device-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 5px;
+        }
+
+        .loading {
+            padding: 40px;
+            text-align: center;
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+        }
+
+        .loading i {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 40px;
+            animation: spin 1.5s linear infinite;
+        }
+
+        .loading p {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            padding: 30px;
+            color: var(--error-color);
+            text-align: center;
+            background-color: #fde8e8;
+            border-radius: 8px;
+            margin: 20px;
+            border-left: 4px solid var(--error-color);
+        }
+
+        .error i {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .map-container {
+            height: 400px;
+            margin: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+        }
+
+        .map-placeholder i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .accuracy-indicator {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+
+        .high-accuracy {
+            background-color: #e6f4ea;
+            color: var(--secondary-color);
+        }
+
+        .medium-accuracy {
+            background-color: #fef7e0;
+            color: var(--warning-color);
+        }
+
+        .low-accuracy {
+            background-color: #fce8e6;
+            color: var(--error-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e8eaed;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-tertiary {
+            background-color: var(--darker-color);
+            color: white;
+        }
+
+        .btn-tertiary:hover {
+            background-color: var(--dark-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 13px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+
+        .tooltip i {
+            color: var(--primary-color);
+            font-size: 14px;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark-color);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            margin: 5px 0;
+            height: 8px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            width: 0;
+            transition: width 1s ease-in-out;
+        }
+
+        .battery-indicator {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 5px;
+        }
+
+        .battery-level {
+            width: 25px;
+            height: 12px;
+            border: 1px solid var(--text-light);
+            border-radius: 3px;
+            margin-right: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .battery-fill {
+            height: 100%;
+            background-color: var(--secondary-color);
+            transition: width 0.5s;
+        }
+
+        .battery-percent {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .battery-charging {
+            color: var(--secondary-color);
+            margin-left: 5px;
+        }
+
+        .connection-meter {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 5px;
+        }
+
+        .connection-bars {
+            display: flex;
+            align-items: flex-end;
+            height: 12px;
+            margin-right: 5px;
+        }
+
+        .connection-bar {
+            width: 3px;
+            margin-right: 1px;
+            background-color: var(--text-light);
+        }
+
+        .connection-bar.active {
+            background-color: var(--secondary-color);
+        }
+
+        .connection-type {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .flag {
+            height: 15px;
+            margin-left: 10px;
+            vertical-align: middle;
+            border: 1px solid #eee;
+        }
+
+        .device-type-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .desktop-type {
+            background-color: var(--desktop-color);
+            color: white;
+        }
+
+        .laptop-type {
+            background-color: var(--laptop-color);
+            color: white;
+        }
+
+        .tablet-type {
+            background-color: var(--tablet-color);
+            color: white;
+        }
+
+        .mobile-type {
+            background-color: var(--mobile-color);
+            color: white;
+        }
+
+        .tv-type {
+            background-color: var(--tv-color);
+            color: white;
+        }
+
+        .console-type {
+            background-color: var(--console-color);
+            color: white;
+        }
+
+        .iot-type {
+            background-color: var(--iot-color);
+            color: white;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .spec-icon {
+            color: var(--primary-color);
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        .spec-label {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .spec-value {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        /* Nuevos estilos para características adicionales */
+        .sensor-status {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 5px;
+        }
+
+        .sensor-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .sensor-active {
+            background-color: var(--secondary-color);
+        }
+
+        .sensor-inactive {
+            background-color: var(--error-color);
+        }
+
+        .security-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 5px;
+        }
+
+        .secure {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .insecure {
+            background-color: var(--error-color);
+            color: white;
+        }
+
+        .privacy-section {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .privacy-warning {
+            background-color: #fff3cd;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 3px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-color);
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .timeline-content {
+            font-size: 14px;
+        }
+
+        .qr-code-container {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            background: white;
+            padding: 10px;
+        }
+
+        .qr-text {
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: white;
+        }
+
+        .sun-icon {
+            left: 6px;
+        }
+
+        .moon-icon {
+            right: 6px;
+        }
+
+        /* Modo oscuro */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .container {
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .info-card,
+        body.dark-mode .device-card {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .info-card .value,
+        body.dark-mode .device-subtitle {
+            color: #b0b0b0;
+        }
+
+        body.dark-mode .section-title {
+            background-color: #333;
+        }
+
+        body.dark-mode .map-placeholder {
+            background-color: #2d2d2d;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 12px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dark-mode-toggle {
+                top: 15px;
+                right: 15px;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        .btn-moderno {
+            /* Estilo base */
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px; /* Esquinas ligeramente redondeadas */
+            
+            /* Colores llamativos */
+            background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+            color: white;
+            
+            /* Tipografía */
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            
+            /* Efectos */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-moderno:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #2a6bc8, #00c2ff);
+        }
+
+        .btn-moderno:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-moderno::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                      rgba(255,255,255,0.1) 0%, 
+                      rgba(255,255,255,0.3) 50%, 
+                      rgba(255,255,255,0.1) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn-moderno:hover::after {
+            transform: translateX(100%);
+        }
+    </style>
+</head>
+<body>
+    <button 
+  class="btn-moderno"
+  onclick="window.location.href='buttonherramienta.html'">
+  Volver atrás
+</button>
+
+
+    <!-- Botón de modo oscuro -->
+    <div class="dark-mode-toggle">
+        <label class="toggle-switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="toggle-slider"></span>
+            <i class="fas fa-sun toggle-icon sun-icon"></i>
+            <i class="fas fa-moon toggle-icon moon-icon"></i>
+        </label>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-fingerprint"></i> Sistema Avanzado de Detección</h1>
+            <p>Información completa sobre tu dispositivo, red y ubicación con análisis de seguridad</p>
+        </div>
+
+        <div id="deviceInfo">
+            <div class="loading">
+                <i class="fas fa-microchip"></i>
+                <h3>Analizando tu dispositivo</h3>
+                <p>Detectando hardware, sistema operativo y características avanzadas</p>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="geoInfo" style="display: none;">
+            <div class="loading">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Detectando tu ubicación</h3>
+                <p>Obteniendo información precisa de tu posición geográfica</p>
+                <div class="progress-container">
+                    <div class="progress-bar" id="geoProgressBar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="map-container" id="mapContainer" style="display: none;">
+            <div class="map-placeholder">
+                <div>
+                    <i class="fas fa-map"></i>
+                    <p>Cargando mapa interactivo...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nueva sección de seguridad -->
+        <div id="securityInfo" style="display: none;">
+            <div class="info-section">
+                <div class="section-title">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Análisis de Seguridad y Privacidad</span>
+                </div>
+                <div class="section-content">
+                    <div id="securityAnalysisContent"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nueva sección de historial de ubicaciones -->
+        <div id="locationHistory" style="display: none;">
+            <div class="info-section">
+                <div class="section-title">
+                    <i class="fas fa-history"></i>
+                    <span>Historial de Ubicaciones</span>
+                </div>
+                <div class="section-content">
+                    <div id="locationHistoryContent"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons" id="actionButtons" style="display: none;">
+            <button class="btn btn-primary" id="refreshBtn"><i class="fas fa-sync-alt"></i> Actualizar Todo</button>
+            <button class="btn btn-secondary" id="shareBtn"><i class="fas fa-share-alt"></i> Compartir Datos</button>
+            <button class="btn btn-tertiary" id="techBtn"><i class="fas fa-file-code"></i> Datos Técnicos</button>
+            <button class="btn btn-primary" id="qrBtn"><i class="fas fa-qrcode"></i> Generar QR</button>
+        </div>
+
+        <div class="footer">
+            <p><i class="far fa-copyright"></i> Sistema de Detección Avanzada | Actualizado: <span id="currentDate"></span></p>
+        </div>
+    </div>
+
+    <!-- Incluimos la API de Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9RxVhYxI4w7Qp3Z3Q5Q5w5w5w5w5w5w5w&callback=initMap" async defer></script>
+    <!-- Librería para QR -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+
+    <script>
+        // Variables globales para almacenar datos
+        let geoData = {};
+        let deviceData = {};
+        let techData = {};
+        let locationHistory = [];
+        let securityAnalysis = {};
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const deviceInfo = document.getElementById('deviceInfo');
+            const geoInfo = document.getElementById('geoInfo');
+            const mapContainer = document.getElementById('mapContainer');
+            const actionButtons = document.getElementById('actionButtons');
+            const progressBar = document.getElementById('progressBar');
+            const geoProgressBar = document.getElementById('geoProgressBar');
+            const refreshBtn = document.getElementById('refreshBtn');
+            const shareBtn = document.getElementById('shareBtn');
+            const techBtn = document.getElementById('techBtn');
+            const qrBtn = document.getElementById('qrBtn');
+            const currentDate = document.getElementById('currentDate');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const securityInfo = document.getElementById('securityInfo');
+            const securityAnalysisContent = document.getElementById('securityAnalysisContent');
+            const locationHistorySection = document.getElementById('locationHistory');
+            const locationHistoryContent = document.getElementById('locationHistoryContent');
+            
+            // Configurar modo oscuro
+            darkModeToggle.addEventListener('change', function() {
+                document.body.classList.toggle('dark-mode', this.checked);
+                localStorage.setItem('darkMode', this.checked);
+            });
+            
+            // Verificar preferencia de modo oscuro
+            if (localStorage.getItem('darkMode') === 'true') {
+                darkModeToggle.checked = true;
+                document.body.classList.add('dark-mode');
+            }
+            
+            // Mostrar fecha actual
+            const now = new Date();
+            currentDate.textContent = now.toLocaleDateString('es-ES', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Animación de la barra de progreso
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(progressInterval);
+                    // Comenzar detección de geolocalización
+                    setTimeout(() => {
+                        geoInfo.style.display = 'block';
+                        startGeoDetection();
+                    }, 500);
+                }
+                progressBar.style.width = progress + '%';
+            }, 300);
+            
+            // Detección avanzada de dispositivo
+            function detectDevice() {
+                const userAgent = navigator.userAgent;
+                let deviceType = 'desktop';
+                let deviceIcon = 'fas fa-desktop';
+                let deviceName = 'Computadora de Escritorio';
+                let deviceDetails = 'Dispositivo con pantalla grande y potencia de procesamiento';
+                let batteryLevel = null;
+                let isCharging = false;
+                let deviceClass = 'desktop';
+                
+                // Detección mejorada de móviles y tablets
+                const isMobile = /Mobile|Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+                const isTablet = /iPad|tablet/i.test(userAgent) || 
+                                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ||
+                                (isMobile && window.screen.width >= 768);
+                
+                if (isTablet) {
+                    deviceType = 'tablet';
+                    deviceIcon = 'fas fa-tablet-alt';
+                    deviceName = 'Tablet';
+                    deviceDetails = 'Dispositivo táctil portátil de tamaño medio';
+                    deviceClass = 'tablet';
+                } 
+                else if (isMobile) {
+                    deviceType = 'mobile';
+                    deviceIcon = 'fas fa-mobile-alt';
+                    deviceName = 'Teléfono Móvil';
+                    deviceDetails = 'Dispositivo táctil portátil';
+                    deviceClass = 'mobile';
+                }
+                else if (/Macintosh|Mac OS X/i.test(userAgent)) {
+                    if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 0) {
+                        deviceType = 'mac-touch';
+                        deviceIcon = 'fas fa-laptop';
+                        deviceName = 'MacBook con Touch Bar';
+                        deviceDetails = 'Portátil Apple con pantalla táctil';
+                        deviceClass = 'laptop';
+                    } else {
+                        deviceType = 'mac';
+                        deviceIcon = 'fas fa-laptop';
+                        deviceName = 'Mac (Portátil/Desktop)';
+                        deviceDetails = 'Computadora Apple';
+                        deviceClass = /Macintosh|Mac OS X/i.test(userAgent) && !/Mobile/i.test(userAgent) ? 'laptop' : 'desktop';
+                    }
+                }
+                else if (/Windows/i.test(userAgent)) {
+                    // Detección de laptops vs desktops
+                    if (navigator.getBattery) {
+                        navigator.getBattery().then(battery => {
+                            batteryLevel = Math.round(battery.level * 100);
+                            isCharging = battery.charging;
+                            if (isCharging || batteryLevel < 100) {
+                                deviceType = 'laptop';
+                                deviceIcon = 'fas fa-laptop';
+                                deviceName = 'Portátil Windows';
+                                deviceDetails = 'Computadora portátil con batería';
+                                deviceClass = 'laptop';
+                            } else {
+                                deviceType = 'desktop';
+                                deviceIcon = 'fas fa-desktop';
+                                deviceName = 'Computadora Windows';
+                                deviceDetails = 'Computadora de escritorio';
+                                deviceClass = 'desktop';
+                            }
+                            displayDeviceInfo(deviceType, deviceIcon, deviceName, deviceDetails, batteryLevel, isCharging, deviceClass);
+                        });
+                        return;
+                    } else {
+                        deviceType = 'pc';
+                        deviceIcon = 'fas fa-desktop';
+                        deviceName = 'PC Windows';
+                        deviceDetails = 'Computadora personal con Windows';
+                        deviceClass = 'desktop';
+                    }
+                }
+                else if (/Linux/i.test(userAgent)) {
+                    deviceType = 'linux';
+                    deviceIcon = 'fas fa-server';
+                    deviceName = 'Sistema Linux';
+                    deviceDetails = 'Computadora con sistema operativo Linux';
+                    deviceClass = 'desktop';
+                }
+                else if (/CrOS/i.test(userAgent)) {
+                    deviceType = 'chromebook';
+                    deviceIcon = 'fas fa-laptop';
+                    deviceName = 'Chromebook';
+                    deviceDetails = 'Portátil con Chrome OS';
+                    deviceClass = 'laptop';
+                }
+                else if (/Xbox|PlayStation|Nintendo/i.test(userAgent)) {
+                    deviceType = 'console';
+                    deviceIcon = 'fas fa-gamepad';
+                    deviceName = 'Consola de Videojuegos';
+                    deviceDetails = 'Dispositivo especializado para juegos';
+                    deviceClass = 'console';
+                }
+                else if (/TV|SmartTV|NetCast|WebTV|HbbTV|SmartHub|CE-HTML/i.test(userAgent)) {
+                    deviceType = 'smart-tv';
+                    deviceIcon = 'fas fa-tv';
+                    deviceName = 'Smart TV';
+                    deviceDetails = 'Televisor con capacidades inteligentes';
+                    deviceClass = 'tv';
+                }
+                else if (/Raspberry Pi|IoT|Embedded|SmartHome/i.test(userAgent)) {
+                    deviceType = 'iot';
+                    deviceIcon = 'fas fa-microchip';
+                    deviceName = 'Dispositivo IoT';
+                    deviceDetails = 'Dispositivo de Internet de las Cosas';
+                    deviceClass = 'iot';
+                }
+                
+                // Detección de características específicas
+                const features = [];
+                const screenWidth = window.screen.width;
+                const screenHeight = window.screen.height;
+                const pixelRatio = window.devicePixelRatio || 1;
+                const physicalWidth = screenWidth * pixelRatio;
+                const physicalHeight = screenHeight * pixelRatio;
+                const screenSize = Math.sqrt(Math.pow(screenWidth, 2) + Math.pow(screenHeight, 2)) / 96;
+                
+                techData = {
+                    deviceType: deviceType,
+                    deviceClass: deviceClass,
+                    screen: {
+                        logicalWidth: screenWidth,
+                        logicalHeight: screenHeight,
+                        physicalWidth: physicalWidth,
+                        physicalHeight: physicalHeight,
+                        pixelRatio: pixelRatio,
+                        estimatedSize: screenSize.toFixed(1) + '"'
+                    },
+                    touch: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+                    online: navigator.onLine,
+                    battery: {
+                        level: batteryLevel,
+                        charging: isCharging
+                    }
+                };
+                
+                // Detección de CPU y memoria
+                if (navigator.hardwareConcurrency) {
+                    features.push(`Núcleos CPU: ${navigator.hardwareConcurrency}`);
+                    techData.cpu = {
+                        cores: navigator.hardwareConcurrency,
+                        architecture: navigator.cpuClass || 'desconocida'
+                    };
+                }
+                
+                if (navigator.deviceMemory) {
+                    features.push(`RAM: ${navigator.deviceMemory} GB`);
+                    techData.memory = `${navigator.deviceMemory} GB`;
+                }
+                
+                features.push(`Resolución: ${screenWidth}x${screenHeight}`);
+                features.push(`Resolución física: ~${physicalWidth}x${physicalHeight}`);
+                features.push(`Ratio de píxeles: ${pixelRatio}`);
+                features.push(`Tamaño estimado: ${screenSize.toFixed(1)} pulgadas`);
+                
+                // Detección de tipo de puntero
+                if (window.matchMedia('(pointer:fine)').matches) {
+                    features.push('Precisión: Ratón/trackpad');
+                    techData.pointer = 'fine';
+                } else if (window.matchMedia('(pointer:coarse)').matches) {
+                    features.push('Precisión: Pantalla táctil');
+                    techData.pointer = 'coarse';
+                }
+                
+                // Detección de capacidad de hover
+                if (window.matchMedia('(hover:hover)').matches) {
+                    features.push('Interacción: Hover disponible');
+                    techData.hover = true;
+                } else {
+                    features.push('Interacción: Solo toque');
+                    techData.hover = false;
+                }
+                
+                // Detección de conexión
+                const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                if (connection) {
+                    techData.connection = {
+                        effectiveType: connection.effectiveType,
+                        downlink: connection.downlink,
+                        rtt: connection.rtt,
+                        saveData: connection.saveData
+                    };
+                    
+                    if (connection.effectiveType) {
+                        features.push(`Red: ${connection.effectiveType.toUpperCase()}`);
+                    }
+                    if (connection.downlink) {
+                        features.push(`Velocidad estimada: ~${connection.downlink} Mbps`);
+                    }
+                    if (connection.rtt) {
+                        features.push(`Latencia: ~${connection.rtt} ms`);
+                    }
+                    if (connection.saveData) {
+                        features.push('Modo ahorro de datos: Activado');
+                    }
+                }
+                
+                // Detección de sensores (especialmente importantes para móviles/tablets)
+                techData.sensors = {};
+                if ('accelerometer' in window) {
+                    features.push('Acelerómetro: Disponible');
+                    techData.sensors.accelerometer = true;
+                }
+                
+                if ('gyroscope' in window) {
+                    features.push('Giroscopio: Disponible');
+                    techData.sensors.gyroscope = true;
+                }
+                
+                if ('orientation' in window) {
+                    features.push('Orientación: Disponible');
+                    techData.sensors.orientation = true;
+                }
+                
+                if ('ambientLightSensor' in window) {
+                    features.push('Sensor de luz: Disponible');
+                    techData.sensors.light = true;
+                }
+                
+                if ('proximity' in window) {
+                    features.push('Sensor de proximidad: Disponible');
+                    techData.sensors.proximity = true;
+                }
+                
+                // Detección de capacidades multimedia (especialmente cámara para móviles)
+                techData.media = {};
+                if ('mediaDevices' in navigator) {
+                    navigator.mediaDevices.enumerateDevices().then(devices => {
+                        const cameras = devices.filter(d => d.kind === 'videoinput');
+                        const mics = devices.filter(d => d.kind === 'audioinput');
+                        const speakers = devices.filter(d => d.kind === 'audiooutput');
+                        
+                        techData.media.cameras = cameras.length;
+                        techData.media.microphones = mics.length;
+                        techData.media.speakers = speakers.length;
+                        
+                        if (cameras.length > 0) {
+                            features.push(`Cámaras: ${cameras.length}`);
+                        }
+                        
+                        if (mics.length > 0) {
+                            features.push(`Micrófonos: ${mics.length}`);
+                        }
+                        
+                        displayDeviceInfo(deviceType, deviceIcon, deviceName, deviceDetails, batteryLevel, isCharging, deviceClass, features);
+                    }).catch(() => {
+                        displayDeviceInfo(deviceType, deviceIcon, deviceName, deviceDetails, batteryLevel, isCharging, deviceClass, features);
+                    });
+                } else {
+                    displayDeviceInfo(deviceType, deviceIcon, deviceName, deviceDetails, batteryLevel, isCharging, deviceClass, features);
+                }
+            }
+            
+            // Mostrar información del dispositivo
+            function displayDeviceInfo(type, icon, name, details, batteryLevel = null, isCharging = false, deviceClass = 'desktop', features = []) {
+                deviceData = {
+                    type: type,
+                    icon: icon,
+                    name: name,
+                    details: details,
+                    features: features,
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform,
+                    language: navigator.language,
+                    cookies: navigator.cookieEnabled ? 'Habilitadas' : 'Deshabilitadas',
+                    javaScript: true,
+                    screen: `${window.screen.width}x${window.screen.height}`,
+                    viewport: `${window.innerWidth}x${window.innerHeight}`,
+                    pixelRatio: window.devicePixelRatio || 1,
+                    touch: 'ontouchstart' in window || navigator.maxTouchPoints > 0 ? 'Sí' : 'No',
+                    online: navigator.onLine ? 'En línea' : 'Sin conexión',
+                    batteryLevel: batteryLevel,
+                    isCharging: isCharging,
+                    deviceClass: deviceClass
+                };
+                
+                let html = `
+                    <div class="info-section fade-in">
+                        <div class="section-title">
+                            <i class="fas fa-microchip"></i>
+                            <span>Información del Dispositivo</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="info-grid">
+                                <div class="device-card">
+                                    <span class="device-type-indicator ${deviceClass}-type">${deviceClass}</span>
+                                    <i class="${icon} device-icon"></i>
+                                    <h3 class="device-title">${name}</h3>
+                                    <p class="device-subtitle">${details}</p>
+                                    ${batteryLevel !== null ? `
+                                        <div class="battery-indicator">
+                                            <div class="battery-level">
+                                                <div class="battery-fill" style="width: ${batteryLevel}%"></div>
+                                            </div>
+                                            <span class="battery-percent">${batteryLevel}%</span>
+                                            ${isCharging ? '<i class="fas fa-bolt battery-charging"></i>' : ''}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                                
+                                <div class="info-card">
+                                    <div class="label"><i class="fas fa-info-circle"></i>Tipo de dispositivo</div>
+                                    <div class="value">${name} (${type})</div>
+                                    
+                                    <div class="label"><i class="fas fa-map-pin"></i>Plataforma</div>
+                                    <div class="value">${navigator.platform}</div>
+                                    
+                                    <div class="label"><i class="fas fa-language"></i>Idioma</div>
+                                    <div class="value">${navigator.language}</div>
+                                    
+                                    <div class="label"><i class="fas fa-user-secret"></i>User Agent</div>
+                                    <div class="value" style="font-size: 12px; word-break: break-all;">${navigator.userAgent}</div>
+                                </div>
+                                
+                                <div class="info-card">
+                                    <div class="label"><i class="fas fa-desktop"></i>Pantalla</div>
+                                    <div class="value">${window.screen.width}x${window.screen.height}px (${window.devicePixelRatio}x)</div>
+                                    
+                                    <div class="label"><i class="fas fa-mobile-alt"></i>Ventana</div>
+                                    <div class="value">${window.innerWidth}x${window.innerHeight}px</div>
+                                    
+                                    <div class="label"><i class="fas fa-hand-pointer"></i>Táctil</div>
+                                    <div class="value">${'ontouchstart' in window || navigator.maxTouchPoints > 0 ? 'Sí' : 'No'}</div>
+                                    
+                                    <div class="label"><i class="fas fa-wifi"></i>Estado conexión</div>
+                                    <div class="value">${navigator.onLine ? 'En línea' : 'Sin conexión'}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-section" style="margin: 20px 0 0 0;">
+                                <div class="section-title">
+                                    <i class="fas fa-network-wired"></i>
+                                    <span>Características y Especificaciones</span>
+                                </div>
+                                <div class="section-content">
+                                    <div class="info-grid">
+                `;
+                
+                // Agregar características detectadas
+                features.forEach(feature => {
+                    html += `
+                        <div class="info-card fade-in">
+                            <div class="label"><i class="fas fa-check-circle"></i>${feature.split(':')[0]}</div>
+                            <div class="value">${feature.split(':')[1]}</div>
+                        </div>
+                    `;
+                });
+                
+                // Detectar y mostrar información de conexión más detallada
+                const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                if (connection) {
+                    let connectionBars = 4;
+                    let connectionType = connection.effectiveType || 'desconocido';
+                    
+                    if (connection.downlink) {
+                        if (connection.downlink > 10) connectionBars = 4;
+                        else if (connection.downlink > 5) connectionBars = 3;
+                        else if (connection.downlink > 2) connectionBars = 2;
+                        else connectionBars = 1;
+                    }
+                    
+                    html += `
+                        <div class="info-card fade-in">
+                            <div class="label"><i class="fas fa-wifi"></i>Estado de conexión</div>
+                            <div class="value">
+                                ${navigator.onLine ? 'En línea' : 'Sin conexión'}
+                                <div class="connection-meter">
+                                    <div class="connection-bars">
+                                        <div class="connection-bar ${connectionBars >= 1 ? 'active' : ''}" style="height: 4px;"></div>
+                                        <div class="connection-bar ${connectionBars >= 2 ? 'active' : ''}" style="height: 6px;"></div>
+                                        <div class="connection-bar ${connectionBars >= 3 ? 'active' : ''}" style="height: 8px;"></div>
+                                        <div class="connection-bar ${connectionBars >= 4 ? 'active' : ''}" style="height: 10px;"></div>
+                                    </div>
+                                    <span class="connection-type">${connectionType.toUpperCase()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                html += `
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                deviceInfo.innerHTML = html;
+            }
+            
+            // Iniciar detección de geolocalización con mejor precisión para móviles/tablets
+            function startGeoDetection() {
+                let geoProgress = 0;
+                const geoProgressInterval = setInterval(() => {
+                    geoProgress += Math.random() * 10;
+                    if (geoProgress >= 100) {
+                        geoProgress = 100;
+                        clearInterval(geoProgressInterval);
+                    }
+                    geoProgressBar.style.width = geoProgress + '%';
+                }, 300);
+                
+                getEnhancedGeoData()
+                    .then(data => {
+                        geoData = data;
+                        displayGeoData(data);
+                        // Realizar análisis de seguridad después de obtener los datos
+                        performSecurityAnalysis();
+                        // Mostrar historial de ubicaciones
+                        updateLocationHistory();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        displayError('No se pudo obtener la información de geolocalización. Asegúrate de haber permitido el acceso a tu ubicación.');
+                    });
+            }
+            
+            // Obtener información de geolocalización mejorada con múltiples fuentes
+            function getEnhancedGeoData() {
+                return new Promise((resolve) => {
+                    // Primero intentamos con la API de ipapi.co para datos básicos
+                    fetch('https://ipapi.co/json/')
+                        .then(response => response.json())
+                        .then(data => {
+                            const baseData = {
+                                ip: data.ip || 'No detectada',
+                                country: data.country_name || 'No detectado',
+                                country_code: data.country_code || '',
+                                city: data.city || 'No detectada',
+                                region: data.region || 'N/D',
+                                postal_code: data.postal || 'N/D',
+                                street: 'N/D',
+                                neighborhood: 'N/D',
+                                timezone: data.timezone || 'N/D',
+                                org: data.org || 'N/D',
+                                asn: data.asn || 'N/D',
+                                latitude: null,
+                                longitude: null,
+                                accuracy: null,
+                                isp: data.org || 'N/D',
+                                currency: data.currency || 'N/D',
+                                languages: data.languages || 'N/D',
+                                calling_code: data.country_calling_code || 'N/D',
+                                flag: data.country_code ? `https://flagcdn.com/w40/${data.country_code.toLowerCase()}.png` : '',
+                                continent: data.continent_code || 'N/D',
+                                region_code: data.region_code || 'N/D',
+                                city_latitude: data.latitude || null,
+                                city_longitude: data.longitude || null,
+                                country_capital: data.country_capital || 'N/D',
+                                currency_name: data.currency_name || 'N/D',
+                                in_eu: data.in_eu || false,
+                                timestamp: new Date().toISOString()
+                            };
+                            
+                            // Si el usuario permite geolocalización precisa, intentamos obtener más datos
+                            if (navigator.geolocation) {
+                                const options = {
+                                    enableHighAccuracy: true,  // Alta precisión especialmente para móviles
+                                    timeout: 8000,
+                                    maximumAge: 0
+                                };
+                                
+                                navigator.geolocation.getCurrentPosition(position => {
+                                    baseData.latitude = position.coords.latitude;
+                                    baseData.longitude = position.coords.longitude;
+                                    baseData.accuracy = position.coords.accuracy;
+                                    baseData.altitude = position.coords.altitude || null;
+                                    baseData.altitudeAccuracy = position.coords.altitudeAccuracy || null;
+                                    baseData.heading = position.coords.heading || null;
+                                    baseData.speed = position.coords.speed || null;
+                                    
+                                    // Usamos Nominatim (OpenStreetMap) para obtener dirección inversa con mejor precisión
+                                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}&zoom=18&addressdetails=1`)
+                                        .then(response => response.json())
+                                        .then(locationData => {
+                                            const address = locationData.address || {};
+                                            
+                                            // Mejor detección de barrio para móviles/tablets
+                                            let neighborhood = address.suburb || 
+                                                              address.neighbourhood || 
+                                                              address.quarter || 
+                                                              address.city_district || 
+                                                              address.residential || 
+                                                              'N/D';
+                                              
+                                            // Mejor detección de calle para móviles/tablets
+                                            let street = address.road || 
+                                                         address.pedestrian || 
+                                                         address.footway || 
+                                                         address.highway || 
+                                                         address.street || 
+                                                         'N/D';
+                                            
+                                            const enhancedData = {
+                                                ...baseData,
+                                                street: street,
+                                                neighborhood: neighborhood,
+                                                city: address.city || address.town || address.village || address.municipality || baseData.city,
+                                                region: address.state || address.region || baseData.region,
+                                                postal_code: address.postcode || baseData.postal_code,
+                                                country: address.country || baseData.country,
+                                                country_code: address.country_code ? address.country_code.toUpperCase() : baseData.country_code,
+                                                flag: address.country_code ? `https://flagcdn.com/w40/${address.country_code.toLowerCase()}.png` : baseData.flag,
+                                                house_number: address.house_number || 'N/D',
+                                                postcode: address.postcode || baseData.postal_code,
+                                                village: address.village || 'N/D',
+                                                town: address.town || 'N/D',
+                                                municipality: address.municipality || 'N/D',
+                                                county: address.county || 'N/D',
+                                                state_district: address.state_district || 'N/D',
+                                                country_code: address.country_code || baseData.country_code,
+                                                continent: address.continent || baseData.continent,
+                                                display_name: locationData.display_name || 'N/D',
+                                                timestamp: new Date().toISOString()
+                                            };
+                                            
+                                            // Si es un móvil/tablet y no tenemos datos de calle, intentamos con otra API
+                                            if ((deviceData.deviceClass === 'mobile' || deviceData.deviceClass === 'tablet') && 
+                                                (enhancedData.street === 'N/D' || enhancedData.neighborhood === 'N/D')) {
+                                                fetchStreetLevelData(position.coords.latitude, position.coords.longitude)
+                                                    .then(streetData => {
+                                                        enhancedData.street = streetData.street || enhancedData.street;
+                                                        enhancedData.neighborhood = streetData.neighborhood || enhancedData.neighborhood;
+                                                        enhancedData.house_number = streetData.house_number || enhancedData.house_number;
+                                                        
+                                                        // Agregar datos meteorológicos si están disponibles
+                                                        fetchWeatherData(enhancedData.latitude, enhancedData.longitude)
+                                                            .then(weather => {
+                                                                enhancedData.weather = weather;
+                                                                resolve(enhancedData);
+                                                            })
+                                                            .catch(() => resolve(enhancedData));
+                                                    })
+                                                    .catch(() => {
+                                                        fetchWeatherData(enhancedData.latitude, enhancedData.longitude)
+                                                            .then(weather => {
+                                                                enhancedData.weather = weather;
+                                                                resolve(enhancedData);
+                                                            })
+                                                            .catch(() => resolve(enhancedData));
+                                                    });
+                                            } else {
+                                                // Agregar datos meteorológicos si están disponibles
+                                                fetchWeatherData(enhancedData.latitude, enhancedData.longitude)
+                                                    .then(weather => {
+                                                        enhancedData.weather = weather;
+                                                        resolve(enhancedData);
+                                                    })
+                                                    .catch(() => resolve(enhancedData));
+                                            }
+                                        })
+                                        .catch(() => resolve(baseData));
+                                }, (error) => {
+                                    console.log('Error de geolocalización:', error);
+                                    // Si falla la geolocalización precisa, intentamos con las coordenadas de la ciudad
+                                    if (baseData.city_latitude && baseData.city_longitude) {
+                                        baseData.latitude = baseData.city_latitude;
+                                        baseData.longitude = baseData.city_longitude;
+                                        baseData.accuracy = 5000; // Precisión aproximada de ciudad
+                                    }
+                                    resolve(baseData);
+                                }, options);
+                            } else {
+                                // Si no hay geolocalización, usamos las coordenadas de la ciudad
+                                if (baseData.city_latitude && baseData.city_longitude) {
+                                    baseData.latitude = baseData.city_latitude;
+                                    baseData.longitude = baseData.city_longitude;
+                                    baseData.accuracy = 5000; // Precisión aproximada de ciudad
+                                }
+                                resolve(baseData);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error al obtener geolocalización:', error);
+                            resolve({
+                                ip: 'No detectada',
+                                country: 'No detectado',
+                                city: 'No detectada',
+                                region: 'N/D',
+                                street: 'N/D',
+                                neighborhood: 'N/D',
+                                timezone: 'N/D',
+                                org: 'N/D',
+                                latitude: null,
+                                longitude: null,
+                                accuracy: null,
+                                timestamp: new Date().toISOString()
+                            });
+                        });
+                });
+            }
+            
+            // Función adicional para obtener datos de calle/barrio con mayor precisión
+            function fetchStreetLevelData(lat, lon) {
+                return new Promise((resolve) => {
+                    // Intentamos con la API de OpenStreetMap Overpass para datos más detallados
+                    fetch(`https://overpass-api.de/api/interpreter?data=[out:json];(way(around:50,${lat},${lon})[highway~"^(primary|secondary|tertiary|residential|service|pedestrian|footway)$"];out;`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.elements && data.elements.length > 0) {
+                                const street = data.elements[0].tags?.name || 'N/D';
+                                const neighborhood = data.elements[0].tags?.addr_neighbourhood || 'N/D';
+                                const house_number = data.elements[0].tags?.addr_housenumber || 'N/D';
+                                resolve({ street, neighborhood, house_number });
+                            } else {
+                                resolve({ street: 'N/D', neighborhood: 'N/D', house_number: 'N/D' });
+                            }
+                        })
+                        .catch(() => resolve({ street: 'N/D', neighborhood: 'N/D', house_number: 'N/D' }));
+                });
+            }
+            
+            // Obtener datos meteorológicos
+            function fetchWeatherData(lat, lon) {
+                if (!lat || !lon) return Promise.resolve(null);
+                
+                return fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=temperature_2m,relativehumidity_2m,windspeed_10m,weathercode`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.current_weather) {
+                            return {
+                                temperature: data.current_weather.temperature,
+                                windspeed: data.current_weather.windspeed,
+                                weathercode: data.current_weather.weathercode,
+                                time: data.current_weather.time,
+                                humidity: data.hourly?.relativehumidity_2m[0] || null,
+                                hourly: data.hourly ? {
+                                    times: data.hourly.time,
+                                    temperatures: data.hourly.temperature_2m,
+                                    humidities: data.hourly.relativehumidity_2m,
+                                    windspeeds: data.hourly.windspeed_10m,
+                                    weathercodes: data.hourly.weathercode
+                                } : null
+                            };
+                        }
+                        return null;
+                    })
+                    .catch(() => null);
+            }
+            
+            // Mostrar los datos de geolocalización
+            function displayGeoData(geoData) {
+                let accuracyBadge = '';
+                if (geoData.accuracy) {
+                    let accuracyClass = 'low-accuracy';
+                    let accuracyText = 'Baja precisión';
+                    
+                    if (geoData.accuracy < 50) {
+                        accuracyClass = 'high-accuracy';
+                        accuracyText = 'Alta precisión';
+                    } else if (geoData.accuracy < 200) {
+                        accuracyClass = 'medium-accuracy';
+                        accuracyText = 'Precisión media';
+                    }
+                    
+                    accuracyBadge = `<span class="accuracy-indicator ${accuracyClass}">${accuracyText} (~${Math.round(geoData.accuracy)}m)</span>`;
+                }
+                
+                let html = `
+                    <div class="info-section fade-in">
+                        <div class="section-title">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span>Información de Geolocalización</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="info-grid">
+                                <div class="info-card">
+                                    <div class="label">
+                                        <i class="fas fa-globe-americas"></i>
+                                        Ubicación Geográfica
+                                    </div>
+                                    <div class="value">
+                                        <div class="address-line">
+                                            <i class="fas fa-flag"></i>
+                                            <span><strong>País:</strong> ${geoData.country} 
+                                            ${geoData.country_code ? `<img src="${geoData.flag}" alt="${geoData.country_code}" class="flag">` : ''}
+                                            ${geoData.calling_code ? `(+${geoData.calling_code})` : ''}
+                                            ${geoData.in_eu ? '[UE]' : ''}</span>
+                                        </div>
+                                        <div class="address-line">
+                                            <i class="fas fa-map"></i>
+                                            <span><strong>Provincia:</strong> ${geoData.region} ${geoData.region_code ? `(${geoData.region_code})` : ''}</span>
+                                        </div>
+                                        <div class="address-line">
+                                            <i class="fas fa-city"></i>
+                                            <span><strong>Ciudad:</strong> ${geoData.city} ${geoData.postal_code ? `(${geoData.postal_code})` : ''}</span>
+                                        </div>
+                                        <div class="address-line">
+                                            <i class="fas fa-map-pin"></i>
+                                            <span><strong>Barrio:</strong> ${geoData.neighborhood}</span>
+                                        </div>
+                                        <div class="address-line">
+                                            <i class="fas fa-road"></i>
+                                            <span><strong>Calle:</strong> ${geoData.street} ${geoData.house_number ? `Nº ${geoData.house_number}` : ''}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="info-card">
+                                    <div class="label">
+                                        <i class="fas fa-network-wired"></i>
+                                        Información de Red
+                                    </div>
+                                    <div class="value">
+                                        <div class="specs-grid">
+                                            <div class="spec-item">
+                                                <i class="fas fa-id-card spec-icon"></i>
+                                                <div>
+                                                    <div class="spec-label">Dirección IP</div>
+                                                    <div class="spec-value">${geoData.ip}</div>
+                                                </div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <i class="fas fa-server spec-icon"></i>
+                                                <div>
+                                                    <div class="spec-label">Proveedor</div>
+                                                    <div class="spec-value">${geoData.isp}</div>
+                                                </div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <i class="fas fa-network-wired spec-icon"></i>
+                                                <div>
+                                                    <div class="spec-label">ASN</div>
+                                                    <div class="spec-value">AS${geoData.asn}</div>
+                                                </div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <i class="fas fa-globe spec-icon"></i>
+                                                <div>
+                                                    <div class="spec-label">Continente</div>
+                                                    <div class="spec-value">${geoData.continent}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="info-card">
+                                    <div class="label">
+                                        <i class="fas fa-info-circle"></i>
+                                        Detalles Adicionales
+                                    </div>
+                                    <div class="value">
+                                        <div class="specs-grid">
+                                            <div class="spec-item">
+                                                <i class="fas fa-clock spec-icon"></i>
+                                                <div>
+                                                    <div class="spec-label">Zona Horaria</div>
+                                                    <div class="spec-value">${geoData.timezone}</div>
+                                                </div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <i class="fas fa-money-bill-wave spec-icon"></i>
+                                                <div>
+                                                    <div class="spec-label">Moneda</div>
+                                                    <div class="spec-value">${geoData.currency} (${geoData.currency_name || 'N/D'})</div>
+                                                </div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <i class="fas fa-language spec-icon"></i>
+                                                <div>
+                                                    <div class="spec-label">Idiomas</div>
+                                                    <div class="spec-value">${geoData.languages || 'N/D'}</div>
+                                                </div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <i class="fas fa-flag spec-icon"></i>
+                                                <div>
+                                                    <div class="spec-label">Capital</div>
+                                                    <div class="spec-value">${geoData.country_capital}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                `;
+
+                if (geoData.latitude && geoData.longitude) {
+                    html += `
+                                <div class="info-card">
+                                    <div class="label">
+                                        <i class="fas fa-map-pin"></i>
+                                        Coordenadas GPS
+                                        <div class="tooltip">
+                                            <i class="fas fa-question-circle"></i>
+                                            <span class="tooltiptext">Precisión basada en tu conexión y dispositivo GPS</span>
+                                        </div>
+                                    </div>
+                                    <div class="value">
+                                        <div class="specs-grid">
+                                            <div class="spec-item">
+                                                <i class="fas fa-map-marked-alt spec-icon"></i>
+                                                <div>
+                                                    <div class="spec-label">Latitud</div>
+                                                    <div class="spec-value">${geoData.latitude.toFixed(6)}</div>
+                                                </div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <i class="fas fa-map-marked-alt spec-icon"></i>
+                                                <div>
+                                                    <div class="spec-label">Longitud</div>
+                                                    <div class="spec-value">${geoData.longitude.toFixed(6)}</div>
+                                                </div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <i class="fas fa-bullseye spec-icon"></i>
+                                                <div>
+                                                    <div class="spec-label">Precisión</div>
+                                                    <div class="spec-value">~${Math.round(geoData.accuracy)} metros</div>
+                                                </div>
+                                            </div>
+                                            <div class="spec-item">
+                                                <i class="fas fa-external-link-alt spec-icon"></i>
+                                                <div>
+                                                    <div class="spec-label">Ver en</div>
+                                                    <div class="spec-value">
+                                                        <a href="https://www.google.com/maps?q=${geoData.latitude},${geoData.longitude}" target="_blank" style="color: var(--primary-color);">Google Maps</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        ${accuracyBadge}
+                                    </div>
+                                </div>
+                    `;
+                    
+                    // Mostrar el mapa
+                    mapContainer.style.display = 'block';
+                    initMap(geoData.latitude, geoData.longitude);
+                }
+
+                if (geoData.weather) {
+                    const weatherIcon = getWeatherIcon(geoData.weather.weathercode);
+                    html += `
+                            <div class="info-section" style="margin-top: 20px;">
+                                <div class="section-title">
+                                    <i class="fas fa-cloud-sun"></i>
+                                    <span>Tiempo Actual</span>
+                                </div>
+                                <div class="section-content">
+                                    <div class="info-grid">
+                                        <div class="info-card">
+                                            <div class="label"><i class="${weatherIcon}"></i>Condiciones Actuales</div>
+                                            <div class="value">
+                                                <div class="specs-grid">
+                                                    <div class="spec-item">
+                                                        <i class="fas fa-temperature-high spec-icon"></i>
+                                                        <div>
+                                                            <div class="spec-label">Temperatura</div>
+                                                            <div class="spec-value">${geoData.weather.temperature}°C</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="spec-item">
+                                                        <i class="fas fa-wind spec-icon"></i>
+                                                        <div>
+                                                            <div class="spec-label">Viento</div>
+                                                            <div class="spec-value">${geoData.weather.windspeed} km/h</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="spec-item">
+                                                        <i class="fas fa-tint spec-icon"></i>
+                                                        <div>
+                                                            <div class="spec-label">Humedad</div>
+                                                            <div class="spec-value">${geoData.weather.humidity || 'N/D'}%</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="spec-item">
+                                                        <i class="fas fa-clock spec-icon"></i>
+                                                        <div>
+                                                            <div class="spec-label">Actualizado</div>
+                                                            <div class="spec-value">${new Date(geoData.weather.time).toLocaleTimeString()}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    `;
+                }
+
+                html += `
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                geoInfo.innerHTML = html;
+                actionButtons.style.display = 'flex';
+            }
+            
+            // Realizar análisis de seguridad
+            function performSecurityAnalysis() {
+                securityAnalysis = {
+                    timestamp: new Date().toISOString(),
+                    secureConnection: window.location.protocol === 'https:',
+                    cookiesEnabled: navigator.cookieEnabled,
+                    doNotTrack: navigator.doNotTrack === '1',
+                    webRTCLeak: false,
+                    fingerprintingRisk: calculateFingerprintingRisk(),
+                    locationSharing: geoData.accuracy < 1000,
+                    sensorAccess: techData.sensors ? Object.keys(techData.sensors).length > 0 : false,
+                    cameraAccess: techData.media?.cameras > 0,
+                    microphoneAccess: techData.media?.microphones > 0
+                };
+                
+                // Detección de WebRTC leak
+                const rtcConfig = {
+                    iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+                };
+                
+                const pc = new RTCPeerConnection(rtcConfig);
+                pc.createDataChannel('test');
+                pc.createOffer()
+                    .then(offer => pc.setLocalDescription(offer))
+                    .catch(() => {
+                        securityAnalysis.webRTCLeak = true;
+                    });
+                
+                // Mostrar resultados del análisis
+                displaySecurityAnalysis();
+            }
+            
+            // Calcular riesgo de fingerprinting
+            function calculateFingerprintingRisk() {
+                let riskScore = 0;
+                
+                // Puntos por características únicas
+                if (navigator.deviceMemory) riskScore += 10;
+                if (navigator.hardwareConcurrency) riskScore += 10;
+                if (window.screen.availWidth && window.screen.availHeight) riskScore += 5;
+                if (window.devicePixelRatio) riskScore += 5;
+                if (navigator.platform) riskScore += 5;
+                if (navigator.userAgent) riskScore += 15;
+                if (navigator.languages) riskScore += 5;
+                if (navigator.connection) riskScore += 10;
+                if (techData.sensors) {
+                    Object.keys(techData.sensors).forEach(sensor => {
+                        if (techData.sensors[sensor]) riskScore += 5;
+                    });
+                }
+                
+                // Clasificar el riesgo
+                if (riskScore > 50) return 'Alto';
+                if (riskScore > 25) return 'Medio';
+                return 'Bajo';
+            }
+            
+            // Mostrar análisis de seguridad
+            function displaySecurityAnalysis() {
+                securityInfo.style.display = 'block';
+                
+                let html = `
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="label">
+                                <i class="fas fa-lock"></i>
+                                Conexión Segura
+                            </div>
+                            <div class="value">
+                                ${securityAnalysis.secureConnection ? 
+                                    '<span class="security-badge secure"><i class="fas fa-check-circle"></i> Segura (HTTPS)</span>' : 
+                                    '<span class="security-badge insecure"><i class="fas fa-exclamation-triangle"></i> No segura (HTTP)</span>'}
+                            </div>
+                            
+                            <div class="label">
+                                <i class="fas fa-shield-alt"></i>
+                                Protección contra rastreo
+                            </div>
+                            <div class="value">
+                                ${securityAnalysis.doNotTrack ? 
+                                    '<span class="security-badge secure"><i class="fas fa-check-circle"></i> Activada</span>' : 
+                                    '<span class="security-badge insecure"><i class="fas fa-exclamation-triangle"></i> Desactivada</span>'}
+                            </div>
+                            
+                            <div class="label">
+                                <i class="fas fa-fingerprint"></i>
+                                Riesgo de Fingerprinting
+                            </div>
+                            <div class="value">
+                                ${securityAnalysis.fingerprintingRisk === 'Alto' ? 
+                                    '<span class="security-badge insecure"><i class="fas fa-exclamation-triangle"></i> Alto</span>' : 
+                                    securityAnalysis.fingerprintingRisk === 'Medio' ?
+                                    '<span class="security-badge" style="background-color: #fbbc05; color: white;"><i class="fas fa-info-circle"></i> Medio</span>' :
+                                    '<span class="security-badge secure"><i class="fas fa-check-circle"></i> Bajo</span>'}
+                                <div class="tooltip">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span class="tooltiptext">Mide cuán único es tu dispositivo basado en sus características detectables</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="label">
+                                <i class="fas fa-map-marked-alt"></i>
+                                Compartiendo ubicación
+                            </div>
+                            <div class="value">
+                                ${securityAnalysis.locationSharing ? 
+                                    '<span class="security-badge insecure"><i class="fas fa-exclamation-triangle"></i> Precisión alta</span>' : 
+                                    '<span class="security-badge secure"><i class="fas fa-check-circle"></i> Precisión baja</span>'}
+                                <div class="tooltip">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span class="tooltiptext">Una ubicación precisa puede comprometer tu privacidad</span>
+                                </div>
+                            </div>
+                            
+                            <div class="label">
+                                <i class="fas fa-camera"></i>
+                                Acceso a cámara
+                            </div>
+                            <div class="value">
+                                ${securityAnalysis.cameraAccess ? 
+                                    '<span class="security-badge insecure"><i class="fas fa-exclamation-triangle"></i> Disponible</span>' : 
+                                    '<span class="security-badge secure"><i class="fas fa-check-circle"></i> No detectado</span>'}
+                            </div>
+                            
+                            <div class="label">
+                                <i class="fas fa-microphone"></i>
+                                Acceso a micrófono
+                            </div>
+                            <div class="value">
+                                ${securityAnalysis.microphoneAccess ? 
+                                    '<span class="security-badge insecure"><i class="fas fa-exclamation-triangle"></i> Disponible</span>' : 
+                                    '<span class="security-badge secure"><i class="fas fa-check-circle"></i> No detectado</span>'}
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="label">
+                                <i class="fas fa-network-wired"></i>
+                                WebRTC
+                            </div>
+                            <div class="value">
+                                ${securityAnalysis.webRTCLeak ? 
+                                    '<span class="security-badge insecure"><i class="fas fa-exclamation-triangle"></i> Posible fuga de IP</span>' : 
+                                    '<span class="security-badge secure"><i class="fas fa-check-circle"></i> Seguro</span>'}
+                                <div class="tooltip">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span class="tooltiptext">WebRTC puede revelar tu dirección IP real incluso con VPN</span>
+                                </div>
+                            </div>
+                            
+                            <div class="label">
+                                <i class="fas fa-cookie"></i>
+                                Cookies
+                            </div>
+                            <div class="value">
+                                ${securityAnalysis.cookiesEnabled ? 
+                                    '<span class="security-badge" style="background-color: #fbbc05; color: white;"><i class="fas fa-info-circle"></i> Habilitadas</span>' : 
+                                    '<span class="security-badge secure"><i class="fas fa-check-circle"></i> Deshabilitadas</span>'}
+                            </div>
+                            
+                            <div class="label">
+                                <i class="fas fa-sensor"></i>
+                                Sensores
+                            </div>
+                            <div class="value">
+                                ${securityAnalysis.sensorAccess ? 
+                                    '<span class="security-badge insecure"><i class="fas fa-exclamation-triangle"></i> Detectados</span>' : 
+                                    '<span class="security-badge secure"><i class="fas fa-check-circle"></i> No detectados</span>'}
+                                <div class="tooltip">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span class="tooltiptext">Los sensores pueden usarse para identificarte</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="privacy-section ${securityAnalysis.fingerprintingRisk === 'Alto' || securityAnalysis.locationSharing ? 'privacy-warning' : ''}">
+                        <h4><i class="fas fa-user-shield"></i> Recomendaciones de Privacidad</h4>
+                        <ul style="margin-top: 10px; font-size: 14px;">
+                `;
+                
+                if (!securityAnalysis.secureConnection) {
+                    html += `<li><i class="fas fa-check-circle" style="color: var(--error-color);"></i> Usa siempre HTTPS para conexiones seguras</li>`;
+                }
+                
+                if (!securityAnalysis.doNotTrack) {
+                    html += `<li><i class="fas fa-check-circle" style="color: var(--error-color);"></i> Activa la opción "No rastrear" en tu navegador</li>`;
+                }
+                
+                if (securityAnalysis.fingerprintingRisk === 'Alto') {
+                    html += `<li><i class="fas fa-check-circle" style="color: var(--error-color);"></i> Considera usar un navegador que reduzca el fingerprinting como Firefox o Brave</li>`;
+                }
+                
+                if (securityAnalysis.locationSharing) {
+                    html += `<li><i class="fas fa-check-circle" style="color: var(--error-color);"></i> Comparte tu ubicación solo cuando sea necesario y con sitios de confianza</li>`;
+                }
+                
+                if (securityAnalysis.webRTCLeak) {
+                    html += `<li><i class="fas fa-check-circle" style="color: var(--error-color);"></i> Desactiva WebRTC o usa una extensión para prevenir fugas de IP</li>`;
+                }
+                
+                if (securityAnalysis.cameraAccess || securityAnalysis.microphoneAccess) {
+                    html += `<li><i class="fas fa-check-circle" style="color: var(--error-color);"></i> Revisa los permisos de cámara y micrófono para este sitio</li>`;
+                }
+                
+                html += `
+                        </ul>
+                    </div>
+                `;
+                
+                securityAnalysisContent.innerHTML = html;
+            }
+            
+            // Actualizar historial de ubicaciones
+            function updateLocationHistory() {
+                // Agregar la nueva ubicación al historial
+                locationHistory.push({
+                    timestamp: new Date().toISOString(),
+                    latitude: geoData.latitude,
+                    longitude: geoData.longitude,
+                    accuracy: geoData.accuracy,
+                    city: geoData.city,
+                    region: geoData.region,
+                    country: geoData.country
+                });
+                
+                // Mantener solo las últimas 5 ubicaciones
+                if (locationHistory.length > 5) {
+                    locationHistory = locationHistory.slice(-5);
+                }
+                
+                // Mostrar el historial
+                displayLocationHistory();
+            }
+            
+            // Mostrar historial de ubicaciones
+            function displayLocationHistory() {
+                locationHistorySection.style.display = 'block';
+                
+                let html = '<div class="timeline">';
+                
+                locationHistory.slice().reverse().forEach((location, index) => {
+                    const time = new Date(location.timestamp);
+                    const timeString = time.toLocaleTimeString();
+                    const dateString = time.toLocaleDateString();
+                    
+                    html += `
+                        <div class="timeline-item">
+                            <div class="timeline-time">${dateString} ${timeString}</div>
+                            <div class="timeline-content">
+                                <strong>${location.city}, ${location.region}</strong> (${location.country})<br>
+                                Precisión: ~${Math.round(location.accuracy)}m
+                                ${index === 0 ? '<span class="accuracy-indicator high-accuracy">Actual</span>' : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+                locationHistoryContent.innerHTML = html;
+            }
+            
+            // Obtener icono del tiempo según el código meteorológico
+            function getWeatherIcon(weatherCode) {
+                if (!weatherCode) return 'fas fa-question';
+                
+                // Basado en códigos de Open-Meteo
+                if (weatherCode === 0) return 'fas fa-sun';
+                if (weatherCode <= 3) return 'fas fa-cloud-sun';
+                if (weatherCode <= 48) return 'fas fa-smog';
+                if (weatherCode <= 67 || weatherCode >= 80) return 'fas fa-cloud-rain';
+                if (weatherCode <= 77) return 'fas fa-snowflake';
+                if (weatherCode <= 99) return 'fas fa-bolt';
+                return 'fas fa-cloud';
+            }
+            
+            // Inicializar el mapa de Google
+            function initMap(lat, lng) {
+                if (!lat || !lng) return;
+                
+                const mapPlaceholder = document.querySelector('.map-placeholder');
+                mapPlaceholder.innerHTML = '<div id="map" style="width:100%;height:100%;"></div>';
+                
+                // Esperar a que el contenedor del mapa esté listo
+                setTimeout(() => {
+                    const map = new google.maps.Map(document.getElementById("map"), {
+                        center: { lat: lat, lng: lng },
+                        zoom: 15,
+                        mapTypeControl: true,
+                        streetViewControl: true,
+                        fullscreenControl: true,
+                        zoomControl: true,
+                        styles: [
+                            {
+                                "featureType": "poi",
+                                "stylers": [{"visibility": "off"}]
+                            },
+                            {
+                                "featureType": "transit",
+                                "stylers": [{"visibility": "off"}]
+                            }
+                        ]
+                    });
+                    
+                    // Marcador de posición
+                    const marker = new google.maps.Marker({
+                        position: { lat: lat, lng: lng },
+                        map: map,
+                        title: "Tu ubicación aproximada",
+                        icon: {
+                            url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                        }
+                    });
+                    
+                    // Círculo de precisión si hay datos de precisión
+                    if (geoData.accuracy) {
+                        new google.maps.Circle({
+                            strokeColor: '#4285F4',
+                            strokeOpacity: 0.8,
+                            strokeWeight: 2,
+                            fillColor: '#4285F4',
+                            fillOpacity: 0.2,
+                            map: map,
+                            center: { lat: lat, lng: lng },
+                            radius: geoData.accuracy
+                        });
+                    }
+                    
+                    // InfoWindow con detalles
+                    const infoWindow = new google.maps.InfoWindow({
+                        content: `
+                            <div style="padding: 10px;">
+                                <h3 style="margin: 0 0 5px 0; color: var(--primary-color);">Tu ubicación</h3>
+                                <p style="margin: 0;">${geoData.street || 'Calle desconocida'} ${geoData.house_number ? geoData.house_number : ''}, ${geoData.city}</p>
+                                <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">
+                                    Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}
+                                </p>
+                            </div>
+                        `
+                    });
+                    
+                    marker.addListener('click', () => {
+                        infoWindow.open(map, marker);
+                    });
+                    
+                    // Abrir automáticamente el InfoWindow
+                    setTimeout(() => {
+                        infoWindow.open(map, marker);
+                    }, 1000);
+                }, 500);
+            }
+            
+            // Mostrar datos técnicos completos
+            function showTechnicalData() {
+                const techWindow = window.open('', 'TechData', 'width=900,height=700,scrollbars=yes');
+                techWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Datos Técnicos Completos</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+                            h1 { color: #4285f4; margin-bottom: 20px; }
+                            h2 { color: #34a853; margin-top: 30px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+                            pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 14px; }
+                            .section { margin-bottom: 30px; }
+                            .subsection { margin-left: 20px; margin-bottom: 20px; }
+                            .badge { 
+                                display: inline-block; 
+                                padding: 3px 6px; 
+                                border-radius: 3px; 
+                                font-size: 12px; 
+                                font-weight: bold; 
+                                margin-left: 5px; 
+                            }
+                            .desktop-badge { background: #4285f4; color: white; }
+                            .laptop-badge { background: #34a853; color: white; }
+                            .tablet-badge { background: #fbbc05; color: white; }
+                            .mobile-badge { background: #ea4335; color: white; }
+                            .tv-badge { background: #9b59b6; color: white; }
+                            .console-badge { background: #34495e; color: white; }
+                            .iot-badge { background: #16a085; color: white; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Datos Técnicos Completos del Dispositivo</h1>
+                        
+                        <div class="section">
+                            <h2>Información General</h2>
+                            <pre>${JSON.stringify({
+                                "Tipo de Dispositivo": deviceData.name,
+                                "Clase de Dispositivo": deviceData.deviceClass,
+                                "Plataforma": deviceData.platform,
+                                "User Agent": deviceData.userAgent,
+                                "Idioma": deviceData.language,
+                                "Cookies": deviceData.cookies,
+                                "Online": deviceData.online,
+                                "Pantalla": deviceData.screen,
+                                "Viewport": deviceData.viewport,
+                                "Pixel Ratio": deviceData.pixelRatio,
+                                "Pantalla Táctil": deviceData.touch
+                            }, null, 2)}</pre>
+                        </div>
+                        
+                        <div class="section">
+                            <h2>Hardware</h2>
+                            <div class="subsection">
+                                <h3>Procesador</h3>
+                                <pre>${JSON.stringify({
+                                    "Núcleos": techData.cpu?.cores || "Desconocido",
+                                    "Arquitectura": techData.cpu?.architecture || "Desconocida"
+                                }, null, 2)}</pre>
+                            </div>
+                            <div class="subsection">
+                                <h3>Memoria</h3>
+                                <pre>${JSON.stringify({
+                                    "RAM": techData.memory || "Desconocida"
+                                }, null, 2)}</pre>
+                            </div>
+                            <div class="subsection">
+                                <h3>Pantalla</h3>
+                                <pre>${JSON.stringify({
+                                    "Resolución lógica": techData.screen?.logicalWidth + "x" + techData.screen?.logicalHeight,
+                                    "Resolución física": techData.screen?.physicalWidth + "x" + techData.screen?.physicalHeight,
+                                    "Pixel Ratio": techData.screen?.pixelRatio,
+                                    "Tamaño estimado": techData.screen?.estimatedSize
+                                }, null, 2)}</pre>
+                            </div>
+                        </div>
+                        
+                        <div class="section">
+                            <h2>Conexión</h2>
+                            <pre>${JSON.stringify({
+                                "Tipo": techData.connection?.effectiveType || "Desconocido",
+                                "Velocidad estimada": techData.connection?.downlink ? techData.connection.downlink + " Mbps" : "Desconocida",
+                                "Latencia": techData.connection?.rtt ? techData.connection.rtt + " ms" : "Desconocida",
+                                "Modo ahorro de datos": techData.connection?.saveData ? "Activado" : "Desactivado"
+                            }, null, 2)}</pre>
+                        </div>
+                        
+                        <div class="section">
+                            <h2>Sensores</h2>
+                            <pre>${JSON.stringify({
+                                "Acelerómetro": techData.sensors?.accelerometer ? "Disponible" : "No disponible",
+                                "Giroscopio": techData.sensors?.gyroscope ? "Disponible" : "No disponible",
+                                "Orientación": techData.sensors?.orientation ? "Disponible" : "No disponible",
+                                "Sensor de luz": techData.sensors?.light ? "Disponible" : "No disponible",
+                                "Sensor de proximidad": techData.sensors?.proximity ? "Disponible" : "No disponible"
+                            }, null, 2)}</pre>
+                        </div>
+                        
+                        <div class="section">
+                            <h2>Multimedia</h2>
+                            <pre>${JSON.stringify({
+                                "Cámaras": techData.media?.cameras || 0,
+                                "Micrófonos": techData.media?.microphones || 0,
+                                "Altavoces": techData.media?.speakers || 0
+                            }, null, 2)}</pre>
+                        </div>
+                        
+                        <div class="section">
+                            <h2>Interacción</h2>
+                            <pre>${JSON.stringify({
+                                "Tipo de puntero": techData.pointer === 'fine' ? "Ratón/trackpad" : "Pantalla táctil",
+                                "Soporte hover": techData.hover ? "Sí" : "No"
+                            }, null, 2)}</pre>
+                        </div>
+                        
+                        <div class="section">
+                            <h2>Batería</h2>
+                            <pre>${JSON.stringify({
+                                "Nivel": techData.battery?.level ? techData.battery.level + "%" : "No disponible",
+                                "Cargando": techData.battery?.charging ? "Sí" : "No"
+                            }, null, 2)}</pre>
+                        </div>
+                        
+                        <div class="section">
+                            <h2>Geolocalización</h2>
+                            <div class="subsection">
+                                <h3>Dirección</h3>
+                                <pre>${JSON.stringify({
+                                    "País": geoData.country,
+                                    "Provincia": geoData.region,
+                                    "Ciudad": geoData.city,
+                                    "Barrio": geoData.neighborhood,
+                                    "Calle": geoData.street,
+                                    "Número": geoData.house_number,
+                                    "Código Postal": geoData.postal_code
+                                }, null, 2)}</pre>
+                            </div>
+                            <div class="subsection">
+                                <h3>Coordenadas</h3>
+                                <pre>${JSON.stringify({
+                                    "Latitud": geoData.latitude,
+                                    "Longitud": geoData.longitude,
+                                    "Precisión": geoData.accuracy ? geoData.accuracy + " metros" : "Desconocida",
+                                    "Altitud": geoData.altitude ? geoData.altitude + " metros" : "Desconocida"
+                                }, null, 2)}</pre>
+                            </div>
+                            <div class="subsection">
+                                <h3>Información de Red</h3>
+                                <pre>${JSON.stringify({
+                                    "IP": geoData.ip,
+                                    "Proveedor": geoData.isp,
+                                    "ASN": "AS" + geoData.asn
+                                }, null, 2)}</pre>
+                            </div>
+                            <div class="subsection">
+                                <h3>Datos Regionales</h3>
+                                <pre>${JSON.stringify({
+                                    "Continente": geoData.continent,
+                                    "Zona Horaria": geoData.timezone,
+                                    "Moneda": geoData.currency + (geoData.currency_name ? " (" + geoData.currency_name + ")" : ""),
+                                    "Idiomas": geoData.languages,
+                                    "Código de llamada": geoData.calling_code ? "+" + geoData.calling_code : "N/D"
+                                }, null, 2)}</pre>
+                            </div>
+                        </div>
+                        
+                        ${geoData.weather ? `
+                        <div class="section">
+                            <h2>Tiempo Actual</h2>
+                            <pre>${JSON.stringify({
+                                "Temperatura": geoData.weather.temperature + "°C",
+                                "Humedad": geoData.weather.humidity ? geoData.weather.humidity + "%" : "N/D",
+                                "Viento": geoData.weather.windspeed + " km/h",
+                                "Actualizado": new Date(geoData.weather.time).toLocaleString()
+                            }, null, 2)}</pre>
+                        </div>
+                        ` : ''}
+                        
+                        <div class="section">
+                            <h2>Análisis de Seguridad</h2>
+                            <pre>${JSON.stringify(securityAnalysis, null, 2)}</pre>
+                        </div>
+                        
+                        <div class="section">
+                            <h2>Historial de Ubicaciones</h2>
+                            <pre>${JSON.stringify(locationHistory, null, 2)}</pre>
+                        </div>
+                        
+                        <div class="section">
+                            <h2>Navegador Completo</h2>
+                            <pre>${JSON.stringify({
+                                "appCodeName": navigator.appCodeName,
+                                "appName": navigator.appName,
+                                "appVersion": navigator.appVersion,
+                                "platform": navigator.platform,
+                                "product": navigator.product,
+                                "productSub": navigator.productSub,
+                                "userAgent": navigator.userAgent,
+                                "vendor": navigator.vendor,
+                                "vendorSub": navigator.vendorSub,
+                                "languages": navigator.languages,
+                                "cookieEnabled": navigator.cookieEnabled,
+                                "doNotTrack": navigator.doNotTrack,
+                                "maxTouchPoints": navigator.maxTouchPoints,
+                                "pdfViewerEnabled": navigator.pdfViewerEnabled
+                            }, null, 2)}</pre>
+                        </div>
+                    </body>
+                    </html>
+                `);
+                techWindow.document.close();
+            }
+            
+            // Generar código QR con la ubicación
+            qrBtn.addEventListener('click', function() {
+                if (!geoData.latitude || !geoData.longitude) {
+                    alert('No hay datos de ubicación para generar el QR');
+                    return;
+                }
+                
+                const qrContent = `https://www.google.com/maps?q=${geoData.latitude},${geoData.longitude}`;
+                const qrContainer = document.createElement('div');
+                qrContainer.className = 'qr-code-container fade-in';
+                qrContainer.innerHTML = `
+                    <h4><i class="fas fa-qrcode"></i> Código QR de tu ubicación</h4>
+                    <div class="qr-code" id="qrCode"></div>
+                    <p class="qr-text">Escanea este código para ver tu ubicación en Google Maps</p>
+                    <button class="btn btn-secondary" id="closeQrBtn" style="margin-top: 10px;">
+                        <i class="fas fa-times"></i> Cerrar
+                    </button>
+                `;
+                
+                document.body.appendChild(qrContainer);
+                
+                // Generar el QR
+                QRCode.toCanvas(document.getElementById('qrCode'), qrContent, { width: 150 }, function(error) {
+                    if (error) console.error(error);
+                });
+                
+                // Configurar botón de cerrar
+                document.getElementById('closeQrBtn').addEventListener('click', function() {
+                    document.body.removeChild(qrContainer);
+                });
+            });
+            
+            // Manejar errores
+            function displayError(message) {
+                geoInfo.innerHTML = `
+                    <div class="error fade-in">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Error de Geolocalización</h3>
+                        <p>${message}</p>
+                        <p>Intenta actualizar la página o verifica los permisos de ubicación de tu navegador.</p>
+                    </div>
+                `;
+                
+                actionButtons.style.display = 'flex';
+            }
+            
+            // Botón de actualización
+            refreshBtn.addEventListener('click', function() {
+                deviceInfo.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-sync-alt fa-spin"></i>
+                        <h3>Actualizando información</h3>
+                        <p>Por favor espera mientras obtenemos los datos más recientes</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                    </div>
+                `;
+                
+                geoInfo.style.display = 'none';
+                mapContainer.style.display = 'none';
+                securityInfo.style.display = 'none';
+                locationHistorySection.style.display = 'none';
+                actionButtons.style.display = 'none';
+                
+                // Reiniciar animación de progreso
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 10;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(progressInterval);
+                        setTimeout(() => {
+                            geoInfo.style.display = 'block';
+                            startGeoDetection();
+                        }, 500);
+                    }
+                    progressBar.style.width = progress + '%';
+                }, 300);
+                
+                // Volver a detectar dispositivo
+                detectDevice();
+            });
+            
+            // Botón de compartir
+            shareBtn.addEventListener('click', function() {
+                let shareText = `Información de mi dispositivo:\n`;
+                shareText += `- Tipo: ${deviceData.name}\n`;
+                shareText += `- Pantalla: ${deviceData.screen}\n`;
+                shareText += `- Sistema: ${deviceData.platform}\n`;
+                
+                if (geoData.latitude && geoData.longitude) {
+                    shareText += `\nMi ubicación aproximada:\n`;
+                    shareText += `- ${geoData.street || 'Calle desconocida'} ${geoData.house_number || ''}, ${geoData.city}\n`;
+                    shareText += `- ${geoData.region}, ${geoData.country}\n`;
+                    shareText += `- Ver en mapa: https://www.google.com/maps?q=${geoData.latitude},${geoData.longitude}`;
+                }
+                
+                const shareData = {
+                    title: 'Información de mi dispositivo',
+                    text: shareText,
+                    url: geoData.latitude && geoData.longitude ? 
+                         `https://www.google.com/maps?q=${geoData.latitude},${geoData.longitude}` : 
+                         window.location.href
+                };
+                
+                if (navigator.share) {
+                    navigator.share(shareData)
+                        .then(() => console.log('Compartido con éxito'))
+                        .catch(err => {
+                            console.log('Error al compartir:', err);
+                            copyToClipboard(shareText);
+                        });
+                } else {
+                    copyToClipboard(shareText);
+                }
+            });
+            
+            // Botón de datos técnicos
+            techBtn.addEventListener('click', showTechnicalData);
+            
+            // Función para copiar al portapapeles
+            function copyToClipboard(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('Información copiada al portapapeles:\n\n' + text);
+            }
+            
+            // Iniciar la detección
+            detectDevice();
+        });
+    </script>
+</body>
+</html>

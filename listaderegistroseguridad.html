@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparación de Resultados - URL e IP</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(45deg, #00d2ff, #3a7bd5, #ff004f, #ff9e00);
+      background-size: 400% 400%;
+      animation: gradientAnimation 20s ease infinite;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    h1 {
+      font-size: 40px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      font-weight: bold;
+      text-shadow: 0 0 15px #ff004f, 0 0 30px #ff9e00, 0 0 45px #00d2ff;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      width: 100%;
+      max-width: 1200px;
+      margin-bottom: 40px;
+    }
+
+    .box {
+      background: rgba(0, 0, 0, 0.75);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+      width: 100%;
+      display: none;
+      animation: lightPulse 2s infinite ease-in-out;
+    }
+
+    @keyframes lightPulse {
+      0% {
+        box-shadow: 0 0 20px #ff004f, 0 0 30px #ff9e00;
+      }
+      50% {
+        box-shadow: 0 0 40px #ff004f, 0 0 60px #ff9e00;
+      }
+      100% {
+        box-shadow: 0 0 20px #ff004f, 0 0 30px #ff9e00;
+      }
+    }
+
+    h3 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-shadow: 0 0 15px #ff9e00, 0 0 25px #ff004f;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      background-color: rgba(0, 0, 0, 0.85);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 14px;
+      text-align: center;
+      border: 1px solid #444;
+      font-size: 16px;
+    }
+
+    th {
+      background-color: #ff004f;
+      color: white;
+      text-transform: uppercase;
+      font-weight: bold;
+      text-shadow: 0 0 5px #ff9e00;
+    }
+
+    tr:nth-child(even) {
+      background-color: #222;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #333;
+    }
+
+    tr:hover {
+      background-color: #ff9e00;
+      cursor: pointer;
+      color: #222;
+    }
+
+    button {
+      padding: 12px 20px;
+      background-color: #ff004f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0 0 15px #ff004f;
+    }
+
+    button:hover {
+      background-color: #ff9e00;
+      transform: scale(1.1);
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      text-shadow: 0 0 15px #ff004f;
+    }
+
+    .user-section {
+      margin: 20px;
+      font-size: 18px;
+      color: #fff;
+      text-shadow: 0 0 10px #ff004f;
+    }
+
+    .neon-text {
+      color: #00d2ff;
+      text-shadow: 0 0 10px #00d2ff, 0 0 20px #00d2ff, 0 0 30px #00d2ff;
+    }
+
+    @media (max-width: 768px) {
+      .box {
+        width: 90%;
+      }
+
+      .container {
+        width: 100%;
+        padding: 0 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="user-section">
+    <h2 class="neon-text" id="userName">Usuario: <span id="username">Invitado</span></h2>
+  </div>
+
+  <h1 class="neon-text">Comparación de Resultados - URL e IP</h1>
+
+  <div>
+    <button onclick="showTable('url')">Comparación de URL Analizadas</button>
+    <button onclick="showTable('ip')">Comparación de IPs Analizadas</button>
+  </div>
+
+  <div class="container">
+    <div class="box" id="urlBox">
+      <h3 class="neon-text">Comparación de URL Analizadas</h3>
+      <table id="urlTable">
+        <thead>
+          <tr>
+            <th>Protocolo</th>
+            <th>Dominio</th>
+            <th>Subdominio</th>
+            <th>Ruta</th>
+            <th>Parámetros</th>
+            <th>IP Servidor</th>
+            <th>SSL</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box" id="ipBox">
+      <h3 class="neon-text">Comparación de IPs Analizadas</h3>
+      <table id="ipTable">
+        <thead>
+          <tr>
+            <th>País</th>
+            <th>Región</th>
+            <th>Organización</th>
+            <th>ISP</th>
+            <th>Rango de IP</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<button onclick="window.location.href = 'analisisipurl.html'">volver atras</button>
+
+  <div class="footer">
+    <p>Generado con inteligencia artificial para monitoreo y análisis de datos de URL e IP.</p>
+  </div>
+
+  <script>
+    function showTable(tableType) {
+      document.getElementById('urlBox').style.display = 'none';
+      document.getElementById('ipBox').style.display = 'none';
+
+      if (tableType === 'url') {
+        document.getElementById('urlBox').style.display = 'block';
+      } else if (tableType === 'ip') {
+        document.getElementById('ipBox').style.display = 'block';
+      }
+    }
+
+    const urlRecords = JSON.parse(localStorage.getItem('urlRecords')) || [];
+    const ipRecords = JSON.parse(localStorage.getItem('ipRecords')) || [];
+
+    // Ordenar los registros de URL alfabéticamente por el dominio
+    urlRecords.sort((a, b) => {
+      const domainA = a.domain.toLowerCase();
+      const domainB = b.domain.toLowerCase();
+      return domainA < domainB ? -1 : domainA > domainB ? 1 : 0;
+    });
+
+    // Ordenar los registros de IP alfabéticamente por el país
+    ipRecords.sort((a, b) => {
+      const countryA = a.country.toLowerCase();
+      const countryB = b.country.toLowerCase();
+      return countryA < countryB ? -1 : countryA > countryB ? 1 : 0;
+    });
+
+    const urlTableBody = document.getElementById('urlTable').querySelector('tbody');
+    urlRecords.forEach(record => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${record.protocol || 'No disponible'}</td>
+        <td>${record.domain || 'No disponible'}</td>
+        <td>${record.subdomain || 'No disponible'}</td>
+        <td>${record.path || 'No disponible'}</td>
+        <td>${record.parameters || 'No disponible'}</td>
+        <td>${record.serverIp || 'No disponible'}</td>
+        <td>${record.ssl || 'No disponible'}</td>
+      `;
+      urlTableBody.appendChild(row);
+    });
+
+    const ipTableBody = document.getElementById('ipTable').querySelector('tbody');
+    ipRecords.forEach(record => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${record.country || 'No disponible'}</td>
+        <td>${record.region || 'No disponible'}</td>
+        <td>${record.org || 'No disponible'}</td>
+        <td>${record.isp || 'No disponible'}</td>
+        <td>${record.range || 'No disponible'}</td>
+      `;
+      ipTableBody.appendChild(row);
+    });
+
+    showTable('url');
+
+    const username = localStorage.getItem('username') || 'Invitado';
+    document.getElementById('username').textContent = username;
+  </script>
+</body>
+</html>

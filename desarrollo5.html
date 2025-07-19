@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derecho de Neurotecnología y Realidad Extendida</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #004c8c;
+            color: #fff;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.2em;
+        }
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #004c8c;
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) td {
+            background-color: #f2f6fa;
+        }
+        tr:nth-child(odd) td {
+            background-color: #f9f9f9;
+        }
+        .info {
+            margin-top: 40px;
+        }
+        .section-title {
+            font-size: 1.6em;
+            color: #004c8c;
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e1e8ed;
+        }
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .action-button {
+            background-color: #004c8c;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .action-button:hover {
+            background-color: #003366;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        @media print {
+            .button-container {
+                display: none;
+            }
+            body {
+                background-color: white;
+                font-size: 12pt;
+            }
+            .container {
+                width: 100%;
+                margin: 0;
+                padding: 10px;
+                box-shadow: none;
+            }
+            table {
+                page-break-inside: auto;
+            }
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            th {
+                background-color: #004c8c !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            background-color: #e1e8ed;
+            color: #555;
+            font-size: 0.9em;
+        }
+          /* Estilos para el botón Siguientes */
+        .button-container {
+            position: absolute; /* Posicionamiento absoluto */
+           top:6px; /* Distancia desde arriba */ 
+            left: 1300px; /* Distancia desde la izquierda */
+            z-index: 100; /* Para que esté por encima de otros elementos */
+        }
+
+    
+.btn-atras {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-atras:hover {
+  background-color: #e0e0e0;
+}
+
+.btn-atras:active {
+  background-color: #d0d0d0;
+  transform: scale(0.98);
+}
+        /* Estilo para el cuerpo para evitar que el contenido quede detrás */
+        body {
+            margin: 0;
+            padding: 40px 20px 20px; /* Añade espacio arriba para el botón */
+            position: relative; /* Necesario para el posicionamiento absoluto del botón */
+        }
+    .siguientes-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:hover {
+            background-color: #3367D6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .siguientes-btn:active {
+            background-color: #2A56C6;
+            transform: translateY(1px);
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Derecho de Neurotecnología y Realidad Extendida (XR) en Argentina</h1>
+</header>
+
+
+ <!-- Botón en esquina superior izquierda -->
+     <a href="desarrollo.html" class="btn-atras">volver atras</a>  
+  
+<div class="container">
+    <h2>Comparativa de Conceptos y Funciones</h2>
+    <table>
+        <tr>
+            <th>Concepto</th>
+            <th>Derecho de Neurotecnología</th>
+            <th>Derecho de la Realidad Extendida (XR)</th>
+        </tr>
+        <tr>
+            <td><strong>Definición</strong></td>
+            <td>El conjunto de normas y principios que protegen los derechos humanos y libertades fundamentales relacionadas con las tecnologías que afectan el cerebro y las funciones cognitivas.</td>
+            <td>El conjunto de tecnologías inmersivas como la Realidad Aumentada (AR), Realidad Virtual (VR) y Realidad Mixta (MR), y la necesidad de regular su uso en aspectos como protección de datos, propiedad intelectual y derechos de los consumidores.</td>
+        </tr>
+        <tr>
+            <td><strong>Función Principal</strong></td>
+            <td>Proteger la autonomía personal, privacidad e integridad mental, considerando las implicaciones éticas y jurídicas de las tecnologías que interactúan con el cerebro.</td>
+            <td>Regular el uso y las implicaciones legales de las tecnologías XR, protegiendo la privacidad de los usuarios, los derechos de propiedad intelectual sobre contenidos virtuales y los derechos de los consumidores.</td>
+        </tr>
+        <tr>
+            <td><strong>Regulación Legal</strong></td>
+            <td>No existe legislación, decreto ni proyecto de ley específico sobre neurotecnología ni neuroderechos en Argentina.</td>
+            <td>No hay una regulación específica sobre XR, aunque se aplican principios generales del derecho.</td>
+        </tr>
+        <tr>
+            <td><strong>Ámbito de Aplicación</strong></td>
+            <td>Neurotecnología y neuroderechos.</td>
+            <td>Realidad Extendida (XR) incluye Realidad Aumentada (AR), Realidad Virtual (VR) y Realidad Mixta (MR).</td>
+        </tr>
+        <tr>
+            <td><strong>Leyes Relacionadas</strong></td>
+            <td>No hay leyes ni decretos que aborden la neurotecnología o neuroderechos específicamente.</td>
+            <td>Ley 25.326 (Protección de Datos Personales), Ley 11.723 (Propiedad Intelectual), leyes de derechos del consumidor.</td>
+        </tr>
+        <tr>
+            <td><strong>Protección de Datos Personales</strong></td>
+            <td>No se aplica una legislación específica en cuanto a protección de datos personales derivados de tecnologías neurocientíficas.</td>
+            <td>Las tecnologías XR pueden recopilar datos sensibles, regulados por la Ley 25.326 de Protección de Datos Personales.</td>
+        </tr>
+        <tr>
+            <td><strong>Propiedad Intelectual</strong></td>
+            <td>No existe una ley que regule la propiedad intelectual relacionada con neurotecnologías.</td>
+            <td>Las creaciones dentro de entornos XR están protegidas por la Ley 11.723 de Propiedad Intelectual.</td>
+        </tr>
+        <tr>
+            <td><strong>Responsabilidad Civil</strong></td>
+            <td>No hay normativa sobre responsabilidad civil vinculada a la neurotecnología.</td>
+            <td>Existen cuestiones de responsabilidad civil relacionadas con daños o accidentes derivados del uso de tecnologías XR.</td>
+        </tr>
+        <tr>
+            <td><strong>Derechos de los Consumidores</strong></td>
+            <td>No se contemplan leyes específicas para consumidores relacionados con la neurotecnología.</td>
+            <td>Los derechos de los consumidores están cubiertos por leyes generales, regulando la transparencia y el uso de datos.</td>
+        </tr>
+        <tr>
+            <td><strong>Proyectos o Comisiones Actuales</strong></td>
+            <td>No hay comisiones legislativas o proyectos sobre neurotecnología o neuroderechos.</td>
+            <td>No existen proyectos específicos sobre XR, aunque las tecnologías están sometidas a las leyes generales aplicables.</td>
+        </tr>
+        <tr>
+            <td><strong>Posibilidad de Futuras Regulaciones</strong></td>
+            <td>Es posible que en el futuro se aborden regulaciones en torno a los neuroderechos a medida que evoluciona la tecnología.</td>
+            <td>Es probable que surjan normativas más específicas a medida que las tecnologías XR continúen avanzando.</td>
+        </tr>
+    </table>
+    
+    <div class="info">
+        <div class="section-title">Derecho de Neurotecnología</div>
+        <p><strong>Concepto:</strong> El Derecho de Neurotecnología abarca el conjunto de principios y normas que buscan proteger los derechos humanos frente a los avances de la neurotecnología, que involucra dispositivos y tecnologías que interactúan directamente con el cerebro y las funciones cognitivas. Esto incluye desde implantes cerebrales hasta interfaces cerebro-computadora. Un aspecto clave es la protección de la privacidad mental y la integridad personal frente al acceso, manipulación o control externo de las funciones cerebrales.</p>
+        <p><strong>Función:</strong> Su principal función es garantizar que el uso de tecnologías neurocientíficas respete la autonomía y dignidad humana. Esto incluye proteger contra invasiones no deseadas de la mente y el cerebro, garantizar el derecho a la privacidad de los pensamientos y asegurar que no se vulneren los derechos fundamentales como la libertad de pensamiento y la toma autónoma de decisiones.</p>
+
+        <div class="section-title">Derecho de la Realidad Extendida (XR)</div>
+        <p><strong>Concepto:</strong> El Derecho de la Realidad Extendida (XR) se refiere al campo legal que regula las tecnologías inmersivas que combinan el mundo real y el virtual, tales como la Realidad Virtual (VR), la Realidad Aumentada (AR) y la Realidad Mixta (MR). Estas tecnologías crean entornos digitales que interactúan con el mundo físico y ofrecen experiencias inmersivas que pueden tener un impacto significativo en la vida diaria, la privacidad, y las relaciones entre individuos y entidades.</p>
+        <p><strong>Función:</strong> La función principal de este derecho es regular el uso de tecnologías XR, garantizando la protección de los datos personales y privados de los usuarios, los derechos de propiedad intelectual sobre los contenidos creados en esos entornos virtuales, y la responsabilidad civil en casos de daños. Además, busca asegurar que los consumidores estén informados sobre el uso de sus datos y las condiciones de los servicios digitales a los que acceden. A medida que las tecnologías XR avanzan, el marco legal busca adaptarse a los nuevos retos que presentan estas tecnologías.</p>
+    </div>
+</div>
+
+<footer>
+    Documento generado el <span id="current-date"></span> | Derecho de Neurotecnología y Realidad Extendida
+</footer>
+
+<!-- Incluir html2pdf -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+    // Mostrar fecha actual
+    document.getElementById('current-date').textContent = new Date().toLocaleDateString('es-ES', {
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric'
+    });
+    
+    // Configurar botón de descarga PDF
+    document.getElementById('downloadPdf').addEventListener('click', function() {
+        const element = document.querySelector('.container');
+        const opt = {
+            margin: 10,
+            filename: 'Derecho_Neurotecnologia_Realidad_Extendida.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        
+        // Generar PDF
+        html2pdf().set(opt).from(element).save();
+    });
+</script>
+</body>
+</html>
